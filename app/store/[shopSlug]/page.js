@@ -1,9 +1,8 @@
-export default async function StorePage({ params }) {
-  const { shopSlug } = await params;
+export default function ShopPage({ params }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold">Welcome to {shopSlug}!</h1>
-      <p>This is your new shop.</p>
+    <div>
+      <h1>Welcome to {params.shopSlug}s Store!</h1>
+      <p>This is a dynamically generated shop.</p>
     </div>
   );
 }
