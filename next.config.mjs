@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export", // Ensure Next.js exports static files
-  trailingSlash: true, // Helps Cloudflare serve pages correctly
+  output: "standalone",
 };
 
 export default nextConfig;
