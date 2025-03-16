@@ -1,19 +1,24 @@
-// app/middleware.js
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  const host = req.headers.get("host"); // Get the full domain (e.g., shop-abc12.uddoktahut.com)
+  const host = req.headers.get("host") || "";
 
-  if (host && host.endsWith(".uddoktahut.com")) {
-    const subdomain = host.split(".")[0]; // Extract subdomain (shop-abc12)
+  // Handle root domains
+  if (host === "uddoktahut.com" || host === "www.uddoktahut.com") {
+    return NextResponse.next(); // Continue normally for main domain
+  }
 
-    // Ignore 'www' or the main domain
-    if (subdomain !== "www" && subdomain !== "uddoktahut") {
+  // Handle subdomains like shop-xyz.uddoktahut.com
+  if (host.endsWith(".uddoktahut.com")) {
+    const subdomain = host.split(".")[0]; // Extract subdomain (e.g., "shop-abc12")
+
+    if (subdomain && subdomain !== "all") {
+      // Redirect shop subdomains to store pages
       const url = req.nextUrl.clone();
-      url.pathname = `/store/${subdomain}`; // Rewrite to /store/shopSlug
+      url.pathname = `/store/${subdomain}`;
       return NextResponse.rewrite(url);
     }
   }
 
-  return NextResponse.next(); // Continue normally for the main site
+  return NextResponse.next();
 }
