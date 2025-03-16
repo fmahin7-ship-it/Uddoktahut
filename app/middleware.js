@@ -3,17 +3,16 @@ import { NextResponse } from "next/server";
 export function middleware(req) {
   const host = req.headers.get("host") || "";
 
-  // Handle root domains
+  // Handle main domain
   if (host === "uddoktahut.com" || host === "www.uddoktahut.com") {
-    return NextResponse.next(); // Continue normally for main domain
+    return NextResponse.next(); // Serve the main website
   }
 
-  // Handle subdomains like shop-xyz.uddoktahut.com
+  // Handle shop subdomains like shop-xyz.uddoktahut.com
   if (host.endsWith(".uddoktahut.com")) {
-    const subdomain = host.split(".")[0]; // Extract subdomain (e.g., "shop-abc12")
+    const subdomain = host.split(".")[0]; // Extract shop name
 
     if (subdomain && subdomain !== "all") {
-      // Redirect shop subdomains to store pages
       const url = req.nextUrl.clone();
       url.pathname = `/store/${subdomain}`;
       return NextResponse.rewrite(url);

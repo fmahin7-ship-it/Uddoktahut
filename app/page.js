@@ -1,22 +1,24 @@
 "use client";
+
 import { useState } from "react";
 
 export default function Home() {
-  const [shopUrl, setShopUrl] = useState("");
+  const [shopURL, setShopURL] = useState(null);
 
-  const createShop = async () => {
-    const response = await fetch("/api/createShop", { method: "POST" });
-    const data = await response.json();
-    setShopUrl(data.shopUrl);
-  };
+  async function createShop() {
+    const res = await fetch("/api/createShop", { method: "POST" });
+    const data = await res.json();
+    setShopURL(data.shopURL); // Show the generated shop link
+  }
 
   return (
-    <div>
-      <h1>Welcome to Uddoktahut!</h1>
-      <button onClick={createShop}>Create Shop</button>
-      {shopUrl && (
+    <div style={{ textAlign: "center", padding: "50px" }}>
+      <h1>Welcome to Uddoktahut</h1>
+      <button onClick={createShop}>Create My Shop</button>
+
+      {shopURL && (
         <p>
-          Your shop is ready: <a href={shopUrl}>{shopUrl}</a>
+          Your shop is ready: <a href={shopURL}>{shopURL}</a>
         </p>
       )}
     </div>
