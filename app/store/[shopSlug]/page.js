@@ -12,7 +12,7 @@ export default async function ShopPage({ params }) {
           Sorry, <strong>{shopSlug}</strong> does not have permission to create
           a store.
         </p>
-        <Link href="/">Go Back to Home</Link>
+        <Link href="https://uddoktahut.com">Go Back to Home</Link>
       </div>
     );
   }
