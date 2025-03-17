@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { CONFIG } from "../_lib/config";
 
-function UnauthorizeAccess() {
+function UnauthorizeAccess({ shopSlug }) {
   return (
     <div style={{ textAlign: "center", padding: "50px", color: "red" }}>
       <h1>🚫 Unauthorized Access</h1>
@@ -10,7 +11,11 @@ function UnauthorizeAccess() {
         Sorry, <strong>{shopSlug}</strong> does not have permission to create a
         store.
       </p>
-      <Link href="/">Go Back to Home</Link>
+      {CONFIG.isProd ? (
+        <Link href="https://uddoktahut.com">Go Back to Home</Link>
+      ) : (
+        <Link href="http://uddoktahut.local:3000">Go Back to Home</Link>
+      )}
     </div>
   );
 }

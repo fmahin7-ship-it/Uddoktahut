@@ -1,3 +1,4 @@
+import { CONFIG } from "@/app/_lib/config";
 import { NextResponse } from "next/server";
 
 const mockDB = new Map(); // Temporary in-memory database
@@ -14,7 +15,6 @@ export async function POST(req) {
 
   const shopSlug = shopName.split(" ").join("-");
 
-  // ✅ Check if shop name already exists
   if (mockDB.has(shopSlug)) {
     return NextResponse.json(
       { error: "Shop name already taken. Choose a different one." },
@@ -22,11 +22,12 @@ export async function POST(req) {
     );
   }
 
-  // ✅ Store the new shop in the mock database
   mockDB.set(shopSlug, { name: shopSlug, createdAt: new Date() });
 
   return NextResponse.json({
     shopSlug,
-    shopURL: `https://${shopSlug}.uddoktahut.com`,
+    shopURL: CONFIG.isProd
+      ? `https://${shopSlug}.uddoktahut.com`
+      : `http://${shopSlug}.uddoktahut.local:3000`,
   });
 }
