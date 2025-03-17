@@ -1,4 +1,4 @@
-import CreateShopForm from "./components/CreateShopForm";
+import CreateShopForm from "@/app/components/CreateShopForm";
 
 export default function Home() {
   return (
