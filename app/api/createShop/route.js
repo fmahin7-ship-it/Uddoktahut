@@ -12,8 +12,10 @@ export async function POST(req) {
     );
   }
 
+  const shopSlug = shopName.split(" ").join("-");
+
   // ✅ Check if shop name already exists
-  if (mockDB.has(shopName)) {
+  if (mockDB.has(shopSlug)) {
     return NextResponse.json(
       { error: "Shop name already taken. Choose a different one." },
       { status: 409 }
@@ -21,10 +23,10 @@ export async function POST(req) {
   }
 
   // ✅ Store the new shop in the mock database
-  mockDB.set(shopName, { name: shopName, createdAt: new Date() });
+  mockDB.set(shopSlug, { name: shopSlug, createdAt: new Date() });
 
   return NextResponse.json({
-    shopName,
-    shopURL: `https://${shopName}.uddoktahut.com`,
+    shopSlug,
+    shopURL: `https://${shopSlug}.uddoktahut.com`,
   });
 }

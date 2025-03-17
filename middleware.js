@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 export function middleware(req) {
   const host = req.headers.get("host") || "";
 
+  if (!host) return NextResponse.next();
+
   if (host === "uddoktahut.com" || host === "www.uddoktahut.com") {
     return NextResponse.next();
   }
