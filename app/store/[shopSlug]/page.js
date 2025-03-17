@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-const validShops = ["shoporia,salamkacchi,shopup,funnymg"];
+const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];
 
 export default function ShopPage({ params }) {
   if (!validShops.includes(params.shopName)) return notFound();
