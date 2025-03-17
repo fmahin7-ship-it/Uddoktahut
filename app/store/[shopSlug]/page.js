@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];
 
