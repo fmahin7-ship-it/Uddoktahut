@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
+import UnauthorizeAccess from "@/app/components/UnauthorizeAccess";
 
 const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];
 
 export default async function ShopPage({ params }) {
   const { shopSlug } = await params;
   if (!validShops.includes(shopSlug)) {
-    notFound();
+    return <UnauthorizeAccess />;
   }
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
