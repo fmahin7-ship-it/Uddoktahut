@@ -1,5 +1,6 @@
 "use client"; // ✅ This makes it a Client Component
 
+import Link from "next/link";
 import { useState } from "react";
 
 export default function CreateShopForm() {
@@ -47,9 +48,9 @@ export default function CreateShopForm() {
         <p>
           ✅ <strong>Your shop is ready!</strong>
           <br />
-          <a href={shopURL} target="_blank" rel="noopener noreferrer">
+          <Link href={shopURL} target="_blank" rel="noopener noreferrer">
             {shopURL}
-          </a>
+          </Link>
         </p>
       )}
     </div>
