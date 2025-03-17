@@ -8,7 +8,7 @@ export default function Home() {
   async function createShop() {
     const res = await fetch("/api/createShop", { method: "POST" });
     const data = await res.json();
-    setShopURL(data.shopURL); // Show the generated shop link
+    setShopURL(data.shopURL);
   }
 
   return (
@@ -18,7 +18,7 @@ export default function Home() {
 
       {shopURL && (
         <p>
-          Your shop is ready: <a href={shopURL}>{shopURL}</a>
+          Your shop is ready! Visit: <a href={shopURL}>{shopURL}</a>
         </p>
       )}
     </div>

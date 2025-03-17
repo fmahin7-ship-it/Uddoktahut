@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { NextResponse } from "next/server";
 
-const mockDB = new Map(); // Temporary database
+const mockDB = new Map(); // Temporary in-memory database
 
 export async function POST() {
   const shopSlug = `shop-${nanoid(5)}`;
