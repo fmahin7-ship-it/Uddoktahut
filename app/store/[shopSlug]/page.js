@@ -5,7 +5,7 @@ const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];
 export default async function ShopPage({ params }) {
   const { shopSlug } = await params;
   if (!validShops.includes(shopSlug)) {
-    notFound();
+    return notFound();
   }
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
