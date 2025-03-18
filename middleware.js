@@ -25,7 +25,7 @@ function productionMiddleware(host, req) {
 
     if (subdomain) {
       const url = req.nextUrl.clone();
-      url.pathname = `/store/${subdomain}`;
+      url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
       return NextResponse.rewrite(url);
     }
   }
@@ -45,7 +45,7 @@ function developmentMiddleware(host, req) {
 
     if (subdomain) {
       const url = req.nextUrl.clone();
-      url.pathname = `/store/${subdomain}`;
+      url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
       return NextResponse.rewrite(url);
     }
   }
