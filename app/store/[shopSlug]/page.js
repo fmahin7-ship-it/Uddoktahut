@@ -18,7 +18,7 @@ async function UserShopPage({ params }) {
       <p>Enjoy shopping at {shopSlug}.uddoktahut.com</p>
 
       <Suspense fallback={<Loader />}>
-        <ProductList validShops={validShops} />
+        <ProductList shopSlug={shopSlug} />
       </Suspense>
     </div>
   );

@@ -45,16 +45,15 @@ const validProductsFromShop = [
   },
 ];
 
-function ProductList({ validShops }) {
-  const shop = validProductsFromShop.find((item) =>
-    validShops.includes(item.name)
-  );
-  if (!shop.data || !shop.data.length) return <div>No products found</div>;
+function ProductList({ shopSlug }) {
+  const shop = validProductsFromShop.find((item) => item.name === shopSlug);
+  if (!shop) return <div>No products found</div>;
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
-      {shop.data.map((item) => (
-        <ProductItem key={item.productId} item={item} />
-      ))}
+      {shop.data &&
+        shop.data.map((item) => (
+          <ProductItem key={item.productId} item={item} />
+        ))}
     </div>
   );
 }
