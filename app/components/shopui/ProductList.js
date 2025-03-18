@@ -1,3 +1,4 @@
+import NoDataFound from "../ui/NoDataFound";
 import ProductItem from "./ProductItem";
 
 const validProductsFromShop = [
@@ -47,13 +48,18 @@ const validProductsFromShop = [
 
 function ProductList({ shopSlug }) {
   const shop = validProductsFromShop.find((item) => item.name === shopSlug);
-  if (!shop) return <div>No products found</div>;
+
+  if (!shop) return <NoDataFound title="No products found" />;
+
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
-      {shop.data &&
+      {shop.data.length ? (
         shop.data.map((item) => (
           <ProductItem key={item.productId} item={item} />
-        ))}
+        ))
+      ) : (
+        <NoDataFound title="No products found" />
+      )}
     </div>
   );
 }

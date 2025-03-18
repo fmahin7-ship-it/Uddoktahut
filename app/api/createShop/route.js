@@ -1,5 +1,6 @@
 import { CONFIG } from "@/app/_lib/config";
 import { NextResponse } from "next/server";
+import { resolve } from "styled-jsx/css";
 
 const mockDB = new Map(); // Temporary in-memory database
 

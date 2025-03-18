@@ -1,7 +1,7 @@
 "use client";
 
+import { CONFIG } from "@/app/_lib/config";
 import Link from "next/link";
-import { CONFIG } from "../_lib/config";
 
 function UnauthorizeAccess({ shopSlug }) {
   return (

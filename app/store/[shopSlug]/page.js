@@ -1,6 +1,6 @@
-import Loader from "@/app/components/Loader";
-import ProductList from "@/app/components/ProductList";
-import UnauthorizeAccess from "@/app/components/UnauthorizeAccess";
+import ProductList from "@/app/components/shopui/ProductList";
+import Loader from "@/app/components/ui/Loader";
+import UnauthorizeAccess from "@/app/components/ui/UnauthorizeAccess";
 import { Suspense } from "react";
 
 const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];

@@ -2,18 +2,22 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Loader from "../ui/Loader";
 
 export default function CreateShopForm() {
   const [shopName, setShopName] = useState("");
   const [shopURL, setShopURL] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   async function createShop() {
     setError(null);
     setShopURL(null);
+    setLoading(true);
 
     if (!shopName.trim()) {
       setError("Please enter a shop name.");
+      setLoading(false);
       return;
     }
 
@@ -24,6 +28,7 @@ export default function CreateShopForm() {
     });
 
     const data = await res.json();
+    setLoading(false);
 
     if (!res.ok) {
       setError(data.error);
@@ -41,11 +46,13 @@ export default function CreateShopForm() {
         value={shopName}
         onChange={(e) => setShopName(e.target.value)}
       />
-      <button onClick={createShop}>Create My Shop</button>
-
+      <button onClick={createShop} className="cursor-pointer">
+        Create My Shop
+      </button>
+      {isLoading && <Loader />} {/* ✅ Show loader during request */}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {shopURL && (
-        <p>
+        <p style={{ textAlign: "center", padding: "50px", fontSize: "20px" }}>
           ✅ <strong>Your shop is ready!</strong>
           <br />
           <Link href={shopURL} target="_blank" rel="noopener noreferrer">

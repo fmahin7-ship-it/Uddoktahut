@@ -1,5 +1,5 @@
-import BackButton from "@/app/components/BackButton";
-import NextButton from "@/app/components/NextButton";
+import BackButton from "@/app/components/ui/BackButton";
+import NextButton from "@/app/components/ui/NextButton";
 
 async function ProductDetails({ productId }) {
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
@@ -8,10 +8,12 @@ async function ProductDetails({ productId }) {
       <h1 className="text-xl font-semibold">Product Details</h1>
       <p className="text-gray-500">Product ID: {productId}</p>
 
-      <NextButton
-        title="Proceed to checkout"
-        destination={`${productId}/checkout`}
-      />
+      <div className="mt-10 mb-10">
+        <NextButton
+          title="Proceed to checkout"
+          destination={`${productId}/checkout`}
+        />
+      </div>
       <BackButton title="Go Back" />
     </div>
   );

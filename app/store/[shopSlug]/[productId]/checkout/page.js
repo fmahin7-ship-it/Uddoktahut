@@ -1,5 +1,5 @@
-import Checkout from "@/app/components/Checkout";
-import Loader from "@/app/components/Loader";
+import Checkout from "@/app/components/shopui/Checkout";
+import Loader from "@/app/components/ui/Loader";
 import { Suspense } from "react";
 
 async function CheckoutPage({ params }) {

@@ -1,7 +1,6 @@
+import ProductDetails from "@/app/components/shopui/ProductDetails";
+import Loader from "@/app/components/ui/Loader";
 import { Suspense } from "react";
-import ProductDetails from "@/app/components/ProductDetails";
-import Loader from "@/app/components/Loader";
-
 async function ProductPage({ params }) {
   const { productId } = await params;
   return (
