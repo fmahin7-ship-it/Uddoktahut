@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-function ShopItem({ item }) {
+function ProductItem({ item }) {
   const router = useRouter();
   return (
     <div key={item.productId}>
@@ -13,4 +13,4 @@ function ShopItem({ item }) {
   );
 }
 
-export default ShopItem;
+export default ProductItem;

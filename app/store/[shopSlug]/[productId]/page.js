@@ -1,19 +1,14 @@
-import BackButton from "@/app/components/BackButton";
-import NextButton from "@/app/components/NextButton";
+import { Suspense } from "react";
+import ProductDetails from "@/app/components/ProductDetails";
+import Loader from "@/app/components/Loader";
 
-async function ProductDetails({ params }) {
+async function ProductPage({ params }) {
   const { productId } = await params;
   return (
-    <div className="flex flex-col mt-6 items-center justify-center">
-      <h1>Product Details Page</h1>
-      <p>{productId}</p>
-      <NextButton
-        title="Proceed to checkout"
-        destination={`${productId}/checkout`}
-      />
-      <BackButton title="Go Back" />
-    </div>
+    <Suspense fallback={<Loader />}>
+      <ProductDetails productId={productId} />
+    </Suspense>
   );
 }
 
-export default ProductDetails;
+export default ProductPage;

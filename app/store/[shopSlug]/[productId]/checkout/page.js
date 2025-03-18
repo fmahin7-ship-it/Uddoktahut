@@ -1,12 +1,13 @@
-import BackButton from "@/app/components/BackButton";
+import Checkout from "@/app/components/Checkout";
+import Loader from "@/app/components/Loader";
+import { Suspense } from "react";
 
 async function CheckoutPage({ params }) {
   const { productId } = await params;
   return (
-    <div className="flex flex-col mt-6 items-center justify-center">
-      <h1>Checkout Page for product : {productId}</h1>
-      <BackButton title="Go Back" />
-    </div>
+    <Suspense fallback={<Loader />}>
+      <Checkout productId={productId} />
+    </Suspense>
   );
 }
 

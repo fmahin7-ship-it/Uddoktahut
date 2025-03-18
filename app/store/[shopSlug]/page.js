@@ -1,9 +1,11 @@
-import ShopList from "@/app/components/ShopList";
+import Loader from "@/app/components/Loader";
+import ProductList from "@/app/components/ProductList";
 import UnauthorizeAccess from "@/app/components/UnauthorizeAccess";
+import { Suspense } from "react";
 
 const validShops = ["shoporia", "salamkacchi", "shopup", "funnymg"];
 
-export default async function ShopPage({ params }) {
+async function UserShopPage({ params }) {
   const { shopSlug } = await params;
 
   if (!validShops.includes(shopSlug)) {
@@ -15,7 +17,11 @@ export default async function ShopPage({ params }) {
       <h1>Welcome to {shopSlug}s Shop</h1>
       <p>Enjoy shopping at {shopSlug}.uddoktahut.com</p>
 
-      <ShopList validShops={validShops} />
+      <Suspense fallback={<Loader />}>
+        <ProductList validShops={validShops} />
+      </Suspense>
     </div>
   );
 }
+
+export default UserShopPage;

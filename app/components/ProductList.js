@@ -1,4 +1,4 @@
-import ShopItem from "./ShopItem";
+import ProductItem from "./ProductItem";
 
 const validProductsFromShop = [
   {
@@ -45,7 +45,7 @@ const validProductsFromShop = [
   },
 ];
 
-function ShopList({ validShops }) {
+function ProductList({ validShops }) {
   const shop = validProductsFromShop.find((item) =>
     validShops.includes(item.name)
   );
@@ -53,10 +53,10 @@ function ShopList({ validShops }) {
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
       {shop.data.map((item) => (
-        <ShopItem key={item.productId} item={item} />
+        <ProductItem key={item.productId} item={item} />
       ))}
     </div>
   );
 }
 
-export default ShopList;
+export default ProductList;
