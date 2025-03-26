@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CONFIG } from "./app/_lib/config";
+import { CONFIG } from "./lib/config";
 
 export function middleware(req) {
   const host = req.headers.get("host") || "";

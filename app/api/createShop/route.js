@@ -1,4 +1,4 @@
-import { CONFIG } from "@/app/_lib/config";
+import { CONFIG } from "@/lib/config";
 import { NextResponse } from "next/server";
 import { resolve } from "styled-jsx/css";
 
