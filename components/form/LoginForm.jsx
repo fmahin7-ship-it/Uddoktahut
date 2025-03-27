@@ -75,7 +75,7 @@ export function LoginForm({ className, ...props }) {
                         className="w-full bg-green-400 hover:bg-[#05f27c] cursor-pointer"
                         loadingMessage="Logging in.."
                     >
-                        <span className="font-semibold text-green-600">Login</span>
+                        <span className="font-semibold text-green-900">Login</span>
                     </SubmitButton>
                 </div>
                 <div className="text-center text-sm">

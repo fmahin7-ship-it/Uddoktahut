@@ -65,7 +65,7 @@ const RenderField = ({ field, props }) => {
                             {...field}
                             {...(inputProps || {})}
                             type={isPassword ? (!showPassword ? "password" : "text") : 'text'}
-                            className="shad-input border-0"
+                            className="shad-input border-0 placeholder:text-dark-700/95"
                         />
                     </FormControl>
 
@@ -172,7 +172,9 @@ export function CustomFormField(props) {
             render={({ field }) => (
                 <FormItem className="flex-1">
                     {fieldType !== FormFieldType.CHECKBOX && label && (
-                        <FormLabel className="data-[error=true]:text-black">{label}</FormLabel>
+                        <FormLabel className="data-[error=true]:text-black font-semibold">
+                            {label}
+                        </FormLabel>
                     )}
                     <RenderField field={field} props={props} />
                     <FormMessage className="text-red-400" />

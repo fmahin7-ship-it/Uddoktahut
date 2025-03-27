@@ -12,7 +12,7 @@ export default function SignUpPage() {
                 <div className="flex justify-between gap-2">
                     <Link href="/" className="flex items-center gap-2 font-medium cursor-pointer">
                         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-green-400">
-                            <ShoppingBagIcon className="size-4 text-green-600" />
+                            <ShoppingBagIcon className="size-4 text-green-900" />
                         </div>
                         UddoktaHut.
                     </Link>

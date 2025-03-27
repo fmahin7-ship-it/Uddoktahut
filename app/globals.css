@@ -160,8 +160,29 @@
 }
 
 @layer utilities {
+  .text-36-bold {
+    @apply text-[36px] leading-[40px] font-bold;
+  }
   .shad-input {
     @apply border-[theme(color-dark-500)] h-11 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-[none];
+  }
+  .shad-alert-dialog {
+    @apply space-y-5 outline-none;
+  }
+  .shad-otp {
+    @apply w-full flex justify-between;
+  }
+  .shad-otp-slot {
+    @apply text-[36px] leading-[40px] font-bold justify-center flex border rounded-lg size-16 gap-4;
+  }
+  .shad-alert-dialog {
+    @apply space-y-5  outline-none;
+  }
+  .shad-error {
+    @apply text-red-400;
+  }
+  .shad-primary-btn {
+    @apply bg-green-400 text-green-900 font-semibold;
   }
 }
 
