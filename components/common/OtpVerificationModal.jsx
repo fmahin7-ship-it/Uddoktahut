@@ -16,7 +16,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { OtpVerify } from "@/lib/actions/otp.action";
 import { toast } from "sonner";
 
-export const OtpVerificationModal = ({ setShowOtpModal, identifier }) => {
+export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMethod }) => {
     const router = useRouter();
     const [open, setOpen] = useState(true);
     const [passkey, setPasskey] = useState("");
@@ -31,7 +31,7 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier }) => {
         e.preventDefault();
         if (passkey) {
             try {
-                const result = await OtpVerify({ identifier, otp: passkey });
+                const result = await OtpVerify({ identifier, otp: passkey, selectedMethod });
                 if (result && result.verified) {
                     setShowOtpModal(false);
                     setOpen(false);
@@ -71,7 +71,7 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier }) => {
                 </AlertDialogHeader>
                 <div>
                     <InputOTP
-                        maxLength={4}
+                        maxLength={5}
                         value={passkey}
                         onChange={(value) => setPasskey(value)}
                     >

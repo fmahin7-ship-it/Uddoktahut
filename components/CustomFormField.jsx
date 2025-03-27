@@ -114,14 +114,21 @@ const RenderField = ({ field, props }) => {
                         international
                         withCountryCallingCode
                         value={field.value}
-                        onChange={field.onChange}
+                        onChange={(phoneNumber) => {
+                            if (phoneNumber) {
+                                console.log(phoneNumber)
+                                const cleanedPhoneNumber = phoneNumber.replace(/\s+/g, "");
+                                field.onChange(cleanedPhoneNumber)
+                            }
+                        }}
+                        countryCallingCodeEditable={false}
                         className="input-phone"
                     />
                 </FormControl>
             );
         case FormFieldType.DATE_PICKER:
             return (
-                <div className="flex rounded-md border border-dark-500 bg-dark-400">
+                <div className="flex rounded-md border ">
                     <Image
                         src="/assets/icons/calendar.svg"
                         height={24}

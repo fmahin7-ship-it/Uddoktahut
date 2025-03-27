@@ -113,7 +113,7 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 5%);
   --ring: oklch(0.552 0.016 285.938);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -164,7 +164,7 @@
     @apply text-[36px] leading-[40px] font-bold;
   }
   .shad-input {
-    @apply border-[theme(color-dark-500)] h-11 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-[none];
+    @apply border-[theme(color-dark-500)] h-11 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-[none] ;
   }
   .shad-alert-dialog {
     @apply space-y-5 outline-none;
@@ -183,6 +183,9 @@
   }
   .shad-primary-btn {
     @apply bg-green-400 text-green-900 font-semibold;
+  }
+  .input-phone {
+    @apply mt-2 h-11 rounded-md px-3 text-sm border placeholder:text-dark-700/95 ;
   }
 }
 
@@ -249,11 +252,14 @@
 .PhoneInputInput {
   outline: none;
   margin-left: 4px;
-  background: #1a1d21;
   font-size: 14px;
   font-weight: 500;
 }
 
 .PhoneInputInput::placeholder {
   color: #1a1d21;
+}
+
+.PhoneInputCountry {
+  pointer-events: none;
 }

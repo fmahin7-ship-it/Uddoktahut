@@ -13,35 +13,48 @@ import { toast } from "sonner"
 import SubmitButton from "../common/SubmitButton"
 import Link from "next/link"
 import { OtpVerificationModal } from "../common/OtpVerificationModal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { ComonRegistrationForm } from "./ComonRegistrationForm";
 
+const tabStyle = `
+    cursor-pointer
+    data-[state=active]:bg-green-400
+    data-[state=active]:text-green-900
+    data-[state=active]:font-semibold 
+    data-[state=active]:ring-2
+    data-[state=active]:ring-green-400
+    dark:data-[state=active]:ring-offset-0
+    data-[state=active]:ring-offset-2
+`;
 
 export function RegistrationForm({ className, ...props }) {
     const [isLoading, setLoading] = useState(false);
     const [password, setPassword] = useState("");
     const [showOtpModal, setShowOtpModal] = useState(false);
-    const [email, setEmail] = useState("");
+    const [identifier, setIdentifier] = useState("");
 
     const form = useForm({
         resolver: zodResolver(RegistrationFormValidation),
         defaultValues: {
+            method: "email",
             name: "",
             email: "",
-            password: ""
+            password: "",
         }
     });
 
-    async function onSubmit({
-        name,
-        email,
-        password,
-    }) {
+    async function onSubmit(data) {
         setLoading(true);
+        const selectedMethod = form.watch("method");
         try {
-            const result = await registerUser({ email, name, password });
+            const result = await registerUser(selectedMethod, data);
             if (result && result.success) {
                 setShowOtpModal(true);
-                setEmail(email);
-                toast("Email sended", {
+                setIdentifier(selectedMethod === 'email'
+                    ? data.email
+                    : data.phoneNumber
+                );
+                toast(selectedMethod === 'email' ? "Email sended" : "Sms sended", {
                     description: result.message,
                 })
             } else {
@@ -58,11 +71,28 @@ export function RegistrationForm({ className, ...props }) {
         }
     }
 
+    function handleTabChange(value) {
+        form.setValue("method", value);
+        form.setValue("password", "");
+        form.setValue("name", "");
+        setPassword("");
+
+
+        if (value && value === 'phone') {
+            form.setValue("phoneNumber", "");
+            form.unregister("email");
+        } else {
+            form.setValue("email", "");
+            form.unregister("phoneNumber");
+        }
+    }
+
     return (
         <>
             {showOtpModal && <OtpVerificationModal
                 setShowOtpModal={setShowOtpModal}
-                identifier={email}
+                identifier={identifier}
+                selectedMethod={form.watch("method")}
             />}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
@@ -75,63 +105,67 @@ export function RegistrationForm({ className, ...props }) {
                             Let’s get started with your <b className="font-bold">7 days free trial</b>
                         </p>
                     </div>
+
                     <div className="grid gap-6">
-                        <CustomFormField
-                            fieldType={FormFieldType.INPUT}
-                            control={form.control}
-                            name="name"
-                            label="Name"
-                            placeholder="Enter your full name"
-                            iconSrc="/assets/icons/user.svg"
-                            iconAlt="name"
-                        />
-                        <CustomFormField
-                            fieldType={FormFieldType.INPUT}
-                            control={form.control}
-                            name="email"
-                            label="Email"
-                            placeholder="Enter your email address"
-                            iconSrc="/assets/icons/email.svg"
-                            iconAlt="email"
-                        />
+                        <Tabs defaultValue="email" className="w-full"
+                            onValueChange={handleTabChange}
+                        >
+                            <TabsList className="w-full">
+                                <TabsTrigger value="email" className={tabStyle}>
+                                    Email
+                                </TabsTrigger>
+                                <TabsTrigger value="phone" className={tabStyle}>
+                                    Phone
+                                </TabsTrigger>
+                            </TabsList>
 
-                        <CustomFormField
-                            fieldType={FormFieldType.INPUT}
-                            control={form.control}
-                            name="password"
-                            label="Password"
-                            placeholder="********"
-                            iconSrc="/assets/icons/password.svg"
-                            iconAlt="password"
-                            inputProps={{
-                                value: password,
-                                onChange: (e) => {
-                                    setPassword(e.target.value);
-                                    form.setValue("password", e.target.value);
-                                },
-                            }}
+                            <TabsContent value="email" className="grid gap-6 mt-4">
+                                <ComonRegistrationForm
+                                    password={password}
+                                    setPassword={setPassword}
+                                    form={form}
+                                    passwordRules={passwordRules}
+                                >
+                                    <CustomFormField
+                                        fieldType={FormFieldType.INPUT}
+                                        control={form.control}
+                                        name="email"
+                                        label="Email"
+                                        placeholder="Enter your email address"
+                                        iconSrc="/assets/icons/email.svg"
+                                        iconAlt="email"
+                                    />
+                                </ComonRegistrationForm>
+                            </TabsContent>
 
-                        />
+                            <TabsContent value="phone" className="grid gap-6 mt-4">
+                                <ComonRegistrationForm
+                                    password={password}
+                                    setPassword={setPassword}
+                                    form={form}
+                                    passwordRules={passwordRules}
+                                >
+                                    <CustomFormField
+                                        fieldType={FormFieldType.PHONE_INPUT}
+                                        control={form.control}
+                                        name="phoneNumber"
+                                        label="Phone number"
+                                        placeholder="(+880) 162-771889"
 
-                        {password && (
-                            <ul className="space-y-1 text-sm">
-                                {passwordRules.map((rule, i) => {
-                                    const passed = rule.test(password);
-                                    return <li key={i} className={(passed ? "text-green-500 font-medium" : "text-red-500 font-medium")}>
-                                        {passed ? "✅" : "❌"} {" "} {rule.label}
-                                    </li>
-                                })}
-                            </ul>
-                        )}
+                                    />
+                                </ComonRegistrationForm>
+                            </TabsContent>
+                        </Tabs>
 
                         <SubmitButton
                             isLoading={isLoading}
                             className="w-full bg-green-400 hover:bg-[#05f27c] cursor-pointer"
                             loadingMessage="Enrolling.."
                         >
-                            <span className="font-semibold text-green-900">Sign Up</span>
+                            <span className="font-semibold text-green-900">Sign up</span>
                         </SubmitButton>
                     </div>
+
                     <div className="text-center text-sm">
                         Have an account?{" "}
                         <Link href="/login" className="underline underline-offset-4">
