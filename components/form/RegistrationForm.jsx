@@ -70,9 +70,9 @@ export function RegistrationForm({ className, ...props }) {
                     {...props}
                 >
                     <div className="flex flex-col items-baseline gap-3">
-                        <h1 className="text-2xl font-bold">Welcome to UddoktaHut</h1>
+                        <h1 className="text-2xl font-bold">Sign up</h1>
                         <p className="text-balance text-sm text-muted-foreground font-medium">
-                            Let’s get started with your <b>7 days free trial</b>
+                            Let’s get started with your <b className="font-bold">7 days free trial</b>
                         </p>
                     </div>
                     <div className="grid gap-6">
@@ -112,14 +112,18 @@ export function RegistrationForm({ className, ...props }) {
                             }}
 
                         />
-                        <ul className="mt-2 space-y-1 text-sm">
-                            {password && passwordRules.map((rule, i) => {
-                                const passed = rule.test(password);
-                                return <li key={i} className={(passed ? "text-green-500 font-medium" : "text-red-500 font-medium")}>
-                                    {passed ? "✅" : "❌"} {" "} {rule.label}
-                                </li>
-                            })}
-                        </ul>
+
+                        {password && (
+                            <ul className="space-y-1 text-sm">
+                                {passwordRules.map((rule, i) => {
+                                    const passed = rule.test(password);
+                                    return <li key={i} className={(passed ? "text-green-500 font-medium" : "text-red-500 font-medium")}>
+                                        {passed ? "✅" : "❌"} {" "} {rule.label}
+                                    </li>
+                                })}
+                            </ul>
+                        )}
+
                         <SubmitButton
                             isLoading={isLoading}
                             className="w-full bg-green-400 hover:bg-[#05f27c] cursor-pointer"
