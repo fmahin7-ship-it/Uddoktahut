@@ -116,7 +116,6 @@ const RenderField = ({ field, props }) => {
                         value={field.value}
                         onChange={(phoneNumber) => {
                             if (phoneNumber) {
-                                console.log(phoneNumber)
                                 const cleanedPhoneNumber = phoneNumber.replace(/\s+/g, "");
                                 field.onChange(cleanedPhoneNumber)
                             }
