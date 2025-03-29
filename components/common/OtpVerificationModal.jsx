@@ -23,8 +23,6 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
     const [time, setTime] = useState(60);
     const [timeUp, setTimeUp] = useState(false);
 
-    //const time = Date.now() + (60 * 1000);
-
     useEffect(() => {
         if (time === 0) {
             setTimeUp(true);
@@ -48,11 +46,15 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
         e.preventDefault();
         if (passkey) {
             try {
-                const result = await OtpVerify({ identifier, otp: passkey, selectedMethod });
+                const result = await OtpVerify({
+                    identifier,
+                    otp: passkey,
+                    selectedMethod
+                });
                 if (result && result.verified) {
                     setShowOtpModal(false);
                     setOpen(false);
-                    router.push("/dashboard");
+                    router.push(`/onboarding`);
                 } else {
                     toast("Failed", {
                         description: "Invalid or expired otp",
@@ -83,7 +85,7 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
                         />}
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        To sign up, please check your email & enter the otp.
+                        To sign up, please check your {selectedMethod === 'email' ? 'email' : 'phone'} & enter the otp.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <section>

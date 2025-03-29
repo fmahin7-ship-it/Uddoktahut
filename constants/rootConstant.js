@@ -24,3 +24,5 @@ export const passwordRules = [
   //     test: (val) => /[@$!%*?&]/.test(val),
   // },
 ];
+
+export const protectedRoutes = ["/onboarding", "/dashboard", "/profile"];
