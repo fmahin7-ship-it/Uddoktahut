@@ -10,14 +10,14 @@ export async function GET() {
 
   response.cookies.set("accessToken", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "None",
     path: "/",
   });
 
   response.cookies.set("refreshToken", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "None",
     path: "/",
   });
