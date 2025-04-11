@@ -33,6 +33,7 @@ import { useUser } from "@/app/context/UserContext"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useTopLoader } from "nextjs-toploader"
+import { logoutUser } from "@/lib/actions/auth.action"
 
 function extractFirstLetterOfUser(user) {
     if (user && user.name) {
@@ -54,7 +55,9 @@ export function NavUser({ isOnboarded = true }) {
     async function handleLogout() {
         loader.start();
         try {
-            router.push('/logout')
+            const res = await logoutUser();
+            console.log(res);
+            router.push('/login');
         } catch (err) {
             toast('Something went wrong', {
                 description: err.message
