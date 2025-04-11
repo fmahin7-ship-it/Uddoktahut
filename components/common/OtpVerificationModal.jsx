@@ -15,13 +15,16 @@ import { useEffect, useState } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { OtpVerify } from "@/lib/actions/otp.action";
 import { toast } from "sonner";
+import { useTopLoader } from "nextjs-toploader";
 
 export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMethod }) => {
     const router = useRouter();
+    const loader = useTopLoader();
     const [open, setOpen] = useState(true);
     const [passkey, setPasskey] = useState("");
     const [time, setTime] = useState(60);
     const [timeUp, setTimeUp] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (time === 0) {
@@ -44,6 +47,8 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
 
     const validatePasskey = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        loader.start();
         if (passkey) {
             try {
                 const result = await OtpVerify({
@@ -64,8 +69,14 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
                 toast("Something went wrong", {
                     description: err.message,
                 });
+            } finally {
+                setIsLoading(false);
+                loader.done();
             }
 
+        } else {
+            toast("Please enter otp");
+            setIsLoading(false);
         }
     };
 
@@ -110,8 +121,9 @@ export const OtpVerificationModal = ({ setShowOtpModal, identifier, selectedMeth
                     <AlertDialogAction
                         onClick={(e) => validatePasskey(e)}
                         className="shad-primary-btn w-full hover:bg-[#05f27c] cursor-pointer"
+                        disabled={isLoading}
                     >
-                        Enter Otp
+                        {isLoading ? 'Loading...' : 'Enter Otp'}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
