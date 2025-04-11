@@ -1,17 +1,17 @@
-"use client";
 
-import { useRouter } from "next/navigation";
+import NextButton from "../common/NextButton";
 
 function ProductItem({ item }) {
-  const router = useRouter();
+  // console.log(item)
   return (
     <div key={item.productId}>
-      <p
-        onClick={() => router.push(`/${item.productId}`)}
-        className="mt-6 cursor-pointer"
-      >
-        {item.productName}
-      </p>
+
+      <div className="mt-10 mb-10">
+        <NextButton
+          title={item.productName}
+          destination={item.productId}
+        />
+      </div>
     </div>
   );
 }

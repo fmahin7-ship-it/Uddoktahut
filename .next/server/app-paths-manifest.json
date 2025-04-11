@@ -1,1 +1,9 @@
-{}
+{
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/store/[shopSlug]/page": "app/store/[shopSlug]/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/store/[shopSlug]/[productId]/page": "app/store/[shopSlug]/[productId]/page.js",
+  "/page": "app/page.js",
+  "/store/[shopSlug]/[productId]/checkout/page": "app/store/[shopSlug]/[productId]/checkout/page.js",
+  "/_not-found/page": "app/_not-found/page.js"
+}

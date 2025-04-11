@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { CONFIG } from "./lib/config";
 import { allRoles, protectedRoutes } from "./constants/rootConstant";
 import { jwtVerify } from "jose";
 

@@ -1,17 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function NextButton({ title, destination }) {
-  const router = useRouter();
+  const pathname = usePathname();
+  const fullPath = `${pathname}/${destination}`;
+
   return (
-    <Button
-      onClick={() => router.push(`/${destination}`)}
-      className="cursor-pointer"
-    >
+    <Link href={fullPath} className="cursor-pointer">
       {title}
-    </Button>
+    </Link>
   );
 }
 

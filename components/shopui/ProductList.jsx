@@ -55,7 +55,7 @@ function ProductList({ shopSlug }) {
     <div style={{ textAlign: "center", padding: "50px" }}>
       {shop.data.length ? (
         shop.data.map((item) => (
-          <ProductItem key={item.productId} item={item} />
+          <ProductItem key={item.productId} item={item} shopSlug={shopSlug} />
         ))
       ) : (
         <NoDataFound title="No products found" />
