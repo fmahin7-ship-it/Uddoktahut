@@ -6,7 +6,8 @@ import ProductList from "@/components/shopui/ProductList";
 
 async function UserShopPage({ params }) {
   const { shopSlug } = await params;
-  const { storeData } = await getAuthenticStore({ storeId: shopSlug });
+
+  const { storeData } = await getAuthenticStore({ storeName: shopSlug });
 
   if (!storeData) return <UnauthorizeAccess shopSlug={shopSlug} />;
 

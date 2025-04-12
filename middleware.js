@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CONFIG } from "./lib/config";
 import { allRoles, protectedRoutes } from "./constants/rootConstant";
 import { jwtVerify } from "jose";
 
@@ -29,6 +30,7 @@ export async function middleware(req) {
         return NextResponse.redirect(new URL("/login", req.url));
 
       requestHeaders.set("x-user-id", payload.id);
+
       if (payload.storeUrl) requestHeaders.set("x-store-url", payload.storeUrl);
 
       const onboarded = payload.onboarded || false;
@@ -52,6 +54,49 @@ export async function middleware(req) {
     } catch (err) {
       console.log(err);
       return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  // ✅ Subdomain rewriting logic
+  return CONFIG.isProd
+    ? productionMiddleware(host, req)
+    : developmentMiddleware(host, req);
+}
+
+function productionMiddleware(host, req) {
+  if (host === "uddoktahut.com" || host === "www.uddoktahut.com") {
+    return NextResponse.next();
+  }
+
+  if (host.endsWith(".uddoktahut.com")) {
+    const subdomain = host.split(".")[0];
+    if (subdomain) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
+      const response = NextResponse.rewrite(url);
+      response.cookies.set("subdomain", subdomain);
+      return response;
+    }
+  }
+
+  return NextResponse.next();
+}
+
+function developmentMiddleware(host, req) {
+  host = host.split(":")[0];
+
+  if (host === "uddoktahut.local" || host === "www.uddoktahut.local") {
+    return NextResponse.next();
+  }
+
+  if (host.endsWith(".uddoktahut.local")) {
+    const subdomain = host.split(".")[0];
+    if (subdomain) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
+      const response = NextResponse.rewrite(url);
+      response.cookies.set("subdomain", subdomain);
+      return response;
     }
   }
 
