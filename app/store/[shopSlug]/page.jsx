@@ -7,7 +7,7 @@ import ShopPromotions from "@/components/shopui/ShopPromotions";
 import Footer from "@/components/shopui/layout/Footer";
 
 
-async function UserShopPage({ }) {
+async function UserShopPage() {
 
   return (
     <div className="min-h-screen bg-[#fdfcfb] text-neutral-900 font-sans">
