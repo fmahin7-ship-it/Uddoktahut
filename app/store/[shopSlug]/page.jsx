@@ -1,29 +1,25 @@
 
-import { getAuthenticStore } from "@/lib/actions/auth.action";
-import UnauthorizeAccess from "@/components/common/UnauthorizeAccess";
-import ProductList from "@/components/shopui/ProductList";
+import Header from "@/components/shopui/layout/Header";
+import deliverySystem from "@/public/assets/images/onboarding-img.png";
+import ShopHero from "@/components/shopui/ShopHero";
+import ShopFeatureProduct from "@/components/shopui/ShopFeatureProduct";
+import ShopPromotions from "@/components/shopui/ShopPromotions";
+import Footer from "@/components/shopui/layout/Footer";
 
 
-async function UserShopPage({ params }) {
-  const { shopSlug } = await params;
-
-  const { storeData } = await getAuthenticStore({ storeName: shopSlug });
-
-  if (!storeData) return <UnauthorizeAccess shopSlug={shopSlug} />;
-
-  const { id, store_name, store_type, store_address, isActive } = storeData;
-
-  if (!isActive) return <UnauthorizeAccess shopSlug={shopSlug} />;
+async function UserShopPage({ }) {
 
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
-      <h1>Welcome to {store_name}s Shop</h1>
-      <p>Enjoy shopping at {shopSlug}.uddoktahut.com</p>
-      <p>Shop Id: {id}</p>
-      <p>Shop Type: {store_type}</p>
-      <p>Shop Address: {store_address}</p>
+    <div className="min-h-screen bg-[#fdfcfb] text-neutral-900 font-sans">
+      <Header />
 
-      <ProductList shopSlug={shopSlug} />
+      <ShopHero deliverySystem={deliverySystem} />
+
+      <ShopFeatureProduct deliverySystem={deliverySystem} />
+
+      <ShopPromotions />
+
+      <Footer isShopList={false} />
     </div>
   );
 }

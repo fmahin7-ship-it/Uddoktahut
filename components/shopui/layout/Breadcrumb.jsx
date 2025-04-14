@@ -18,7 +18,7 @@ export default function ShopBreadcrumb() {
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/" className="flex items-center gap-1">
+                                <Link href="/" className="flex items-center gap-1 text-green-600">
                                     <Home className="w-4 h-4" />
                                     Home
                                 </Link>
@@ -27,7 +27,7 @@ export default function ShopBreadcrumb() {
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <span>Shop</span>
+                                <span className="text-green-600">Shop</span>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                     </BreadcrumbList>
