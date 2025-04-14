@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 function ShopHero({ deliverySystem }) {
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-6 py-12 max-w-6xl mx-auto">
+        <section className="bg-gradient-to-r from-[#fdfcfb] to-[#f6f4f1] grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-6 py-12 max-w-6xl mx-auto">
             <div>
                 <h1 className="text-4xl font-bold tracking-tight mb-4">New Arrivals</h1>
                 <p className="text-neutral-700 mb-6">Check out our latest collection for the season.</p>
