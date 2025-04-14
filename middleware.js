@@ -74,7 +74,7 @@ function productionMiddleware(host, req) {
       const url = req.nextUrl.clone();
       url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
       const response = NextResponse.rewrite(url);
-      response.cookies.set("subdomain", subdomain);
+      // response.cookies.set("subdomain", subdomain);
       return response;
     }
   }
@@ -95,7 +95,7 @@ function developmentMiddleware(host, req) {
       const url = req.nextUrl.clone();
       url.pathname = `/store/${subdomain}${req.nextUrl.pathname}`;
       const response = NextResponse.rewrite(url);
-      response.cookies.set("subdomain", subdomain);
+      // response.cookies.set("subdomain", subdomain);
       return response;
     }
   }
