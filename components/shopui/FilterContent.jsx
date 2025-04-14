@@ -4,14 +4,17 @@ import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { Slider } from "../ui/slider";
 import SubmitButton from "../common/SubmitButton";
+import ShopBreadcrumb from "./layout/Breadcrumb";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function FilterContent({ categories, ctaColor }) {
     const [category, setCategory] = useState("All");
     const [priceRange, setPriceRange] = useState([0, 100]);
+    const isMobile = useIsMobile(1023);
 
     return (
         <>
-            <h1 className="text-3xl font-bold tracking-tight px-4">Shop</h1>
+            {!isMobile && <ShopBreadcrumb />}
             <div className="space-y-6 px-4 my-7">
                 <div className="w-full">
                     <label className="block text-sm font-medium mb-2">Category</label>
@@ -49,6 +52,7 @@ export function FilterContent({ categories, ctaColor }) {
                 >
                     <span className="font-semibold text-green-900">Apply Filters</span>
                 </SubmitButton>
+
             </div>
         </>
     );

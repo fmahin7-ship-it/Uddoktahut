@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/select";
 import { FilterContent } from "./FilterContent";
 import BottomDrawer from "./BottomDrawer";
+import ShopBreadcrumb from "./layout/Breadcrumb";
+import { useIsMobile } from "@/hooks/use-mobile";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer"; // ✅ import your Footer here
 
 const categories = ["All", "Clothing", "Electronics", "Shoes", "Accessories"];
 const sortOptions = ["Newest", "Price: Low to High", "Price: High to Low"];
@@ -21,6 +25,7 @@ export default function Shop({
 }) {
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState(sortOptions[0]);
+    const isMobile = useIsMobile(1023);
 
     return (
         <div className="h-screen bg-gradient-to-b from-white to-gray-200 text-neutral-900 font-sans flex">
@@ -29,7 +34,9 @@ export default function Shop({
             </aside>
 
             <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                <div className="sticky top-0 bg-gradient-to-l from-gray-100 to-white z-10 px-6 py-4 border-b">
+                <Header />
+
+                <div className="bg-gradient-to-l from-gray-100 to-white px-6 pb-4 pt-1 border-b">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <Input
                             value={search}
@@ -57,7 +64,12 @@ export default function Shop({
                     </div>
                 </div>
 
+
+                {isMobile && <ShopBreadcrumb />}
+
                 {children}
+
+                <Footer />
             </div>
         </div>
     );
