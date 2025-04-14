@@ -1,4 +1,4 @@
-export const dynamic = "auto";
+// export const dynamic = "auto";
 
 import { ShopProvider } from "@/app/context/ShopContext";
 import UnauthorizeAccess from "@/components/common/UnauthorizeAccess";
