@@ -1,12 +1,14 @@
 import NoDataFound from "../common/NoDataFound";
 import ProductItem from "./ProductItem";
+import { CTA_HOVER_COLOR } from "../../constants/colors";
 
 export default function ProductList({
   products,
   ctaColor = "bg-green-400",
-  ctaHoverColor = "#05f27c", }) {
-
-  if (!products || !products.length) return <NoDataFound title="No products found" />;
+  ctaHoverColor = CTA_HOVER_COLOR,
+}) {
+  if (!products || !products.length)
+    return <NoDataFound title="No products found" />;
 
   return (
     <main className="flex-1 overflow-y-auto p-6 bg-neutral-100">
