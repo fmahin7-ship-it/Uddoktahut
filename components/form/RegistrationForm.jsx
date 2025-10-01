@@ -63,8 +63,9 @@ export function RegistrationForm({ className, ...props }) {
                 });
             }
         } catch (error) {
+            console.log(error)
             toast("Something went wrong", {
-                description: err.message,
+                description: error.message,
             });
         } finally {
             setLoading(false);
