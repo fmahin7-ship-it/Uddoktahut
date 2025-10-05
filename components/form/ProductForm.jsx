@@ -9,17 +9,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { productCreateSchema } from "@/lib/validation/productCreateSchema";
 import { CTA_HOVER_COLOR } from "@/constants/colors";
+import SubmitButton from "../common/SubmitButton";
+import ErrorDisplay from "../common/ErrorDisplay";
+import { FORM_MODES } from "@/constants/formModes";
 
 export default function ProductForm({
   storeName,
   initialData = null,
   onSuccess,
   onCancel,
-  mode = "add", // "add" or "edit"
+  mode = FORM_MODES.ADD, // "add" or "edit"
 }) {
   const [error, setError] = useState("");
   const addProductMutation = useAddProduct();
   const updateProductMutation = useUpdateProduct();
+
+  // Destructure all properties from mutations
+  const {
+    mutateAsync: addProduct,
+    isPending: isAddingProduct,
+    error: addError,
+  } = addProductMutation;
+
+  const {
+    mutateAsync: updateProduct,
+    isPending: isUpdatingProduct,
+    error: updateError,
+  } = updateProductMutation;
 
   const form = useForm({
     resolver: zodResolver(productCreateSchema),
@@ -53,8 +69,8 @@ export default function ProductForm({
   async function onSubmit(data) {
     setError("");
     try {
-      if (mode === "edit" && initialData && initialData.id) {
-        await updateProductMutation.mutateAsync({
+      if (mode === FORM_MODES.EDIT && initialData && initialData.id) {
+        await updateProduct({
           id: initialData.id,
           ...data,
           price: Number(data.price),
@@ -62,7 +78,7 @@ export default function ProductForm({
           storeName,
         });
       } else {
-        await addProductMutation.mutateAsync({
+        await addProduct({
           ...data,
           price: Number(data.price),
           stock: Number(data.stock),
@@ -87,6 +103,7 @@ export default function ProductForm({
           name="name"
           label="Product Name"
           placeholder="Name"
+          inputProps={{ autoFocus: mode === FORM_MODES.ADD }}
         />
         <CustomFormField
           fieldType={FormFieldType.INPUT}
@@ -148,24 +165,23 @@ export default function ProductForm({
           <SelectItem value="Active">Active</SelectItem>
           <SelectItem value="Inactive">Inactive</SelectItem>
         </CustomFormField>
-        {error && <div className="text-red-500 text-sm">{error}</div>}
+        <ErrorDisplay errors={[error, addError, updateError]} />
         <div className="flex gap-2 pt-4  bg-background sticky bottom-0 left-0 z-10 mt-4">
-          <Button
-            type="submit"
+          <SubmitButton
+            isLoading={isAddingProduct || isUpdatingProduct}
             className={`cursor-pointer bg-green-400 hover:bg-[${CTA_HOVER_COLOR}] 
             text-green-900 font-[600]`}
-            disabled={
-              addProductMutation.isLoading || updateProductMutation.isLoading
+            loadingMessage={
+              isAddingProduct || isUpdatingProduct
+                ? mode === FORM_MODES.EDIT
+                  ? "Editing..."
+                  : "Adding..."
+                : ""
             }
           >
-            {addProductMutation.isLoading || updateProductMutation.isLoading
-              ? mode === "edit"
-                ? "Saving..."
-                : "Adding..."
-              : mode === "edit"
-              ? "Save"
-              : "Add"}
-          </Button>
+            <span className="font-semibold text-green-900">Save</span>
+          </SubmitButton>
+
           {onCancel && (
             <Button
               type="button"

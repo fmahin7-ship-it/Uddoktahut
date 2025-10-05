@@ -25,129 +25,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getShopSlug } from "@/lib/utils";
-const initialProducts = [
-  {
-    id: 4,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 5,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 6,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 7,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 8,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 9,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 10,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 11,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 12,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 13,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-  {
-    id: 14,
-    name: "Running Shoes",
-    image:
-      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=60&h=60&q=80",
-    price: 89.99,
-    stock: 30,
-    status: "Active",
-    category: "Footwear",
-    sku: "RS-003",
-  },
-];
+import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
+import FormModal from "@/components/common/FormModal";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 
 function getColumns({ onEdit, onDelete }) {
   return [
@@ -238,13 +118,14 @@ export function ProductList({ storeUrl }) {
 
   // Add/Edit handlers
   const handleEdit = (product) => {
-    openModal("editProduct", product);
+    openModal(MODAL_TYPES.EDIT_PRODUCT, product);
   };
 
   // handleEditSave is now handled by ProductForm via React Query
 
   // Delete handlers
-  const handleDelete = (product) => openModal("deleteProduct", product);
+  const handleDelete = (product) =>
+    openModal(MODAL_TYPES.DELETE_PRODUCT, product);
   // confirmDelete will be handled by mutation (to be implemented)
 
   if (loading) {
@@ -296,62 +177,58 @@ export function ProductList({ storeUrl }) {
         data={products}
       />
 
-      {/* Add/Edit Modal (generic, global via context) */}
-      {(modal.type === "addProduct" || modal.type === "editProduct") && (
-        <AlertDialog open onOpenChange={closeModal}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                {modal.type === "editProduct" ? "Edit Product" : "Add Product"}
-              </AlertDialogTitle>
-            </AlertDialogHeader>
-            <ProductForm
-              storeName={shopSlug}
-              initialData={modal.type === "editProduct" ? modal.data : null}
-              mode={modal.type === "editProduct" ? "edit" : "add"}
-              onSuccess={closeModal}
-              onCancel={closeModal}
-            />
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
+      {/* Add/Edit Modal (generic, reusable) */}
+      <FormModal
+        isOpen={
+          modal.type === MODAL_TYPES.ADD_PRODUCT ||
+          modal.type === MODAL_TYPES.EDIT_PRODUCT
+        }
+        onClose={closeModal}
+        title={
+          modal.type === MODAL_TYPES.EDIT_PRODUCT
+            ? "Edit Product"
+            : "Add Product"
+        }
+        description={
+          modal.type === MODAL_TYPES.EDIT_PRODUCT
+            ? "Update the product information below."
+            : "Enter the details for your new product below."
+        }
+      >
+        <ProductForm
+          storeName={shopSlug}
+          initialData={
+            modal.type === MODAL_TYPES.EDIT_PRODUCT ? modal.data : null
+          }
+          mode={
+            modal.type === MODAL_TYPES.EDIT_PRODUCT
+              ? FORM_MODES.EDIT
+              : FORM_MODES.ADD
+          }
+          onSuccess={closeModal}
+          onCancel={closeModal}
+        />
+      </FormModal>
 
-      {/* Delete Confirmation (global via context) */}
-      {/* TODO: Wire up delete mutation with React Query */}
-      {modal.type === "deleteProduct" && (
-        <AlertDialog open onOpenChange={closeModal}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Product</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete{" "}
-                <span className="font-semibold">{modal.data?.name}</span>?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button
-                  variant="destructive"
-                  className="cursor-pointer"
-                  // TODO: Implement delete mutation
-                  onClick={closeModal}
-                >
-                  Delete
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
+      {/* Delete Confirmation (generic, reusable) */}
+      <ConfirmationModal
+        isOpen={modal.type === MODAL_TYPES.DELETE_PRODUCT}
+        onClose={closeModal}
+        onConfirm={() => {
+          // TODO: Implement delete mutation
+          console.log("Delete product:", modal.data);
+          closeModal();
+        }}
+        title="Delete Product"
+        description={
+          <>
+            Are you sure you want to delete{" "}
+            <span className="font-semibold">{modal.data?.name}</span>?
+          </>
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </>
   );
 }
