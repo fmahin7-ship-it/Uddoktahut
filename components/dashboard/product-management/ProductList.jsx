@@ -1,5 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useProducts } from "@/hooks/use-products";
+import { useModal } from "@/app/context/ModalContext";
+
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -12,7 +14,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
+import ProductForm from "@/components/form/ProductForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   Table,
@@ -22,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getShopSlug } from "@/lib/utils";
 const initialProducts = [
   {
     id: 4,
@@ -228,48 +231,26 @@ function getColumns({ onEdit, onDelete }) {
 }
 // Removed duplicate/stray actions column and JSX
 
-export function ProductList() {
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState(initialProducts);
-  const [editProduct, setEditProduct] = useState(null);
-  const [deleteProduct, setDeleteProduct] = useState(null);
-  const [editForm, setEditForm] = useState({});
+export function ProductList({ storeUrl }) {
+  const shopSlug = getShopSlug(storeUrl);
+  const { modal, openModal, closeModal } = useModal();
+  const { data: products = [], isLoading: loading, isError } = useProducts();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Edit handlers
+  // Add/Edit handlers
   const handleEdit = (product) => {
-    setEditProduct(product);
-    setEditForm(product);
+    openModal("editProduct", product);
   };
-  const handleEditChange = (e) => {
-    setEditForm({ ...editForm, [e.target.name]: e.target.value });
-  };
-  const handleEditSave = () => {
-    // Ensure price and stock are numbers
-    const updated = {
-      ...editProduct,
-      ...editForm,
-      price: Number(editForm.price),
-      stock: Number(editForm.stock),
-    };
-    setProducts((prev) =>
-      prev.map((p) => (p.id === editProduct.id ? updated : p))
-    );
-    setEditProduct(null);
-  };
+
+  // handleEditSave is now handled by ProductForm via React Query
 
   // Delete handlers
-  const handleDelete = (product) => setDeleteProduct(product);
-  const confirmDelete = () => {
-    setProducts((prev) => prev.filter((p) => p.id !== deleteProduct.id));
-    setDeleteProduct(null);
-  };
+  const handleDelete = (product) => openModal("deleteProduct", product);
+  // confirmDelete will be handled by mutation (to be implemented)
 
   if (loading) {
+    if (isError) {
+      return <div className="text-red-500">Failed to load products.</div>;
+    }
     // Table skeleton: 5 rows, 7 columns, using shadcn/ui Table components
     return (
       <div className="overflow-x-auto w-full">
@@ -315,96 +296,36 @@ export function ProductList() {
         data={products}
       />
 
-      {/* Edit Modal */}
-      {editProduct && (
-        <AlertDialog
-          open={!!editProduct}
-          onOpenChange={() => setEditProduct(null)}
-        >
+      {/* Add/Edit Modal (generic, global via context) */}
+      {(modal.type === "addProduct" || modal.type === "editProduct") && (
+        <AlertDialog open onOpenChange={closeModal}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Edit Product</AlertDialogTitle>
-              <AlertDialogDescription asChild>
-                <div className="space-y-3">
-                  <Input
-                    name="name"
-                    label="Name"
-                    value={editForm.name || ""}
-                    onChange={handleEditChange}
-                    placeholder="Name"
-                  />
-                  <Input
-                    name="category"
-                    label="Category"
-                    value={editForm.category || ""}
-                    onChange={handleEditChange}
-                    placeholder="Category"
-                  />
-                  <Input
-                    name="sku"
-                    label="SKU"
-                    value={editForm.sku || ""}
-                    onChange={handleEditChange}
-                    placeholder="SKU"
-                  />
-                  <Input
-                    name="price"
-                    label="Price"
-                    type="number"
-                    value={editForm.price || ""}
-                    onChange={handleEditChange}
-                    placeholder="Price"
-                  />
-                  <Input
-                    name="stock"
-                    label="Stock"
-                    type="number"
-                    value={editForm.stock || ""}
-                    onChange={handleEditChange}
-                    placeholder="Stock"
-                  />
-                  <Input
-                    name="status"
-                    label="Status"
-                    value={editForm.status || ""}
-                    onChange={handleEditChange}
-                    placeholder="Status"
-                  />
-                </div>
-              </AlertDialogDescription>
+              <AlertDialogTitle>
+                {modal.type === "editProduct" ? "Edit Product" : "Add Product"}
+              </AlertDialogTitle>
             </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() => setEditProduct(null)}
-                >
-                  Cancel
-                </Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button className="cursor-pointer" onClick={handleEditSave}>
-                  Save
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
+            <ProductForm
+              storeName={shopSlug}
+              initialData={modal.type === "editProduct" ? modal.data : null}
+              mode={modal.type === "editProduct" ? "edit" : "add"}
+              onSuccess={closeModal}
+              onCancel={closeModal}
+            />
           </AlertDialogContent>
         </AlertDialog>
       )}
 
-      {/* Delete Confirmation */}
-      {deleteProduct && (
-        <AlertDialog
-          open={!!deleteProduct}
-          onOpenChange={() => setDeleteProduct(null)}
-        >
+      {/* Delete Confirmation (global via context) */}
+      {/* TODO: Wire up delete mutation with React Query */}
+      {modal.type === "deleteProduct" && (
+        <AlertDialog open onOpenChange={closeModal}>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Delete Product</AlertDialogTitle>
               <AlertDialogDescription>
                 Are you sure you want to delete{" "}
-                <span className="font-semibold">{deleteProduct.name}</span>?
+                <span className="font-semibold">{modal.data?.name}</span>?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -412,7 +333,7 @@ export function ProductList() {
                 <Button
                   variant="outline"
                   className="cursor-pointer"
-                  onClick={() => setDeleteProduct(null)}
+                  onClick={closeModal}
                 >
                   Cancel
                 </Button>
@@ -421,7 +342,8 @@ export function ProductList() {
                 <Button
                   variant="destructive"
                   className="cursor-pointer"
-                  onClick={confirmDelete}
+                  // TODO: Implement delete mutation
+                  onClick={closeModal}
                 >
                   Delete
                 </Button>
