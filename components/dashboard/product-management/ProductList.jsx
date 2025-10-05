@@ -3,31 +3,25 @@ import { useProducts } from "@/hooks/use-products";
 import { useModal } from "@/app/context/ModalContext";
 
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
 import ProductForm from "@/components/form/ProductForm";
 import { DataTable } from "@/components/ui/data-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { getShopSlug } from "@/lib/utils";
 import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
 import FormModal from "@/components/common/FormModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
+import TableSkeleton from "@/components/common/TableSkeleton";
+
+// Table skeleton configuration for products
+const productTableSkeletonColumns = [
+  { header: "Image", skeletonClassName: "w-12 h-12 rounded border" },
+  { header: "Name", skeletonClassName: "h-4 w-full rounded" },
+  { header: "Category", skeletonClassName: "h-4 w-full rounded" },
+  { header: "SKU", skeletonClassName: "h-4 w-full rounded" },
+  { header: "Price", skeletonClassName: "h-4 w-full rounded" },
+  { header: "Stock", skeletonClassName: "h-4 w-full rounded" },
+  { header: "Status", skeletonClassName: "h-4 w-full rounded" },
+  { header: "Actions", skeletonClassName: "h-4 w-full rounded" },
+];
 
 function getColumns({ onEdit, onDelete }) {
   return [
@@ -126,48 +120,12 @@ export function ProductList({ storeUrl }) {
   // Delete handlers
   const handleDelete = (product) =>
     openModal(MODAL_TYPES.DELETE_PRODUCT, product);
-  // confirmDelete will be handled by mutation (to be implemented)
 
   if (loading) {
     if (isError) {
       return <div className="text-red-500">Failed to load products.</div>;
     }
-    // Table skeleton: 5 rows, 7 columns, using shadcn/ui Table components
-    return (
-      <div className="overflow-x-auto w-full">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>SKU</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {[...Array(5)].map((_, i) => (
-              <TableRow key={i}>
-                {[...Array(8)].map((_, j) => (
-                  <TableCell key={j}>
-                    <Skeleton
-                      className={
-                        j === 0
-                          ? "w-12 h-12 rounded border"
-                          : "h-4 w-full rounded"
-                      }
-                    />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    );
+    return <TableSkeleton columns={productTableSkeletonColumns} rows={5} />;
   }
 
   return (

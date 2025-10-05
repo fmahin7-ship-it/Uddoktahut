@@ -12,6 +12,9 @@ const fontSans = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  ),
   title: "Uddokta Hut",
   description: "Uddokta hut is a saas ecommerce all in one",
 };
