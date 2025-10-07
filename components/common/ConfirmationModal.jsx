@@ -30,12 +30,22 @@ export default function ConfirmationModal({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={onClose} disabled={isLoading}>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={onClose}
+              disabled={isLoading}
+            >
               {cancelText}
             </Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button variant={variant} onClick={onConfirm} disabled={isLoading}>
+            <Button
+              variant={variant}
+              className="cursor-pointer"
+              onClick={onConfirm}
+              disabled={isLoading}
+            >
               {isLoading ? "Processing..." : confirmText}
             </Button>
           </AlertDialogAction>

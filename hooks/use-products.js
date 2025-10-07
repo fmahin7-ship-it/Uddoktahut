@@ -3,6 +3,7 @@ import {
   fetchProducts,
   addProduct,
   updateProduct,
+  deleteProduct,
 } from "@/lib/actions/product.action";
 
 export function useProducts() {
@@ -26,6 +27,16 @@ export function useUpdateProduct() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, ...data }) => updateProduct(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+    },
+  });
+}
+
+export function useDeleteProduct() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries(["products"]);
     },

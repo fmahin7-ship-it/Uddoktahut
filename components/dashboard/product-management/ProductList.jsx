@@ -1,8 +1,8 @@
 "use client";
-import { useProducts } from "@/hooks/use-products";
+import { useProducts, useDeleteProduct } from "@/hooks/use-products";
 import { useModal } from "@/app/context/ModalContext";
+import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import ProductForm from "@/components/form/ProductForm";
 import { DataTable } from "@/components/ui/data-table";
 import { getShopSlug } from "@/lib/utils";
@@ -10,8 +10,8 @@ import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
 import FormModal from "@/components/common/FormModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import TableSkeleton from "@/components/common/TableSkeleton";
+import { createProductColumns } from "@/lib/table-columns/product-columns";
 
-// Table skeleton configuration for products
 const productTableSkeletonColumns = [
   { header: "Image", skeletonClassName: "w-12 h-12 rounded border" },
   { header: "Name", skeletonClassName: "h-4 w-full rounded" },
@@ -23,119 +23,53 @@ const productTableSkeletonColumns = [
   { header: "Actions", skeletonClassName: "h-4 w-full rounded" },
 ];
 
-function getColumns({ onEdit, onDelete }) {
-  return [
-    {
-      accessorKey: "image",
-      header: "Image",
-      cell: ({ row }) => (
-        <img
-          src={row.original.image}
-          alt={row.original.name}
-          className="w-12 h-12 object-cover rounded border"
-        />
-      ),
-      enableSorting: false,
-    },
-    {
-      accessorKey: "name",
-      header: "Name",
-      cell: ({ row }) => (
-        <span className="font-medium">{row.original.name}</span>
-      ),
-    },
-    {
-      accessorKey: "category",
-      header: "Category",
-    },
-    {
-      accessorKey: "sku",
-      header: "SKU",
-    },
-    {
-      accessorKey: "price",
-      header: "Price",
-      cell: ({ row }) => `$${row.original.price.toFixed(2)}`,
-    },
-    {
-      accessorKey: "stock",
-      header: "Stock",
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => (
-        <span
-          className={
-            row.original.status === "Active"
-              ? "font-semibold text-green-600 dark:text-green-400"
-              : "font-semibold text-gray-400 dark:text-gray-500"
-          }
-        >
-          {row.original.status}
-        </span>
-      ),
-    },
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => (
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            className="cursor-pointer"
-            onClick={() => onEdit(row.original)}
-          >
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="destructive"
-            className="cursor-pointer"
-            onClick={() => onDelete(row.original)}
-          >
-            Delete
-          </Button>
-        </div>
-      ),
-      enableSorting: false,
-    },
-  ];
-}
-// Removed duplicate/stray actions column and JSX
-
 export function ProductList({ storeUrl }) {
   const shopSlug = getShopSlug(storeUrl);
   const { modal, openModal, closeModal } = useModal();
   const { data: products = [], isLoading: loading, isError } = useProducts();
 
-  // Add/Edit handlers
+  const { mutateAsync, isPending: isDeletingProduct } = useDeleteProduct();
+
   const handleEdit = (product) => {
     openModal(MODAL_TYPES.EDIT_PRODUCT, product);
   };
 
-  // handleEditSave is now handled by ProductForm via React Query
-
-  // Delete handlers
   const handleDelete = (product) =>
     openModal(MODAL_TYPES.DELETE_PRODUCT, product);
 
-  if (loading) {
-    if (isError) {
-      return <div className="text-red-500">Failed to load products.</div>;
+  const columns = createProductColumns({
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+  });
+
+  const handleConfirmDelete = async () => {
+    if (modal.data?.id) {
+      try {
+        await mutateAsync(modal.data.id);
+        toast.success("Product deleted successfully", {
+          description: `${modal.data.name} has been removed from your store.`,
+        });
+        closeModal();
+      } catch (error) {
+        toast.error("Failed to delete product", {
+          description: error.message || "Please try again later.",
+        });
+      }
     }
-    return <TableSkeleton columns={productTableSkeletonColumns} rows={5} />;
+  };
+
+  if (loading) {
+    return isError ? (
+      <div className="text-red-500">Failed to load products.</div>
+    ) : (
+      <TableSkeleton columns={productTableSkeletonColumns} rows={5} />
+    );
   }
 
   return (
     <>
-      <DataTable
-        columns={getColumns({ onEdit: handleEdit, onDelete: handleDelete })}
-        data={products}
-      />
+      <DataTable columns={columns} data={products} />
 
-      {/* Add/Edit Modal (generic, reusable) */}
       <FormModal
         isOpen={
           modal.type === MODAL_TYPES.ADD_PRODUCT ||
@@ -168,24 +102,26 @@ export function ProductList({ storeUrl }) {
         />
       </FormModal>
 
-      {/* Delete Confirmation (generic, reusable) */}
       <ConfirmationModal
         isOpen={modal.type === MODAL_TYPES.DELETE_PRODUCT}
         onClose={closeModal}
-        onConfirm={() => {
-          // TODO: Implement delete mutation
-          console.log("Delete product:", modal.data);
-          closeModal();
-        }}
+        onConfirm={handleConfirmDelete}
         title="Delete Product"
         description={
           <>
             Are you sure you want to delete{" "}
             <span className="font-semibold">{modal.data?.name}</span>?
+            <br />
+            <span className="text-sm text-muted-foreground">
+              This will permanently remove the product from your store and
+              cannot be undone.
+            </span>
           </>
         }
         confirmText="Delete"
         cancelText="Cancel"
+        isLoading={isDeletingProduct}
+        variant="destructive"
       />
     </>
   );
