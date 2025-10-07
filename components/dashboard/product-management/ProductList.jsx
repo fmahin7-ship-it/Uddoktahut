@@ -66,16 +66,9 @@ export function ProductList({ storeUrl }) {
     }
   };
 
-  if (loading) {
-    return isError ? (
-      <div className="text-red-500">Failed to load products.</div>
-    ) : (
-      <TableSkeleton columns={productTableSkeletonColumns} rows={5} />
-    );
-  }
-
   return (
     <>
+      {isError && <div className="text-red-500">Failed to load products.</div>}
       <DataTable
         columns={columns}
         data={products}
@@ -83,6 +76,8 @@ export function ProductList({ storeUrl }) {
         setSearch={setSearch}
         filterColumn="name"
         filterPlaceholder="Search products..."
+        loading={loading}
+        skeletonColumns={productTableSkeletonColumns}
       />
 
       <FormModal
