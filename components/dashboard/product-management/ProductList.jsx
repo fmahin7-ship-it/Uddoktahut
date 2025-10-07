@@ -1,5 +1,6 @@
 "use client";
 import { useProducts, useDeleteProduct } from "@/hooks/use-products";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useModal } from "@/app/context/ModalContext";
 import { toast } from "sonner";
 
@@ -11,6 +12,7 @@ import FormModal from "@/components/common/FormModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
 import TableSkeleton from "@/components/common/TableSkeleton";
 import { createProductColumns } from "@/lib/table-columns/product-columns";
+import { useState } from "react";
 
 const productTableSkeletonColumns = [
   { header: "Image", skeletonClassName: "w-12 h-12 rounded border" },
@@ -26,7 +28,13 @@ const productTableSkeletonColumns = [
 export function ProductList({ storeUrl }) {
   const shopSlug = getShopSlug(storeUrl);
   const { modal, openModal, closeModal } = useModal();
-  const { data: products = [], isLoading: loading, isError } = useProducts();
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebouncedValue(search, 300);
+  const {
+    data: products = [],
+    isLoading: loading,
+    isError,
+  } = useProducts(debouncedSearch);
 
   const { mutateAsync, isPending: isDeletingProduct } = useDeleteProduct();
 
@@ -68,7 +76,14 @@ export function ProductList({ storeUrl }) {
 
   return (
     <>
-      <DataTable columns={columns} data={products} />
+      <DataTable
+        columns={columns}
+        data={products}
+        search={search}
+        setSearch={setSearch}
+        filterColumn="name"
+        filterPlaceholder="Search products..."
+      />
 
       <FormModal
         isOpen={

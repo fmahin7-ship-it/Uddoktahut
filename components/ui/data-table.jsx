@@ -29,8 +29,9 @@ import {
 export function DataTable({
   columns,
   data,
-  filterColumn = "name",
   filterPlaceholder = "Filter...",
+  search,
+  setSearch,
 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -66,10 +67,8 @@ export function DataTable({
       <div className="flex items-center py-4">
         <Input
           placeholder={filterPlaceholder}
-          value={table.getColumn(filterColumn)?.getFilterValue() || ""}
-          onChange={(event) =>
-            table.getColumn(filterColumn)?.setFilterValue(event.target.value)
-          }
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>

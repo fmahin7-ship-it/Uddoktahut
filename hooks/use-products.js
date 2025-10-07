@@ -6,10 +6,10 @@ import {
   deleteProduct,
 } from "@/lib/actions/product.action";
 
-export function useProducts() {
+export function useProducts(searchTerm = "") {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products", searchTerm],
+    queryFn: () => fetchProducts(searchTerm),
   });
 }
 
