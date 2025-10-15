@@ -39,17 +39,28 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Product Mangement",
+          title: "Product Management",
           url: "/dashboard",
         },
-        // {
-        //   title: "Starred",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        // },
+      ],
+    },
+    {
+      title: "Store Settings",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "Store Appearance",
+          url: "/dashboard/settings",
+        },
+        {
+          title: "Store Information",
+          url: "/dashboard/settings/info",
+        },
+        {
+          title: "General Settings",
+          url: "/dashboard/settings/general",
+        },
       ],
     },
     // {

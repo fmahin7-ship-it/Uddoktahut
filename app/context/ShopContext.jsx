@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import { DEFAULT_TEMPLATE } from "@/constants/templates";
 
 const intialState = {
   id: 1,
@@ -10,6 +11,7 @@ const intialState = {
   isActive: false,
   products: [],
   productsError: null,
+  template_name: DEFAULT_TEMPLATE, // Default template
 };
 
 const ShopContext = createContext();
@@ -21,6 +23,9 @@ const ShopProvider = ({ children, initialData }) => {
   const [productsError, setProductsError] = useState(
     data.productsError || null
   );
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    data.template_name || DEFAULT_TEMPLATE
+  );
 
   return (
     <ShopContext.Provider
@@ -31,6 +36,8 @@ const ShopProvider = ({ children, initialData }) => {
         setProducts,
         productsError,
         setProductsError,
+        selectedTemplate,
+        setSelectedTemplate,
       }}
     >
       {children}

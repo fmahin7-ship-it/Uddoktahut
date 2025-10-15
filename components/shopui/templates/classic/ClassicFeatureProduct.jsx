@@ -1,10 +1,10 @@
 "use client";
 
 import { useShop } from "@/app/context/ShopContext";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
-export default function ShopFeatureProduct({ deliverySystem }) {
+export default function ClassicFeatureProduct({ deliverySystem }) {
   const { products, productsError } = useShop();
 
   let content;

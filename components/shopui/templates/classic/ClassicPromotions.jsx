@@ -1,6 +1,6 @@
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
-function ShopPromotions() {
+function ClassicPromotions() {
   return (
     <section className="bg-white px-6 py-12 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="bg-[#f6f4f1] p-6 rounded-md text-center shadow-sm">
@@ -22,4 +22,4 @@ function ShopPromotions() {
   );
 }
 
-export default ShopPromotions;
+export default ClassicPromotions;
