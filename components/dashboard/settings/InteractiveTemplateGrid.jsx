@@ -10,6 +10,7 @@ import {
 } from "@/components/common/TemplateRegistry";
 import { DEFAULT_TEMPLATE } from "@/constants/templates";
 import { Palette, Check } from "lucide-react";
+import { CTA_HOVER_COLOR } from "@/constants/colors";
 
 export default function InteractiveTemplateGrid({
   initialTemplate,
@@ -55,13 +56,16 @@ export default function InteractiveTemplateGrid({
                     <CardTitle className="text-lg font-semibold flex items-center gap-2">
                       {template.name}
                       {isSelected && (
-                        <Badge variant="default" className="bg-blue-600">
+                        <Badge
+                          variant="default"
+                          className="bg-green-400 text-green-900 hover:bg-green-400 hover:text-green-900 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-100"
+                        >
                           <Check className="w-3 h-3 mr-1" />
                           Active
                         </Badge>
                       )}
                     </CardTitle>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-600 dark:text-[var(--color-dark-700)] mt-1">
                       {template.description}
                     </p>
                   </div>
@@ -71,7 +75,7 @@ export default function InteractiveTemplateGrid({
               <CardContent className="space-y-4">
                 {/* Template Preview */}
                 <div
-                  className="h-32 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center relative overflow-hidden"
+                  className="h-32 rounded-lg border border-gray-200 dark:border-[var(--color-dark-500)] flex items-center justify-center relative overflow-hidden"
                   style={{ backgroundColor: template.colors.background }}
                 >
                   <div className="absolute inset-0 p-2 space-y-1">
@@ -110,7 +114,9 @@ export default function InteractiveTemplateGrid({
 
                 {/* Template Features */}
                 <div className="space-y-2">
-                  <h4 className="font-medium text-sm">Features:</h4>
+                  <h4 className="font-medium text-sm text-gray-900 dark:text-white">
+                    Features:
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="outline" className="text-xs">
                       {template.layout.heroLayout} Hero
@@ -130,7 +136,7 @@ export default function InteractiveTemplateGrid({
                     size="sm"
                     onClick={() => handleTemplateSelect(template.id)}
                     disabled={isSelected || disabled}
-                    className="w-full"
+                    className={`w-full bg-green-400 dark:bg-green-700 hover:bg-[${CTA_HOVER_COLOR}] dark:hover:bg-green-800 text-green-900 dark:text-green-100 font-bold cursor-pointer disabled:cursor-not-allowed disabled:bg-green-300 disabled:text-green-700 disabled:dark:bg-green-800 disabled:dark:text-green-300`}
                   >
                     {isSelected ? "Active" : "Select"}
                   </Button>
@@ -143,17 +149,17 @@ export default function InteractiveTemplateGrid({
 
       {/* Current Template Info */}
       {localSelectedTemplate && (
-        <Card className="bg-blue-50 border-blue-200 mt-6">
+        <Card className="bg-gradient-to-r from-gray-50 to-green-50 dark:from-[var(--color-dark-400)] dark:to-[var(--color-dark-500)] border-green-200 dark:border-[var(--color-dark-500)] mt-6">
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
-              <div className="p-2 bg-blue-600 rounded-lg">
-                <Palette className="w-5 h-5 text-white" />
+              <div className="p-2 bg-green-400 rounded-lg">
+                <Palette className="w-5 h-5 text-green-900" />
               </div>
               <div>
-                <h3 className="font-semibold text-blue-900">
+                <h3 className="font-semibold text-green-900 dark:text-white">
                   Current Template: {getTemplate(localSelectedTemplate)?.name}
                 </h3>
-                <p className="text-sm text-blue-700 mt-1">
+                <p className="text-sm text-green-700 dark:text-[var(--color-dark-700)] mt-1">
                   Your store is using this template. Changes are applied
                   automatically.
                 </p>
