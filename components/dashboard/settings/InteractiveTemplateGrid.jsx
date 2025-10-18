@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,33 +8,31 @@ import {
   getTemplateList,
   getTemplate,
 } from "@/components/common/TemplateRegistry";
-import { Palette, Eye, Check } from "lucide-react";
+import { DEFAULT_TEMPLATE } from "@/constants/templates";
+import { Palette, Check } from "lucide-react";
 
 export default function InteractiveTemplateGrid({
   initialTemplate,
   onTemplateChange,
   disabled = false,
 }) {
-  const [localSelectedTemplate, setLocalSelectedTemplate] =
-    useState(initialTemplate);
-  const [previewTemplate, setPreviewTemplate] = useState(null);
+  const [localSelectedTemplate, setLocalSelectedTemplate] = useState(
+    initialTemplate || DEFAULT_TEMPLATE
+  );
 
-  const selectedTemplate = localSelectedTemplate;
-  const setSelectedTemplate = (templateId) => {
-    setLocalSelectedTemplate(templateId);
-    onTemplateChange?.(templateId);
-  };
+  // Update local state when initialTemplate changes (handles SSR/hydration)
+  useEffect(() => {
+    const newTemplate = initialTemplate || DEFAULT_TEMPLATE;
+    if (newTemplate !== localSelectedTemplate) {
+      setLocalSelectedTemplate(newTemplate);
+    }
+  }, [initialTemplate]);
 
   const templates = getTemplateList();
 
   const handleTemplateSelect = (templateId) => {
-    setSelectedTemplate(templateId);
-    setPreviewTemplate(null);
-  };
-
-  const handlePreview = (templateId) => {
-    setPreviewTemplate(templateId);
-    console.log(`Previewing template: ${templateId}`);
+    setLocalSelectedTemplate(templateId);
+    onTemplateChange?.(templateId);
   };
 
   return (
@@ -42,8 +40,7 @@ export default function InteractiveTemplateGrid({
       {/* ✅ Interactive template grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {templates.map((template) => {
-          const isSelected = selectedTemplate === template.id;
-          const isPreviewing = previewTemplate === template.id;
+          const isSelected = localSelectedTemplate === template.id;
 
           return (
             <Card
@@ -130,21 +127,10 @@ export default function InteractiveTemplateGrid({
                 {/* ✅ Interactive buttons */}
                 <div className="flex gap-2 pt-2">
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePreview(template.id)}
-                    disabled={disabled}
-                    className="flex-1"
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Preview
-                  </Button>
-
-                  <Button
                     size="sm"
                     onClick={() => handleTemplateSelect(template.id)}
                     disabled={isSelected || disabled}
-                    className="flex-1"
+                    className="w-full"
                   >
                     {isSelected ? "Active" : "Select"}
                   </Button>
@@ -156,8 +142,8 @@ export default function InteractiveTemplateGrid({
       </div>
 
       {/* Current Template Info */}
-      {selectedTemplate && (
-        <Card className="bg-blue-50 border-blue-200">
+      {localSelectedTemplate && (
+        <Card className="bg-blue-50 border-blue-200 mt-6">
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
               <div className="p-2 bg-blue-600 rounded-lg">
@@ -165,7 +151,7 @@ export default function InteractiveTemplateGrid({
               </div>
               <div>
                 <h3 className="font-semibold text-blue-900">
-                  Current Template: {getTemplate(selectedTemplate)?.name}
+                  Current Template: {getTemplate(localSelectedTemplate)?.name}
                 </h3>
                 <p className="text-sm text-blue-700 mt-1">
                   Your store is using this template. Changes are applied

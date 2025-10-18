@@ -53,14 +53,14 @@ const data = {
           title: "Store Appearance",
           url: "/dashboard/settings",
         },
-        {
-          title: "Store Information",
-          url: "/dashboard/settings/info",
-        },
-        {
-          title: "General Settings",
-          url: "/dashboard/settings/general",
-        },
+        // {
+        //   title: "Store Information",
+        //   url: "/dashboard/settings/info",
+        // },
+        // {
+        //   title: "General Settings",
+        //   url: "/dashboard/settings/general",
+        // },
       ],
     },
     // {

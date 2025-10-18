@@ -95,7 +95,7 @@ export const getTemplate = (templateId) => {
   const template = TEMPLATE_REGISTRY[templateId];
   if (!template) {
     console.warn(`Template "${templateId}" not found, falling back to classic`);
-    return TEMPLATE_REGISTRY.classic;
+    return TEMPLATE_REGISTRY[TEMPLATE_IDS.CLASSIC];
   }
   return template;
 };
