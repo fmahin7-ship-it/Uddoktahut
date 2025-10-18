@@ -2,7 +2,7 @@
 
 import deliverySystem from "@/public/assets/images/onboarding-img.png";
 import { TEMPLATE_IDS } from "@/constants/templates";
-import { getTemplate } from "../TemplateRegistry";
+import { getTemplate } from "../../../common/TemplateRegistry";
 
 // Modern Dark Template Components
 import ModernDarkHeader from "./ModernDarkHeader";

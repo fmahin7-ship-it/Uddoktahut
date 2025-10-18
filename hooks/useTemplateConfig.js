@@ -1,5 +1,5 @@
 import { useShop } from "@/app/context/ShopContext";
-import { getTemplate } from "@/components/shopui/templates/TemplateRegistry";
+import { getTemplate } from "@/components/common/TemplateRegistry";
 
 export function useTemplateConfig() {
   const { selectedTemplate } = useShop();

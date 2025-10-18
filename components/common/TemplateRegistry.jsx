@@ -1,7 +1,6 @@
-// Template registry for dynamic loading
-import ClassicTemplate from "./classic/ClassicTemplate";
-import ModernDarkTemplate from "./modernDark/ModernDarkTemplate";
-import BoutiqueTemplate from "./boutique/BoutiqueTemplate";
+import ClassicTemplate from "../shopui/templates/classic/ClassicTemplate";
+import ModernDarkTemplate from "../shopui/templates/modernDark/ModernDarkTemplate";
+import BoutiqueTemplate from "../shopui/templates/boutique/BoutiqueTemplate";
 import { TEMPLATE_IDS, TEMPLATE_METADATA } from "@/constants/templates";
 
 export const TEMPLATE_REGISTRY = {

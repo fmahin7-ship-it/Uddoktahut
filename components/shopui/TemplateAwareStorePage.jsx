@@ -1,7 +1,7 @@
 "use client";
 
 import { useShop } from "@/app/context/ShopContext";
-import { getTemplate } from "./templates/TemplateRegistry";
+import { getTemplate } from "../common/TemplateRegistry";
 
 function StorePageContent() {
   const { selectedTemplate } = useShop();

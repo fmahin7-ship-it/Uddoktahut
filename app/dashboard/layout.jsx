@@ -11,6 +11,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ModalProvider } from "@/app/context/ModalContext";
+import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 
 export default async function layout({ children }) {
   const requestHeader = await headers();
@@ -34,11 +35,11 @@ export default async function layout({ children }) {
                 <NavUser />
               </div>
             </header>
-            {/* ModalProvider wraps dashboard children for dashboard-only global modal context */}
-
-            <ModalProvider>
-              {user.isActive ? children : "Get subscription please"}
-            </ModalProvider>
+            <ReactQueryProvider>
+              <ModalProvider>
+                {user.isActive ? children : "Get subscription please"}
+              </ModalProvider>
+            </ReactQueryProvider>
           </SidebarInset>
         </SidebarProvider>
       </UserProvider>

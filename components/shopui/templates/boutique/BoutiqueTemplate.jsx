@@ -1,7 +1,7 @@
 "use client";
 
 import { TEMPLATE_IDS } from "@/constants/templates";
-import { getTemplate } from "../TemplateRegistry";
+import { getTemplate } from "../../../common/TemplateRegistry";
 
 export default function BoutiqueTemplate() {
   const templateConfig = getTemplate(TEMPLATE_IDS.BOUTIQUE);

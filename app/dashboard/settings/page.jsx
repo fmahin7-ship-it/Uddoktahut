@@ -1,25 +1,8 @@
-"use client";
-
-import { useState } from "react";
-import TemplateSelector from "@/components/dashboard/TemplateSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Settings, Store, Palette, CheckCircle } from "lucide-react";
-import { DEFAULT_TEMPLATE } from "@/constants/templates";
+import { Settings, Store, Palette } from "lucide-react";
+import StoreAppearanceSettings from "@/components/dashboard/settings/StoreAppearanceSettings";
 
 export default function SettingsPage() {
-  const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
-  const [showSavedMessage, setShowSavedMessage] = useState(false);
-
-  const handleTemplateChange = (templateId) => {
-    setSelectedTemplate(templateId);
-    setShowSavedMessage(true);
-
-    // Auto-hide the saved message after 3 seconds
-    setTimeout(() => setShowSavedMessage(false), 3000);
-
-    // Here you would typically save to database/API
-    console.log("Template changed to:", templateId);
-  };
   return (
     <div className="flex flex-1 flex-col gap-6 p-6 pt-0 bg-gradient-to-br from-gray-50 to-green-50 dark:from-[var(--color-dark-300)] dark:to-[var(--color-dark-500)] min-h-screen">
       {/* Page Header */}
@@ -68,26 +51,8 @@ export default function SettingsPage() {
           </Card>
         </div>
 
-        {/* Template Selector */}
         <div className="lg:col-span-2">
-          {/* Success Message */}
-          {showSavedMessage && (
-            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600" />
-              <div>
-                <p className="font-medium text-green-900">Template Updated!</p>
-                <p className="text-sm text-green-700">
-                  Your store template has been changed successfully.
-                </p>
-              </div>
-            </div>
-          )}
-
-          <TemplateSelector
-            initialTemplate={selectedTemplate}
-            onTemplateChange={handleTemplateChange}
-            isDashboard={true}
-          />
+          <StoreAppearanceSettings />
         </div>
       </div>
     </div>

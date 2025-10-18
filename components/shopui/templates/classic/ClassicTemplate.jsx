@@ -2,7 +2,7 @@
 
 import deliverySystem from "@/public/assets/images/onboarding-img.png";
 import { TEMPLATE_IDS } from "@/constants/templates";
-import { getTemplate } from "../TemplateRegistry";
+import { getTemplate } from "../../../common/TemplateRegistry";
 
 // Classic Template Components
 import ClassicHeader from "./ClassicHeader";
