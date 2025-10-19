@@ -5,7 +5,15 @@
 [![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5.90.2-red)](https://tanstack.com/query)
 [![Jest](https://img.shields.io/badge/Jest-Testing-green)](https://jestjs.io/)
 
-## 🚀 Overview
+## � **Documentation**
+
+| Document                                       | Description                                                   |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| [📖 **Architecture Guide**](./ARCHITECTURE.md) | System architecture, design patterns, and technical decisions |
+| [🔌 **API Documentation**](./API.md)           | Complete API reference and integration guide                  |
+| [🧪 **Testing Guide**](./TESTING.md)           | Testing strategies, setup, and best practices                 |
+
+## �🚀 Overview
 
 UddoktaHut is a modern, full-stack e-commerce platform built with Next.js 15, featuring dynamic store templates, comprehensive product management, and a robust authentication system. The platform enables entrepreneurs to create and customize their online stores with multiple professional templates.
 
@@ -194,6 +202,40 @@ npm run test:coverage # Generate coverage reports
 ```
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## 📖 **Project Documentation**
+
+For comprehensive information about this project, please refer to our detailed documentation:
+
+### **🏗️ [Architecture Documentation](./ARCHITECTURE.md)**
+
+- **System Design**: Complete architecture overview and design principles
+- **Component Structure**: Template system, state management, and API integration patterns
+- **Performance Strategy**: Lazy loading implementation and bundle optimization
+- **Security Architecture**: Authentication, authorization, and route protection
+- **Best Practices**: Code organization and development guidelines
+
+### **🔌 [API Documentation](./API.md)**
+
+- **Authentication Endpoints**: Login, signup, and user management APIs
+- **Product Management**: CRUD operations for products and categories
+- **Store Operations**: Template selection and store configuration APIs
+- **Request/Response Examples**: Complete API usage with examples
+- **Error Handling**: Status codes and error response formats
+
+### **🧪 [Testing Documentation](./TESTING.md)**
+
+- **Testing Strategy**: Unit, integration, and end-to-end testing approach
+- **Setup Guide**: Jest, React Testing Library, and Playwright configuration
+- **Test Patterns**: Common testing patterns and utilities
+- **Coverage Reports**: Code coverage goals and monitoring
+- **CI/CD Integration**: Automated testing in development workflow
+
+### **🚀 Quick Links**
+
+- **Live Demo**: [Coming Soon] - View the deployed application
+- **API Base URL**: `https://your-domain.com/api` - API endpoint for integration
+- **GitHub Repository**: You're already here! ⭐ Star if you find it useful
 
 ## Learn More
 

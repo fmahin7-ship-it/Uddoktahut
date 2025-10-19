@@ -1,5 +1,8 @@
 # API Documentation
 
+> **📚 Part of UddoktaHut Documentation Suite**  
+> **← [README](./README.md)** | **[Architecture](./ARCHITECTURE.md)** | **[Testing Guide](./TESTING.md) →**
+
 ## 🔌 API Overview
 
 This document describes the frontend API integration layer for UddoktaHut. All API calls are handled through centralized action functions located in `lib/actions/`.
