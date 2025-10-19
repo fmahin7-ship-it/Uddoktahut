@@ -3,17 +3,26 @@ import { useProducts, useDeleteProduct } from "@/hooks/use-products";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useModal } from "@/app/context/ModalContext";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
 
-import ProductForm from "@/components/form/ProductForm";
-import { DataTable } from "@/components/ui/data-table";
 import { getShopSlug } from "@/lib/utils";
 import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
-import FormModal from "@/components/common/FormModal";
-import ConfirmationModal from "@/components/common/ConfirmationModal";
 import TableSkeleton from "@/components/common/TableSkeleton";
 import { createProductColumns } from "@/lib/table-columns/product-columns";
 import { useState } from "react";
 
+// Lazy load ProductForm since it's only used in modals
+const ProductForm = dynamic(() => import("@/components/form/ProductForm"), {
+  loading: () => (
+    <div className="animate-pulse space-y-4 p-4">
+      <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <div className="h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
+    </div>
+  ),
+});
+
+// Define skeleton columns first (before dynamic imports)
 const productTableSkeletonColumns = [
   { header: "Image", skeletonClassName: "w-12 h-12 rounded border" },
   { header: "Name", skeletonClassName: "h-4 w-full rounded" },
@@ -24,6 +33,34 @@ const productTableSkeletonColumns = [
   { header: "Status", skeletonClassName: "h-4 w-full rounded" },
   { header: "Actions", skeletonClassName: "h-4 w-full rounded" },
 ];
+
+// Lazy load heavy components
+const DataTable = dynamic(
+  () =>
+    import("@/components/ui/data-table").then((mod) => ({
+      default: mod.DataTable,
+    })),
+  {
+    loading: () => <TableSkeleton columns={productTableSkeletonColumns} />,
+    ssr: false, // Data tables are interactive, don't need SSR
+  }
+);
+
+// Lazy load modals since they're conditionally rendered
+const FormModal = dynamic(() => import("@/components/common/FormModal"), {
+  loading: () => (
+    <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-96 w-full" />
+  ),
+});
+
+const ConfirmationModal = dynamic(
+  () => import("@/components/common/ConfirmationModal"),
+  {
+    loading: () => (
+      <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-48 w-full" />
+    ),
+  }
+);
 
 export function ProductList({ storeUrl }) {
   const shopSlug = getShopSlug(storeUrl);

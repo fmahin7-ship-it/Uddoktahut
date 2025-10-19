@@ -1,5 +1,22 @@
 import { headers } from "next/headers";
-import ProductManagementSection from "@/components/dashboard/product-management/ProductManagementSection";
+import dynamic from "next/dynamic";
+
+// Lazy load ProductManagementSection for better performance
+const ProductManagementSection = dynamic(
+  () =>
+    import(
+      "@/components/dashboard/product-management/ProductManagementSection"
+    ),
+  {
+    loading: () => (
+      <div className="animate-pulse space-y-4 p-6">
+        <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+        <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      </div>
+    ),
+    ssr: true, // Keep SSR for dashboard content for SEO
+  }
+);
 
 export default async function Dashboard() {
   const requestHeader = await headers();

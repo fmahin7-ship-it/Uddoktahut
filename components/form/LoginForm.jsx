@@ -28,7 +28,7 @@ const tabStyle = `
     data-[state=active]:ring-offset-2
 `;
 
-export function LoginForm({ className, ...props }) {
+export default function LoginForm({ className, ...props }) {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [password, setPassword] = useState("");

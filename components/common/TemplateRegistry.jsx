@@ -1,7 +1,31 @@
-import ClassicTemplate from "../shopui/templates/classic/ClassicTemplate";
-import ModernDarkTemplate from "../shopui/templates/modernDark/ModernDarkTemplate";
-import BoutiqueTemplate from "../shopui/templates/boutique/BoutiqueTemplate";
+import dynamic from "next/dynamic";
 import { TEMPLATE_IDS, TEMPLATE_METADATA } from "@/constants/templates";
+import TemplateSkeleton from "./TemplateSkeleton";
+
+// Lazy load template components with loading states
+const ClassicTemplate = dynamic(
+  () => import("../shopui/templates/classic/ClassicTemplate"),
+  {
+    loading: () => <TemplateSkeleton />,
+    ssr: false, // Templates are interactive components, don't need SSR
+  }
+);
+
+const ModernDarkTemplate = dynamic(
+  () => import("../shopui/templates/modernDark/ModernDarkTemplate"),
+  {
+    loading: () => <TemplateSkeleton />,
+    ssr: false,
+  }
+);
+
+const BoutiqueTemplate = dynamic(
+  () => import("../shopui/templates/boutique/BoutiqueTemplate"),
+  {
+    loading: () => <TemplateSkeleton />,
+    ssr: false,
+  }
+);
 
 export const TEMPLATE_REGISTRY = {
   [TEMPLATE_IDS.CLASSIC]: {
