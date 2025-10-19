@@ -1,7 +1,7 @@
 # Testing Documentation
 
 **📚 Documentation Navigation:**
-[🏠 README](./README.md) | [🏗️ Architecture](./ARCHITECTURE.md) | [🔌 API Guide](./API.md) | **📋 Testing Guide**
+[🏠 README](../README.md) | [🏗️ Architecture](./ARCHITECTURE.md) | [🔌 API Guide](./API.md) | **📋 Testing Guide**
 
 ---
 

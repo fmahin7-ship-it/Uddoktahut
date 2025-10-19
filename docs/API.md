@@ -1,7 +1,7 @@
 # API Documentation
 
-> **📚 Part of UddoktaHut Documentation Suite**  
-> **← [README](./README.md)** | **[Architecture](./ARCHITECTURE.md)** | **[Testing Guide](./TESTING.md) →**
+**📚 Documentation Navigation:**
+[🏠 README](../README.md) | [🏗️ Architecture](./ARCHITECTURE.md) | **🔌 API Guide** | [📋 Testing Guide](./TESTING.md)
 
 ## 🔌 API Overview
 
