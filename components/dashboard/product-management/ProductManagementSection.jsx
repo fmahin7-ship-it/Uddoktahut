@@ -12,7 +12,7 @@ export default function ProductManagementSection({ children, storeUrl }) {
   return (
     <div
       className="max-w-5xl w-full mx-auto bg-white/90 dark:bg-[var(--color-dark-400)] rounded-2xl shadow-xl 
-      p-2 sm:p-4 md:p-8 border border-gray-100 dark:border-[var(--color-dark-600)] mt-10 md:mt-16 transition-colors"
+      p-4 md:p-8 border border-gray-100 dark:border-[var(--color-dark-600)] mt-10 md:py-8 transition-colors"
     >
       <div className="flex flex-col md:flex-row items-stretch md:items-start justify-between mb-6 gap-4 md:gap-4">
         <div className="flex-1 flex flex-col gap-2">{childArray[0]}</div>

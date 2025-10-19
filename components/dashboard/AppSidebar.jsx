@@ -1,18 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  Map,
-  PieChart,
-  Settings2,
-  ShoppingBagIcon,
-  SquareTerminal,
-} from "lucide-react";
+import { Settings2, ShoppingBagIcon, SquareTerminal } from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/NavMain";
 import { TeamSwitcher } from "@/components/dashboard/TeamSwitcher";
@@ -53,81 +42,8 @@ const data = {
           title: "Store Appearance",
           url: "/dashboard/settings",
         },
-        // {
-        //   title: "Store Information",
-        //   url: "/dashboard/settings/info",
-        // },
-        // {
-        //   title: "General Settings",
-        //   url: "/dashboard/settings/general",
-        // },
       ],
     },
-    // {
-    //   title: "Models",
-    //   url: "#",
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: "Genesis",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Explorer",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Quantum",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
 };
 
