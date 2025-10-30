@@ -1,7 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { Settings2, ShoppingBagIcon, SquareTerminal } from "lucide-react";
+import {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  Map,
+  PieChart,
+  Settings2,
+  ShoppingBagIcon,
+  SquareTerminal,
+  BarChart3,
+} from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/NavMain";
 import { TeamSwitcher } from "@/components/dashboard/TeamSwitcher";
@@ -30,6 +42,17 @@ const data = {
         {
           title: "Product Management",
           url: "/dashboard",
+        },
+      ],
+    },
+    {
+      title: "AI Analytics",
+      url: "#",
+      icon: BarChart3,
+      items: [
+        {
+          title: "Business Analytics",
+          url: "/dashboard/analytics",
         },
       ],
     },
