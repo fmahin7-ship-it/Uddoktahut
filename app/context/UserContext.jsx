@@ -11,6 +11,8 @@ const intialState = {
   role: 2,
   isActive: false,
   template_name: DEFAULT_TEMPLATE,
+  storeName: "shoporia",
+  storeUrl: "shoporia.uddoktahut.com",
 };
 
 const UserContext = createContext();

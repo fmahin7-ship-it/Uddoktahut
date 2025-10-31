@@ -10,6 +10,7 @@ import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
 import TableSkeleton from "@/components/common/TableSkeleton";
 import { createProductColumns } from "@/lib/table-columns/product-columns";
 import { useState } from "react";
+import { useUser } from "@/app/context/UserContext";
 
 // Lazy load ProductForm since it's only used in modals
 const ProductForm = dynamic(() => import("@/components/form/ProductForm"), {
@@ -62,8 +63,9 @@ const ConfirmationModal = dynamic(
   }
 );
 
-export function ProductList({ storeUrl }) {
-  const shopSlug = getShopSlug(storeUrl);
+export function ProductList() {
+  const { user } = useUser();
+  const shopSlug = user?.storeName;
   const { modal, openModal, closeModal } = useModal();
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebouncedValue(search, 300);

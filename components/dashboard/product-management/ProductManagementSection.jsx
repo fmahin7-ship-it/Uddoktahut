@@ -6,7 +6,7 @@ import { CTA_HOVER_COLOR } from "@/constants/colors";
 import { ProductList } from "@/components/dashboard/product-management/ProductList";
 import { MODAL_TYPES } from "@/constants/formModes";
 
-export default function ProductManagementSection({ children, storeUrl }) {
+export default function ProductManagementSection({ children }) {
   const childArray = Children.toArray(children);
   const { openModal } = useModal();
   return (
@@ -27,7 +27,7 @@ export default function ProductManagementSection({ children, storeUrl }) {
           {childArray[1]}
         </div>
       </div>
-      <ProductList storeUrl={storeUrl} />
+      <ProductList />
     </div>
   );
 }

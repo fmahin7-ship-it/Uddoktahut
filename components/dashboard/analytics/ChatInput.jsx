@@ -4,6 +4,7 @@ import {
   useCallback,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from "react";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,13 @@ const ChatInput = forwardRef(
     const streamingContentRef = useRef("");
 
     const { streamQuery, isStreaming } = useAIStream();
+
+    // Cleanup streaming content on unmount to prevent memory leaks
+    useEffect(() => {
+      return () => {
+        streamingContentRef.current = "";
+      };
+    }, []);
 
     // Expose methods to parent component
     useImperativeHandle(
@@ -44,25 +52,29 @@ const ChatInput = forwardRef(
     );
 
     // Helper functions for message creation
-    const createUserMessage = useCallback(
-      (content) => ({
-        id: Date.now(),
+    const createUserMessage = useCallback((content) => {
+      // Only generate timestamp on client-side when actually called
+      if (typeof window === "undefined") return null; // Prevent SSR execution
+
+      return {
+        id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: "user",
         content,
         timestamp: new Date(),
-      }),
-      []
-    );
+      };
+    }, []);
 
-    const createAIMessagePlaceholder = useCallback(
-      () => ({
-        id: Date.now() + 1,
+    const createAIMessagePlaceholder = useCallback(() => {
+      // Only generate ID on client-side when actually called
+      if (typeof window === "undefined") return null; // Prevent SSR execution
+
+      return {
+        id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: "ai",
         content: "",
         timestamp: null,
-      }),
-      []
-    );
+      };
+    }, []);
 
     // Stream handling functions
     const handleStreamChunk = useCallback(
@@ -111,6 +123,7 @@ const ChatInput = forwardRef(
 
       // Create and add user message
       const userMessage = createUserMessage(inputMessage);
+      if (!userMessage) return; // Guard against SSR
       onAddMessage({ type: "add", message: userMessage });
 
       // Store current message and clear input
@@ -119,6 +132,7 @@ const ChatInput = forwardRef(
 
       // Create and add AI placeholder
       const aiMessage = createAIMessagePlaceholder();
+      if (!aiMessage) return; // Guard against SSR
       onAddMessage({ type: "add", message: aiMessage });
 
       // Reset streaming content
@@ -167,7 +181,13 @@ const ChatInput = forwardRef(
           <Button
             onClick={handleSendMessage}
             disabled={isDisabled}
-            className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
+            className={[
+              `bg-green-600 hover:bg-green-700 
+               dark:bg-green-700 dark:hover:bg-green-800`,
+              !isDisabled && "cursor-pointer",
+            ]
+              .filter(Boolean)
+              .join(" ")}
           >
             <Send className="w-4 h-4" />
           </Button>

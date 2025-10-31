@@ -1,10 +1,15 @@
+"use client";
+import { useCurrentYear } from "@/hooks/useCurrentYear";
+
 export default function ClassicFooter({ isShopList = true }) {
+  const currentYear = useCurrentYear();
+
   return (
     <>
       {isShopList && (
         <footer className="w-full bg-gradient-to-r from-[#fdfcfb] to-[#f6f4f1] border-t py-6 mt-auto">
           <div className="container mx-auto px-6 text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Powered by{" "}
+            &copy; {currentYear} Powered by{" "}
             <span className="font-semibold text-green-600">UddoktaHut</span>
           </div>
         </footer>

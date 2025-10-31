@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { Bot, User } from "lucide-react";
 import { CardContent } from "@/components/ui/card";
+import TextWithLinks from "@/components/common/TextWithLinks";
 
 export default function MessageList({ messages, formatTime }) {
   const messagesEndRef = useRef(null);
@@ -43,9 +44,16 @@ export default function MessageList({ messages, formatTime }) {
                       : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">
-                    {message.content}
-                  </p>
+                  <div className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                    <TextWithLinks
+                      text={message.content}
+                      linkClassName={`underline break-all ${
+                        message.type === "user"
+                          ? "text-green-200 hover:text-white"
+                          : "text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                      }`}
+                    />
+                  </div>
                   {message.timestamp && (
                     <p
                       className={`text-xs mt-1 ${

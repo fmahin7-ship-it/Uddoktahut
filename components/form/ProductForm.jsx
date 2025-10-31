@@ -44,7 +44,7 @@ export default function ProductForm({
       image: initialData?.image || "",
       price: initialData?.price || "",
       stock: initialData?.stock || "",
-      status: initialData?.status || "Active",
+      status: initialData?.status ? initialData.status.toLowerCase() : "active",
       category: initialData?.category || "",
       sku: initialData?.sku || "",
       storeName: storeName || "",
@@ -58,7 +58,9 @@ export default function ProductForm({
         image: initialData.image || "",
         price: initialData.price || "",
         stock: initialData.stock || "",
-        status: initialData.status || "Active",
+        status: initialData.status
+          ? initialData.status.toLowerCase()
+          : "active",
         category: initialData.category || "",
         sku: initialData.sku || "",
         storeName: storeName || "",
@@ -69,21 +71,22 @@ export default function ProductForm({
   async function onSubmit(data) {
     setError("");
     try {
+      // Transform status from lowercase to capitalized for backend compatibility
+      const transformedData = {
+        ...data,
+        status: data.status.charAt(0).toUpperCase() + data.status.slice(1),
+        price: Number(data.price),
+        stock: Number(data.stock),
+        storeName,
+      };
+
       if (mode === FORM_MODES.EDIT && initialData && initialData.id) {
         await updateProduct({
           id: initialData.id,
-          ...data,
-          price: Number(data.price),
-          stock: Number(data.stock),
-          storeName,
+          ...transformedData,
         });
       } else {
-        await addProduct({
-          ...data,
-          price: Number(data.price),
-          stock: Number(data.stock),
-          storeName,
-        });
+        await addProduct(transformedData);
       }
       if (onSuccess) onSuccess();
     } catch (err) {
@@ -162,8 +165,8 @@ export default function ProductForm({
           placeholder="Select status"
           inputProps={{}}
         >
-          <SelectItem value="Active">Active</SelectItem>
-          <SelectItem value="Inactive">Inactive</SelectItem>
+          <SelectItem value="active">Active</SelectItem>
+          <SelectItem value="inactive">Inactive</SelectItem>
         </CustomFormField>
         <ErrorDisplay errors={[error, addError, updateError]} />
         <div className="flex gap-2 pt-4  bg-background sticky bottom-0 left-0 z-10 mt-4">

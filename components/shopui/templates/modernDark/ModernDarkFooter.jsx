@@ -1,8 +1,10 @@
 import { useTemplateConfig } from "@/hooks/useTemplateConfig";
+import { useCurrentYear } from "@/hooks/useCurrentYear";
 import { Instagram, Twitter, Facebook, Youtube } from "lucide-react";
 
 export default function ModernDarkFooter({ isShopList = true }) {
   const { colors, typography } = useTemplateConfig();
+  const currentYear = useCurrentYear();
 
   if (isShopList) {
     return (
@@ -15,7 +17,7 @@ export default function ModernDarkFooter({ isShopList = true }) {
       >
         <div className="container mx-auto px-6 text-center">
           <p style={{ color: colors.textSecondary }}>
-            &copy; {new Date().getFullYear()} Powered by{" "}
+            &copy; {currentYear} Powered by{" "}
             <span
               className="font-bold tracking-wider"
               style={{ color: colors.accent }}
@@ -136,7 +138,7 @@ export default function ModernDarkFooter({ isShopList = true }) {
           style={{ borderTopColor: colors.border }}
         >
           <p style={{ color: colors.textSecondary }}>
-            &copy; {new Date().getFullYear()} All rights reserved.
+            &copy; {currentYear} All rights reserved.
           </p>
 
           <div className="flex gap-8">

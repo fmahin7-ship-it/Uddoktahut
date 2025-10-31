@@ -1,42 +1,52 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export function useAIStream() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState(null);
+  const abortControllerRef = useRef(null);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   const streamQuery = useCallback(
     async (query, onChunk, onComplete, onError) => {
+      // Abort any existing request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new abort controller for this request
+      abortControllerRef.current = new AbortController();
+
       setIsStreaming(true);
       setError(null);
 
+      // Safety timeout to prevent runaway streams
+      const timeoutId = setTimeout(() => {
+        abortControllerRef.current?.abort();
+        setIsStreaming(false);
+        onError?.(new Error("Request timeout after 30 seconds"));
+      }, 30000);
+
       try {
-        // Get token from cookies properly
-        const getCookie = (name) => {
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          if (parts.length === 2) return parts.pop().split(";").shift();
-        };
-
-        const token = getCookie("accessToken");
-
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API}/ai/query`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              question: query,
-              useRAG: true,
-            }),
-            credentials: "include",
-          }
-        );
+        const response = await fetch("/api/ai/stream", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question: query }),
+          credentials: "include", // Important for cookie-based auth
+          signal: abortControllerRef.current.signal, // Add abort signal
+        });
 
         if (!response.ok) {
-          throw new Error("Failed to get AI response");
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
         const reader = response.body.getReader();
@@ -48,11 +58,13 @@ export function useAIStream() {
 
           if (done) {
             // Send any remaining buffer content
-            if (buffer) {
+            if (buffer.length > 0) {
               onChunk?.(buffer);
             }
+            clearTimeout(timeoutId); // Clear timeout on successful completion
             setIsStreaming(false);
             onComplete?.();
+            abortControllerRef.current = null; // Clear reference
             break;
           }
 
@@ -66,9 +78,15 @@ export function useAIStream() {
           }
         }
       } catch (err) {
+        clearTimeout(timeoutId); // Clear timeout on error
         setIsStreaming(false);
         setError(err);
-        onError?.(err);
+        abortControllerRef.current = null; // Clear reference
+
+        // Don't call onError if it was aborted (user navigated away)
+        if (err.name !== "AbortError") {
+          onError?.(err);
+        }
       }
     },
     []
