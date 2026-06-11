@@ -2,7 +2,7 @@
 
 A modern, responsive e-commerce frontend built with Next.js 15 and React 19. This **multi-tenant SaaS platform** allows multiple entrepreneurs to run their own isolated online stores on a shared infrastructure, each with customizable templates, independent product catalogs, and tenant-specific user management.
 
-> **🔗 Full-Stack Project**: This frontend integrates with [UddoktaHut Backend](https://github.com/FarhanMasud07/UddoktaHut-Backend) - a robust Node.js/Express API with PostgreSQL database, JWT authentication, and multi-tenant architecture.
+> **🔗 Full-Stack Project**: This frontend integrates with [UddoktaHut Backend](https://github.com/fmahin7-ship-it/UddoktaHut-Backend) - a robust Node.js/Express API with PostgreSQL database, JWT authentication, and multi-tenant architecture.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.0-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.1.0-blue)](https://reactjs.org/)
@@ -39,8 +39,8 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 
 | Repository                                                                    | Technology Stack                  | Description                                       |
 | ----------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------- |
-| **[UddoktaHut Frontend](https://github.com/FarhanMasud07/UddoktaHut)**        | Next.js 15, React 19, TailwindCSS | Modern responsive frontend with dynamic templates |
-| **[UddoktaHut Backend](https://github.com/FarhanMasud07/UddoktaHut-Backend)** | Node.js, Express, PostgreSQL      | Multi-tenant API with subscription management     |
+| **[UddoktaHut Frontend](https://github.com/fmahin7-ship-it/UddoktaHut)**        | Next.js 15, React 19, TailwindCSS | Modern responsive frontend with dynamic templates |
+| **[UddoktaHut Backend](https://github.com/fmahin7-ship-it/UddoktaHut-Backend)** | Node.js, Express, PostgreSQL      | Multi-tenant API with subscription management     |
 
 ## 🛠️ Technology Stack
 
@@ -64,7 +64,7 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 ### Prerequisites
 
 - Node.js 18+ and npm/yarn
-- [UddoktaHut Backend](https://github.com/FarhanMasud07/UddoktaHut-Backend) running locally or deployed
+- [UddoktaHut Backend](https://github.com/fmahin7-ship-it/UddoktaHut-Backend) running locally or deployed
 - Git for version control
 
 ### Quick Start
@@ -72,7 +72,7 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/FarhanMasud07/UddoktaHut.git
+git clone https://github.com/fmahin7-ship-it/UddoktaHut.git
 cd uddoktahut
 ```
 
@@ -198,11 +198,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support & Contact
 
-- **Frontend Issues**: [Create an issue](https://github.com/FarhanMasud07/UddoktaHut/issues)
-- **Backend Issues**: [Backend Repository](https://github.com/FarhanMasud07/UddoktaHut-Backend/issues)
+- **Frontend Issues**: [Create an issue](https://github.com/fmahin7-ship-it/UddoktaHut/issues)
+- **Backend Issues**: [Backend Repository](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/issues)
 - **Email**: f.mahin7@gmail.com
 - **Documentation**: Comprehensive guides in `./docs/` folder
 
 ---
 
-**🚀 Built with ❤️ by [Farhan Masud](https://github.com/FarhanMasud07) - Full-Stack Developer**
+**🚀 Built with ❤️ by [Farhan Masud](https://github.com/fmahin7-ship-it) - Full-Stack Developer**
