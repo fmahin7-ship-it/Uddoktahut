@@ -71,14 +71,15 @@ export default function ProductForm({
   async function onSubmit(data) {
     setError("");
     try {
-      // Transform status from lowercase to capitalized for backend compatibility
       const transformedData = {
         ...data,
-        status: data.status.charAt(0).toUpperCase() + data.status.slice(1),
         price: Number(data.price),
         stock: Number(data.stock),
         storeName,
       };
+      if (!transformedData.image) {
+        delete transformedData.image;
+      }
 
       if (mode === FORM_MODES.EDIT && initialData && initialData.id) {
         await updateProduct({

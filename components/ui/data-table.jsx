@@ -35,11 +35,28 @@ export function DataTable({
   setSearch,
   loading = false,
   skeletonColumns = [],
+  serverSide = false,
+  pageIndex = 0,
+  pageSize = 5,
+  pageCount,
+  totalRows,
+  onPageChange,
 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+  const [clientPagination, setClientPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+
+  const handleServerPaginationChange = (updater) => {
+    const current = { pageIndex, pageSize };
+    const next =
+      typeof updater === "function" ? updater(current) : updater;
+    onPageChange?.(next.pageIndex);
+  };
 
   const table = useReactTable({
     data,
@@ -47,23 +64,44 @@ export function DataTable({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    ...(serverSide
+      ? {
+          manualPagination: true,
+          pageCount,
+          rowCount: totalRows,
+        }
+      : { getPaginationRowModel: getPaginationRowModel() }),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onPaginationChange: serverSide
+      ? handleServerPaginationChange
+      : setClientPagination,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
-    },
-    initialState: {
-      pagination: {
-        pageSize: 5, // Show 5 rows per page by default
-      },
+      pagination: serverSide
+        ? { pageIndex, pageSize }
+        : clientPagination,
     },
   });
+
+  const { pageIndex: activePageIndex, pageSize: activePageSize } =
+    table.getState().pagination;
+
+  const totalCount = serverSide
+    ? table.getRowCount()
+    : table.getFilteredRowModel().rows.length;
+
+  const rowStart =
+    totalCount === 0 ? 0 : activePageIndex * activePageSize + 1;
+  const rowEnd = Math.min(
+    (activePageIndex + 1) * activePageSize,
+    totalCount
+  );
 
   return (
     <div className="w-full">
@@ -103,7 +141,7 @@ export function DataTable({
       </div>
       <div className="overflow-hidden rounded-md border">
         {loading ? (
-          <TableSkeleton columns={skeletonColumns} rows={5} />
+          <TableSkeleton columns={skeletonColumns} rows={pageSize} />
         ) : (
           <Table>
             <TableHeader>
@@ -155,18 +193,8 @@ export function DataTable({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()} | Rows{" "}
-          {table.getState().pagination.pageIndex *
-            table.getState().pagination.pageSize +
-            1}{" "}
-          -{" "}
-          {Math.min(
-            (table.getState().pagination.pageIndex + 1) *
-              table.getState().pagination.pageSize,
-            table.getFilteredRowModel().rows.length
-          )}{" "}
-          of {table.getFilteredRowModel().rows.length}
+          Page {activePageIndex + 1} of {table.getPageCount()} | Rows{" "}
+          {rowStart} - {rowEnd} of {totalCount}
         </div>
         <div className="space-x-2">
           <Button

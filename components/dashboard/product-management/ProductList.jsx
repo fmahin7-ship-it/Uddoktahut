@@ -5,12 +5,13 @@ import { useModal } from "@/app/context/ModalContext";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 
-import { getShopSlug } from "@/lib/utils";
 import { FORM_MODES, MODAL_TYPES } from "@/constants/formModes";
 import TableSkeleton from "@/components/common/TableSkeleton";
 import { createProductColumns } from "@/lib/table-columns/product-columns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/app/context/UserContext";
+
+const PAGE_SIZE = 5;
 
 // Lazy load ProductForm since it's only used in modals
 const ProductForm = dynamic(() => import("@/components/form/ProductForm"), {
@@ -68,12 +69,27 @@ export function ProductList() {
   const shopSlug = user?.storeName;
   const { modal, openModal, closeModal } = useModal();
   const [search, setSearch] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
   const debouncedSearch = useDebouncedValue(search, 300);
+
+  useEffect(() => {
+    setPageIndex(0);
+  }, [debouncedSearch]);
+
   const {
-    data: products = [],
-    isLoading: loading,
+    data,
+    isLoading,
+    isFetching,
     isError,
-  } = useProducts(debouncedSearch);
+  } = useProducts({
+    searchTerm: debouncedSearch,
+    page: pageIndex + 1,
+    pageSize: PAGE_SIZE,
+  });
+
+  const products = data?.data ?? [];
+  const totalProducts = data?.total ?? 0;
+  const pageCount = Math.max(1, Math.ceil(totalProducts / PAGE_SIZE));
 
   const { mutateAsync, isPending: isDeletingProduct } = useDeleteProduct();
 
@@ -113,10 +129,15 @@ export function ProductList() {
         data={products}
         search={search}
         setSearch={setSearch}
-        filterColumn="name"
         filterPlaceholder="Search products..."
-        loading={loading}
+        loading={isLoading || isFetching}
         skeletonColumns={productTableSkeletonColumns}
+        serverSide={true}
+        pageIndex={pageIndex}
+        pageSize={PAGE_SIZE}
+        pageCount={pageCount}
+        totalRows={totalProducts}
+        onPageChange={setPageIndex}
       />
 
       <FormModal
