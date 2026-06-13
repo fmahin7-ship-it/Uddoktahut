@@ -1,11 +1,57 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
+const parseApiError = async (response) => {
+  let message = `HTTP ${response.status}: ${response.statusText}`;
+
+  try {
+    const errorText = await response.text();
+    if (!errorText) {
+      return message;
+    }
+
+    try {
+      const errorData = JSON.parse(errorText);
+      if (errorData?.message) {
+        return errorData.message;
+      }
+    } catch {
+      return errorText;
+    }
+  } catch {
+    // keep default message
+  }
+
+  return message;
+};
+
+const readTextStream = async (reader, onChunk) => {
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+
+    if (done) {
+      if (buffer.length > 0) {
+        onChunk?.(buffer);
+      }
+      break;
+    }
+
+    buffer += decoder.decode(value, { stream: true });
+
+    if (buffer.length > 5 || buffer.includes(" ")) {
+      onChunk?.(buffer);
+      buffer = "";
+    }
+  }
+};
+
 export function useAIStream() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState(null);
   const abortControllerRef = useRef(null);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -16,18 +62,15 @@ export function useAIStream() {
 
   const streamQuery = useCallback(
     async (query, onChunk, onComplete, onError) => {
-      // Abort any existing request
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
 
-      // Create new abort controller for this request
       abortControllerRef.current = new AbortController();
 
       setIsStreaming(true);
       setError(null);
 
-      // Safety timeout to prevent runaway streams
       const timeoutId = setTimeout(() => {
         abortControllerRef.current?.abort();
         setIsStreaming(false);
@@ -41,49 +84,26 @@ export function useAIStream() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ question: query }),
-          credentials: "include", // Important for cookie-based auth
-          signal: abortControllerRef.current.signal, // Add abort signal
+          credentials: "include",
+          signal: abortControllerRef.current.signal,
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          throw new Error(await parseApiError(response));
         }
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = "";
+        await readTextStream(response.body.getReader(), onChunk);
 
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            // Send any remaining buffer content
-            if (buffer.length > 0) {
-              onChunk?.(buffer);
-            }
-            clearTimeout(timeoutId); // Clear timeout on successful completion
-            setIsStreaming(false);
-            onComplete?.();
-            abortControllerRef.current = null; // Clear reference
-            break;
-          }
-
-          const chunk = decoder.decode(value, { stream: true });
-          buffer += chunk;
-
-          // Batch updates - send chunks when buffer reaches certain size or after timeout
-          if (buffer.length > 5 || buffer.includes(" ")) {
-            onChunk?.(buffer);
-            buffer = "";
-          }
-        }
+        clearTimeout(timeoutId);
+        setIsStreaming(false);
+        onComplete?.();
+        abortControllerRef.current = null;
       } catch (err) {
-        clearTimeout(timeoutId); // Clear timeout on error
+        clearTimeout(timeoutId);
         setIsStreaming(false);
         setError(err);
-        abortControllerRef.current = null; // Clear reference
+        abortControllerRef.current = null;
 
-        // Don't call onError if it was aborted (user navigated away)
         if (err.name !== "AbortError") {
           onError?.(err);
         }

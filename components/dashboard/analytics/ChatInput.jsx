@@ -108,7 +108,8 @@ const ChatInput = forwardRef(
           type: "update",
           id: aiMessageId,
           content:
-            "Sorry, I'm having trouble connecting right now. Please check your connection and try again.",
+            error.message ||
+            "Sorry, something went wrong. Please try again.",
           timestamp: new Date(),
         });
         toast.error(error.message || "Failed to get AI response");

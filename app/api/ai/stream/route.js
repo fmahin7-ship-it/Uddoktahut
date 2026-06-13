@@ -22,6 +22,14 @@ export async function POST(request) {
   );
 
   return new Response(response.body, {
-    headers: { "Content-Type": "text/plain" },
+    status: response.status,
+    statusText: response.statusText,
+    headers: {
+      "Content-Type":
+        response.headers.get("Content-Type") || "text/plain; charset=utf-8",
+      ...(response.headers.get("Retry-After")
+        ? { "Retry-After": response.headers.get("Retry-After") }
+        : {}),
+    },
   });
 }
