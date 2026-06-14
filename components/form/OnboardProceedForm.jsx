@@ -15,6 +15,7 @@ import { CustomFormField, FormFieldType } from "../CustomFormField";
 import { SelectItem } from "../ui/select";
 import { businessTypes } from "@/constants/rootConstant";
 import { useTopLoader } from "nextjs-toploader";
+import { previewStoreUrl } from "@/lib/utils/storeUrl";
 
 const OnboardProceedForm = ({ role }) => {
     const router = useRouter();
@@ -32,6 +33,9 @@ const OnboardProceedForm = ({ role }) => {
             storeAddress: ''
         }
     });
+
+    const storeNameValue = form.watch("storeName");
+    const storeUrlPreview = previewStoreUrl(storeNameValue || "");
 
     useEffect(() => {
         async function fetchUserId() {
@@ -103,6 +107,12 @@ const OnboardProceedForm = ({ role }) => {
                     label="Business Name"
                     placeholder="Enter your business name"
                 />
+                {storeUrlPreview && (
+                    <p className="text-sm text-muted-foreground -mt-2">
+                        Your store URL:{" "}
+                        <span className="font-medium text-foreground">{storeUrlPreview}</span>
+                    </p>
+                )}
                 <CustomFormField
                     fieldType={FormFieldType.INPUT}
                     control={form.control}
