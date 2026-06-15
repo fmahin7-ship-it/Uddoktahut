@@ -22,7 +22,7 @@ export const landing = {
   subtitleOnDark: "mt-3 text-base leading-relaxed text-pretty text-zinc-400",
   body: "text-sm leading-relaxed text-muted-foreground",
   card:
-    "rounded-2xl border border-green-400/20 bg-gradient-to-b from-green-400/[0.08] via-card to-card p-5 shadow-[0_2px_8px_rgba(36,174,124,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-green-400/40 hover:shadow-[0_8px_24px_rgba(36,174,124,0.12)] dark:border-border/80 dark:from-green-400/5 dark:shadow-sm",
+    "rounded-2xl border border-green-400/20 bg-gradient-to-b from-green-400/[0.08] via-card to-card p-5 shadow-[0_2px_8px_rgba(36,174,124,0.06)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-green-400/40 hover:shadow-[0_8px_24px_rgba(36,174,124,0.12)] dark:border-border/80 dark:from-green-400/5 dark:shadow-sm",
   cardHighlight:
     "rounded-2xl border-2 border-green-400 bg-gradient-to-b from-green-400/15 via-card to-card p-5 shadow-[0_4px_20px_rgba(36,174,124,0.15)] ring-1 ring-green-400/25 dark:shadow-lg",
   btnPrimary:

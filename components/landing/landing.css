@@ -1,35 +1,84 @@
-/* Scoped to landing page only — imported from LandingPage.jsx, NOT globals.css */
+/* Scoped to landing page only — imported from page.jsx, NOT globals.css */
 
 @keyframes landing-float-y {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translate3d(0, -8px, 0);
   }
 }
 
 @keyframes landing-marquee-x {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes landing-hero-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .landing-float-y {
-  animation: landing-float-y 5s ease-in-out infinite;
+  animation: landing-float-y 6s ease-in-out infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .landing-marquee-x {
-  animation: landing-marquee-x 30s linear infinite;
+  animation: landing-marquee-x 32s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.landing-hero-in {
+  animation: landing-hero-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing-hero-in-delay {
+  animation-delay: 0.1s;
+}
+
+.landing-reveal {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.landing-reveal-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .landing-float-y,
   .landing-marquee-x {
     animation: none;
+  }
+
+  .landing-hero-in,
+  .landing-hero-in-delay {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .landing-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

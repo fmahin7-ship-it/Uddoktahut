@@ -21,7 +21,7 @@ export function CTASection() {
         aria-hidden
       />
       <div
-        className="absolute -left-16 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-green-400/12 blur-3xl"
+        className="absolute -left-16 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-green-400/10 blur-2xl sm:h-40 sm:w-40 sm:bg-green-400/12 sm:blur-3xl"
         aria-hidden
       />
 

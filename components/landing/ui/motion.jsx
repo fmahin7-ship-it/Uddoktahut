@@ -1,28 +1,60 @@
 "use client";
 
-import { m, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { landing } from "../landing-tokens";
 
-const fadeUp = { duration: 0.45, ease: [0.22, 1, 0.36, 1] };
+function usePrefersReducedMotion() {
+  const [reduceMotion, setReduceMotion] = useState(false);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduceMotion(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return reduceMotion;
+}
+
+/** CSS + one observer per element — lighter than framer whileInView × 40. */
 export function RevealOnScroll({ children, className, delay = 0 }) {
-  const reduceMotion = useReducedMotion();
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const reduceMotion = usePrefersReducedMotion();
 
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
+  useEffect(() => {
+    if (reduceMotion) {
+      setVisible(true);
+      return;
+    }
+
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-5% 0px -5% 0px", threshold: 0.08 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [reduceMotion]);
 
   return (
-    <m.div
-      className={className}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-48px" }}
-      transition={{ ...fadeUp, delay }}
+    <div
+      ref={ref}
+      className={cn("landing-reveal", visible && "landing-reveal-visible", className)}
+      style={delay ? { transitionDelay: `${delay}s` } : undefined}
     >
       {children}
-    </m.div>
+    </div>
   );
 }
 

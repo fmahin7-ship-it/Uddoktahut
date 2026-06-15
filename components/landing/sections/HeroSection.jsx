@@ -5,7 +5,6 @@ import { HERO_CONTENT, TRUST_ITEMS } from "@/constants/landing/content";
 import { landing } from "../landing-tokens";
 import { GradientBackground } from "../ui/GradientBackground";
 import { BrandButton } from "../ui/BrandButton";
-import { RevealOnScroll } from "../ui/motion";
 import { ProductDemoMockup } from "./ProductDemoMockup";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +14,7 @@ export function HeroSection() {
       <GradientBackground />
 
       <div className={cn(landing.container, "relative grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-8")}>
-        <RevealOnScroll>
+        <div className="landing-hero-in">
           <p className={landing.eyebrow}>
             <Sparkles className="h-3.5 w-3.5 text-green-500" />
             {HERO_CONTENT.badge}
@@ -54,14 +53,17 @@ export function HeroSection() {
               </span>
             ))}
           </div>
-        </RevealOnScroll>
+        </div>
 
-        <RevealOnScroll delay={0.12} className="relative lg:pl-4">
+        <div className="landing-hero-in landing-hero-in-delay relative lg:pl-4">
           <div className="landing-float-y relative">
-            <div className="absolute -inset-3 rounded-3xl bg-green-400/20 blur-2xl" aria-hidden />
+            <div
+              className="absolute -inset-3 rounded-3xl bg-green-400/15 blur-xl sm:bg-green-400/20 sm:blur-2xl"
+              aria-hidden
+            />
             <ProductDemoMockup animated />
           </div>
-        </RevealOnScroll>
+        </div>
       </div>
     </section>
   );

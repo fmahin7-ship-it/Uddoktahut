@@ -11,12 +11,20 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
 
   useEffect(() => {
     if (!animated) return;
-    const timers = [
-      setTimeout(() => setStep(1), 600),
-      setTimeout(() => setStep(2), 1800),
-      setTimeout(() => setStep(3), 3200),
-    ];
-    return () => timers.forEach(clearTimeout);
+
+    let timers;
+    const frame = requestAnimationFrame(() => {
+      timers = [
+        setTimeout(() => setStep(1), 900),
+        setTimeout(() => setStep(2), 2200),
+        setTimeout(() => setStep(3), 3600),
+      ];
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      timers?.forEach(clearTimeout);
+    };
   }, [animated]);
 
   return (
