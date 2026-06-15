@@ -1,26 +1,17 @@
-import Header from "@/components/landing/Header";
-import Hero from "@/components/landing/Hero";
-import Features from "@/components/landing/Features";
-import { ShowProvider } from "./context/ShowContext";
+import LandingPage from "@/components/landing/LandingPage";
+import "@/components/landing/landing.css";
 
 export const metadata = {
-  title: "UddoktaHut - আপনার ব্যবসা ডিজিটাল করুন এক ক্লিকে",
+  title: "UddoktaHut — AI-চালিত ই-কমার্স SaaS",
   description:
-    "UddoktaHut - বাংলাদেশের সোশ্যাল কমার্স উদ্যোক্তাদের জন্য অল-ইন-ওয়ান SaaS প্ল্যাটফর্ম। সহজেই অনলাইন দোকান খুলুন ও অর্ডার ম্যানেজ করুন।",
+    "বাংলাদেশি উদ্যোক্তাদের জন্য AI-চালিত ই-কমার্স SaaS। অনলাইন স্টোর, AI copilot, টোকেন-ভিত্তিক প্রাইসিং। ৭ দিন ফ্রি ট্রায়াল।",
   openGraph: {
-    title: "UddoktaHut - আপনার ব্যবসা ডিজিটাল করুন এক ক্লিকে",
+    title: "UddoktaHut — AI-চালিত ই-কমার্স SaaS",
     description:
-      "UddoktaHut দিয়ে আপনার ফেসবুক ব্যবসা হোক আরো সহজ, স্মার্ট এবং অটোমেটেড।",
+      "দোকান খুলুন, AI দিয়ে ব্যবসা বুঝুন। Live AI copilot + স্পষ্ট রোডম্যাপ।",
     url: "https://uddoktahut.com",
     siteName: "UddoktaHut",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "UddoktaHut Landing Page",
-      },
-    ],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "UddoktaHut" }],
     locale: "bn_BD",
     type: "website",
   },
@@ -28,13 +19,8 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="bg-background text-foreground">
-      <ShowProvider>
-        <Header>
-          <Hero />
-          <Features />
-        </Header>
-      </ShowProvider>
+    <main className="overflow-x-clip bg-background text-foreground">
+      <LandingPage />
     </main>
   );
 }

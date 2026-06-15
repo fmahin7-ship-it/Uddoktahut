@@ -1,0 +1,35 @@
+/* Scoped to landing page only — imported from LandingPage.jsx, NOT globals.css */
+
+@keyframes landing-float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes landing-marquee-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.landing-float-y {
+  animation: landing-float-y 5s ease-in-out infinite;
+}
+
+.landing-marquee-x {
+  animation: landing-marquee-x 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-float-y,
+  .landing-marquee-x {
+    animation: none;
+  }
+}
