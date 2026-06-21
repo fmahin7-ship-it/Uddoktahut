@@ -2,7 +2,7 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import { capitalizeWords } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
@@ -23,11 +23,11 @@ export default function ModernDarkHeader({ sheet = false }) {
       }}
     >
       <div className="px-6 mx-auto flex justify-between items-center max-w-7xl">
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
           {sheet && (
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="lg:hidden">
+                <Button variant="outline" size="icon" className="lg:hidden rounded-none">
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
@@ -35,74 +35,61 @@ export default function ModernDarkHeader({ sheet = false }) {
                 side="left"
                 style={{ backgroundColor: colors.cardBg }}
               >
-                <div className="mt-4 space-y-2">
-                  <p
-                    className="text-lg font-semibold"
-                    style={{ color: colors.text }}
-                  >
-                    Menu
-                  </p>
-                  {/* Add nav links here */}
-                </div>
+                <nav className="mt-6 flex flex-col gap-4 uppercase tracking-widest font-bold">
+                  <Link href="/" style={{ color: colors.text }}>Home</Link>
+                  <Link href="/shop" style={{ color: colors.text }}>Collection</Link>
+                  <Link href="/cart" style={{ color: colors.text }}>Cart</Link>
+                </nav>
               </SheetContent>
             </Sheet>
           )}
 
-          <h1
-            className="text-3xl font-black tracking-wider uppercase"
-            style={{
-              color: colors.accent,
-              fontWeight: typography.headingWeight,
-            }}
-          >
-            {capitalizeWords(store_name)}
-          </h1>
+          <Link href="/">
+            <h1
+              className="text-2xl sm:text-3xl font-black tracking-wider uppercase"
+              style={{
+                color: colors.accent,
+                fontWeight: typography.headingWeight,
+              }}
+            >
+              {capitalizeWords(store_name)}
+            </h1>
+          </Link>
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
           <Link
             href="/"
-            className="text-lg font-medium hover:underline underline-offset-4 transition-all"
+            className="text-lg font-medium hover:underline underline-offset-4 transition-all uppercase"
             style={{ color: colors.text }}
           >
-            HOME
+            Home
           </Link>
           <Link
             href="/shop"
-            className="text-lg font-medium hover:underline underline-offset-4 transition-all"
+            className="text-lg font-medium hover:underline underline-offset-4 transition-all uppercase"
             style={{ color: colors.text }}
           >
-            COLLECTION
+            Collection
           </Link>
           <Link
-            href="/about"
-            className="text-lg font-medium hover:underline underline-offset-4 transition-all"
+            href="/cart"
+            className="text-lg font-medium hover:underline underline-offset-4 transition-all uppercase"
             style={{ color: colors.text }}
           >
-            ABOUT
+            Cart
           </Link>
         </nav>
 
-        <div className="flex gap-4 items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-transparent"
-            style={{ color: colors.text }}
-          >
-            <Search className="w-6 h-6" />
-          </Button>
-
-          <CartNavButton
-            buttonVariant="ghost"
-            className="hover:bg-transparent"
-            badgeClassName="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-xs flex items-center justify-center font-bold"
-            badgeStyle={{
-              backgroundColor: colors.accent,
-              color: colors.background,
-            }}
-          />
-        </div>
+        <CartNavButton
+          buttonVariant="ghost"
+          className="hover:bg-transparent rounded-none"
+          badgeClassName="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-xs flex items-center justify-center font-bold"
+          badgeStyle={{
+            backgroundColor: colors.accent,
+            color: colors.background,
+          }}
+        />
       </div>
     </header>
   );

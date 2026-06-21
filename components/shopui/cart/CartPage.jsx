@@ -6,17 +6,20 @@ import { useMemo } from "react";
 import { useShop } from "@/app/context/ShopContext";
 import { useCart } from "@/hooks/use-cart";
 import { resolveCartLines } from "@/lib/cart/resolveCartLines";
+import { useStoreTheme } from "@/hooks/useStoreTheme";
 import StoreShell from "@/components/shopui/layout/StoreShell";
+import StoreCard from "@/components/shopui/common/StoreCard";
+import StorePrimaryButton from "@/components/shopui/common/StorePrimaryButton";
 import CartLineItem from "./CartLineItem";
 import CartOrphanLine from "./CartOrphanLine";
 import CartSummary from "./CartSummary";
-import { Button } from "@/components/ui/button";
 
 export default function CartPage() {
   const router = useRouter();
   const { shop, products } = useShop();
   const shopSlug = shop?.store_name;
   const { items, updateQuantity, removeItem } = useCart(shopSlug);
+  const { colors, maxWidth } = useStoreTheme();
 
   const { lines, orphanLines, subtotal, resolvedCount, errors } = useMemo(
     () => resolveCartLines(items, products),
@@ -28,14 +31,16 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <StoreShell backHref="/shop" backLabel="Continue shopping">
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
-          <p className="text-muted-foreground mb-6">
+        <div className="max-w-lg mx-auto px-4 py-20 text-center">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: colors.text }}>
+            Your cart is empty
+          </h1>
+          <p className="mb-8" style={{ color: colors.textSecondary }}>
             Add products from the shop to get started.
           </p>
-          <Button asChild>
+          <StorePrimaryButton asChild className="inline-flex w-auto px-8">
             <Link href="/shop">Browse products</Link>
-          </Button>
+          </StorePrimaryButton>
         </div>
       </StoreShell>
     );
@@ -43,15 +48,23 @@ export default function CartPage() {
 
   return (
     <StoreShell backHref="/shop" backLabel="Back to shop">
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">Shopping cart</h1>
+      <div className={`${maxWidth} mx-auto px-4 sm:px-6 py-8 sm:py-10`}>
+        <h1
+          className="text-2xl sm:text-3xl font-bold mb-2"
+          style={{ color: colors.text }}
+        >
+          Shopping cart
+        </h1>
+        <p className="mb-8 text-sm" style={{ color: colors.textSecondary }}>
+          Review items before checkout
+        </p>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 rounded-xl border bg-card p-4 space-y-2">
+        <div className="grid lg:grid-cols-5 gap-8">
+          <StoreCard className="lg:col-span-3 p-4 sm:p-6 space-y-1">
             {lines.length === 0 && orphanLines.length > 0 && (
-              <p className="text-sm text-muted-foreground pb-2">
-                Your saved items are outdated. Remove unavailable products
-                below, then add items from the shop again.
+              <p className="text-sm pb-3" style={{ color: colors.textSecondary }}>
+                Remove unavailable items below, then add products from the shop
+                again.
               </p>
             )}
             {lines.map((line) => (
@@ -69,9 +82,9 @@ export default function CartPage() {
                 onRemove={removeItem}
               />
             ))}
-          </div>
+          </StoreCard>
 
-          <div>
+          <div className="lg:col-span-2">
             <CartSummary lineCount={resolvedCount} subtotal={subtotal}>
               {errors.length > 0 && (
                 <ul className="text-sm text-destructive space-y-1">
@@ -81,22 +94,21 @@ export default function CartPage() {
                 </ul>
               )}
               {canCheckout ? (
-                <Button
+                <StorePrimaryButton
                   type="button"
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full h-11 rounded-xl"
                   onClick={() => router.push("/checkout")}
                 >
                   Proceed to checkout
-                </Button>
+                </StorePrimaryButton>
               ) : (
-                <Button
+                <StorePrimaryButton
                   type="button"
-                  className="w-full"
+                  className="w-full h-11 rounded-xl opacity-50"
                   disabled
-                  variant="secondary"
                 >
                   Fix cart to checkout
-                </Button>
+                </StorePrimaryButton>
               )}
             </CartSummary>
           </div>

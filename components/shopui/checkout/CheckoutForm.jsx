@@ -13,11 +13,12 @@ import { checkoutFormSchema } from "@/lib/validation/checkoutSchema";
 import { placeStoreOrder } from "@/lib/actions/order.action";
 import { Form } from "@/components/ui/form";
 import { CustomFormField, FormFieldType } from "@/components/CustomFormField";
-import SubmitButton from "@/components/common/SubmitButton";
 import ErrorDisplay from "@/components/common/ErrorDisplay";
 import CheckoutOrderSummary from "./CheckoutOrderSummary";
 import StoreShell from "@/components/shopui/layout/StoreShell";
-import { Button } from "@/components/ui/button";
+import StoreCard from "@/components/shopui/common/StoreCard";
+import StorePrimaryButton from "@/components/shopui/common/StorePrimaryButton";
+import { useStoreTheme } from "@/hooks/useStoreTheme";
 
 export default function CheckoutForm() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function CheckoutForm() {
   const { items, lineCount, clearCart } = useCart(shopSlug);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { colors, maxWidth } = useStoreTheme();
 
   const { lines, subtotal, resolvedCount, errors } = useMemo(
     () => resolveCartLines(items, products),
@@ -93,12 +95,16 @@ export default function CheckoutForm() {
   if (items.length === 0) {
     return (
       <StoreShell backHref="/shop" backLabel="Back to shop">
-        <div className="max-w-lg mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-2">Nothing to checkout</h1>
-          <p className="text-muted-foreground mb-6">Your cart is empty.</p>
-          <Button asChild>
+        <div className="max-w-lg mx-auto px-4 py-20 text-center">
+          <h1 className="text-2xl font-bold mb-2" style={{ color: colors.text }}>
+            Nothing to checkout
+          </h1>
+          <p className="mb-8" style={{ color: colors.textSecondary }}>
+            Your cart is empty.
+          </p>
+          <StorePrimaryButton asChild className="inline-flex w-auto px-8">
             <Link href="/shop">Browse products</Link>
-          </Button>
+          </StorePrimaryButton>
         </div>
       </StoreShell>
     );
@@ -106,11 +112,16 @@ export default function CheckoutForm() {
 
   return (
     <StoreShell backHref="/cart" backLabel="Back to cart">
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Checkout</h1>
+      <div className={`${maxWidth} mx-auto px-4 sm:px-6 py-8 sm:py-10`}>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: colors.text }}>
+          Checkout
+        </h1>
+        <p className="mb-8 text-sm" style={{ color: colors.textSecondary }}>
+          Enter delivery details — pay cash on delivery
+        </p>
 
       <div className="grid lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-3">
+        <StoreCard className="lg:col-span-3 p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <CustomFormField
@@ -153,16 +164,16 @@ export default function CheckoutForm() {
 
               <ErrorDisplay message={error} />
 
-              <SubmitButton
-                isLoading={isSubmitting}
-                loadingMessage="Placing order..."
-                className="w-full bg-green-600 hover:bg-green-700"
+              <StorePrimaryButton
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-11 rounded-xl"
               >
-                Place order (COD)
-              </SubmitButton>
+                {isSubmitting ? "Placing order..." : "Place order (COD)"}
+              </StorePrimaryButton>
             </form>
           </Form>
-        </div>
+        </StoreCard>
 
         <div className="lg:col-span-2">
           <CheckoutOrderSummary
@@ -172,7 +183,7 @@ export default function CheckoutForm() {
           />
         </div>
       </div>
-    </div>
+      </div>
     </StoreShell>
   );
 }

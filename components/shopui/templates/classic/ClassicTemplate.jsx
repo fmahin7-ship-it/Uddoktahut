@@ -1,33 +1,28 @@
 "use client";
 
 import deliverySystem from "@/public/assets/images/onboarding-img.png";
-import { TEMPLATE_IDS } from "@/constants/templates";
-import { getTemplate } from "../../../common/TemplateRegistry";
-
-// Classic Template Components
 import ClassicHeader from "./ClassicHeader";
 import ClassicHero from "./ClassicHero";
-import ClassicPromotions from "./ClassicPromotions";
-import ClassicFooter from "./ClassicFooter";
 import ClassicFeatureProducts from "./ClassicFeatureProducts";
+import StoreTrustStrip from "@/components/shopui/common/StoreTrustStrip";
+import ClassicFooter from "./ClassicFooter";
+import { useStoreTheme } from "@/hooks/useStoreTheme";
 
 export default function ClassicTemplate() {
-  const templateConfig = getTemplate(TEMPLATE_IDS.CLASSIC);
+  const { cssVars, heroMesh, colors } = useStoreTheme();
 
   return (
     <div
-      className="min-h-screen font-sans"
-      style={{
-        backgroundColor: templateConfig.colors.background,
-        color: templateConfig.colors.text,
-        fontFamily: templateConfig.typography.fontFamily,
-      }}
+      className="min-h-screen flex flex-col font-sans antialiased"
+      style={{ ...cssVars, background: heroMesh, color: colors.text }}
     >
       <ClassicHeader />
-      <ClassicHero deliverySystem={deliverySystem} />
-      <ClassicFeatureProducts deliverySystem={deliverySystem} />
-      <ClassicPromotions />
-      <ClassicFooter isShopList={false} />
+      <main className="flex-1">
+        <ClassicHero deliverySystem={deliverySystem} />
+        <ClassicFeatureProducts />
+        <StoreTrustStrip />
+      </main>
+      <ClassicFooter />
     </div>
   );
 }

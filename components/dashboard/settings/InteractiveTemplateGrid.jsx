@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   getTemplateList,
   getTemplate,
-} from "@/components/common/TemplateRegistry";
+} from "@/components/shopui/templates/registry";
 import { DEFAULT_TEMPLATE } from "@/constants/templates";
 import { Palette, Check } from "lucide-react";
 import { CTA_HOVER_COLOR } from "@/constants/colors";

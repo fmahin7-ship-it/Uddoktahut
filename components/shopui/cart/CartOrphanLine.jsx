@@ -2,15 +2,24 @@
 
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useStoreTheme } from "@/hooks/useStoreTheme";
 
 export default function CartOrphanLine({ line, onRemove }) {
+  const { colors } = useStoreTheme();
+
   return (
-    <div className="flex items-center justify-between gap-4 py-4 border-b border-border last:border-0 bg-destructive/5 rounded-lg px-3">
+    <div
+      className="flex items-center justify-between gap-4 py-4 border-b last:border-0 rounded-xl px-3"
+      style={{
+        borderColor: colors.border,
+        backgroundColor: `${colors.accent}11`,
+      }}
+    >
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-destructive">
           Product #{line.productId} is no longer available
         </p>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>
           Qty: {line.quantity} — remove to continue checkout
         </p>
       </div>
@@ -18,7 +27,8 @@ export default function CartOrphanLine({ line, onRemove }) {
         type="button"
         variant="ghost"
         size="icon"
-        className="shrink-0 text-muted-foreground hover:text-destructive"
+        className="shrink-0 hover:text-destructive"
+        style={{ color: colors.textSecondary }}
         onClick={() => onRemove(line.productId)}
         aria-label="Remove unavailable item"
       >

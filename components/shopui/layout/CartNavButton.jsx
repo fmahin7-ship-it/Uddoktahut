@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useShop } from "@/app/context/ShopContext";
 import { useCart } from "@/hooks/use-cart";
+import { useStoreTheme } from "@/hooks/useStoreTheme";
 
 export default function CartNavButton({
   className,
@@ -15,12 +16,14 @@ export default function CartNavButton({
   const { shop } = useShop();
   const shopSlug = shop?.store_name;
   const { lineCount } = useCart(shopSlug);
+  const { colors } = useStoreTheme();
 
   return (
     <Button
       variant={buttonVariant}
       size="icon"
       className={`relative ${className ?? ""}`}
+      style={{ borderColor: colors.border, color: colors.text }}
       asChild
     >
       <Link href="/cart" aria-label={`Cart (${lineCount} items)`}>
@@ -29,9 +32,14 @@ export default function CartNavButton({
           <span
             className={
               badgeClassName ??
-              "absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-xs flex items-center justify-center font-bold bg-green-600 text-white"
+              "absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-xs flex items-center justify-center font-bold"
             }
-            style={badgeStyle}
+            style={
+              badgeStyle ?? {
+                backgroundColor: colors.accent,
+                color: "#ffffff",
+              }
+            }
           >
             {lineCount > 99 ? "99+" : lineCount}
           </span>

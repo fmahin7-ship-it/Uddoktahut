@@ -11,8 +11,8 @@ export const DEFAULT_TEMPLATE = TEMPLATE_IDS.CLASSIC;
 // Template metadata for UI display
 export const TEMPLATE_METADATA = {
   [TEMPLATE_IDS.CLASSIC]: {
-    name: "Clean Commerce",
-    description: "Light, clean design with warm tones",
+    name: "Modern Commerce",
+    description: "Clean, modern storefront with indigo accents",
     category: "Business",
     isPremium: false,
   },

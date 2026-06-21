@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   getTemplateList,
   getTemplate,
-} from "@/components/common/TemplateRegistry";
+} from "@/components/shopui/templates/registry";
 import { Palette, Eye, Check } from "lucide-react";
 
 export default function TemplateSelector({
