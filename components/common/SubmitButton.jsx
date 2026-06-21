@@ -3,11 +3,11 @@ import { Button } from "../ui/button";
 
 
 
-const SubmitButton = ({ isLoading, className, children, loadingMessage, onClick }) => {
+const SubmitButton = ({ isLoading, className, children, loadingMessage, onClick, type = "submit", disabled }) => {
     return (
         <Button
-            type="submit"
-            disabled={isLoading}
+            type={type}
+            disabled={isLoading || disabled}
             className={className ?? "bg-green-400 w-full"}
             onClick={onClick}
         >

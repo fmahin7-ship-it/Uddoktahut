@@ -2,10 +2,11 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import { capitalizeWords } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
+import CartNavButton from "@/components/shopui/layout/CartNavButton";
 
 export default function ClassicHeader({ sheet = false }) {
   const { shop } = useShop();
@@ -45,9 +46,7 @@ export default function ClassicHeader({ sheet = false }) {
         </nav>
 
         <div className="flex gap-4 items-center">
-          <Button variant="outline" size="icon">
-            <ShoppingCart className="w-5 h-5" />
-          </Button>
+          <CartNavButton />
         </div>
       </div>
     </header>

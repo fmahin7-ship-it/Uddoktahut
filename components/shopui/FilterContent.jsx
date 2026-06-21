@@ -42,8 +42,8 @@ export function FilterContent({ categories, ctaColor }) {
                         rangeColor={ctaColor}
                     />
                     <div className="flex justify-between text-sm mt-2 text-neutral-700">
-                        <span>${priceRange[0]}</span>
-                        <span>${priceRange[1]}</span>
+                        <span>৳{priceRange[0]}</span>
+                        <span>৳{priceRange[1]}</span>
                     </div>
                 </div>
 

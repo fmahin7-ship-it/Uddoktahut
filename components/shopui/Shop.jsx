@@ -28,13 +28,13 @@ export default function Shop({
     const isMobile = useIsMobile(1023);
 
     return (
-        <div className="h-screen bg-gradient-to-b from-[#fdfcfb] to-[#f6f4f1] text-neutral-900 font-sans flex">
+        <div className="min-h-screen bg-gradient-to-b from-[#fdfcfb] to-[#f6f4f1] text-neutral-900 font-sans flex">
             <aside className="w-1/4 hidden lg:block sticky top-0 h-screen overflow-y-auto p-6 border-r space-y-6">
                 <FilterContent categories={categories} ctaColor={ctaColor} />
             </aside>
 
-            <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                <Header title="kkk" />
+            <div className="flex-1 flex flex-col min-h-screen">
+                <Header />
 
                 <div className="bg-gradient-to-r from-[#fdfcfb] to-[#f6f4f1] px-6 py-4  border-b">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">

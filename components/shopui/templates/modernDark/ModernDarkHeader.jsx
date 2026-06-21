@@ -2,11 +2,12 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, ShoppingCart, Search } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import Link from "next/link";
 import { capitalizeWords } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
 import { useTemplateConfig } from "@/hooks/useTemplateConfig";
+import CartNavButton from "@/components/shopui/layout/CartNavButton";
 
 export default function ModernDarkHeader({ sheet = false }) {
   const { shop } = useShop();
@@ -92,23 +93,15 @@ export default function ModernDarkHeader({ sheet = false }) {
             <Search className="w-6 h-6" />
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-transparent relative"
-            style={{ color: colors.text }}
-          >
-            <ShoppingCart className="w-6 h-6" />
-            <span
-              className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold"
-              style={{
-                backgroundColor: colors.accent,
-                color: colors.background,
-              }}
-            >
-              0
-            </span>
-          </Button>
+          <CartNavButton
+            buttonVariant="ghost"
+            className="hover:bg-transparent"
+            badgeClassName="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-xs flex items-center justify-center font-bold"
+            badgeStyle={{
+              backgroundColor: colors.accent,
+              color: colors.background,
+            }}
+          />
         </div>
       </div>
     </header>

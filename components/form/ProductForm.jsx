@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { productCreateSchema } from "@/lib/validation/productCreateSchema";
+import { PRODUCT_STATUS, PRODUCT_STATUS_OPTIONS } from "@/constants/product";
 import { CTA_HOVER_COLOR } from "@/constants/colors";
 import SubmitButton from "../common/SubmitButton";
 import ErrorDisplay from "../common/ErrorDisplay";
@@ -44,7 +45,9 @@ export default function ProductForm({
       image: initialData?.image || "",
       price: initialData?.price || "",
       stock: initialData?.stock || "",
-      status: initialData?.status ? initialData.status.toLowerCase() : "active",
+      status: initialData?.status
+        ? initialData.status.toLowerCase()
+        : PRODUCT_STATUS.ACTIVE,
       category: initialData?.category || "",
       sku: initialData?.sku || "",
       storeName: storeName || "",
@@ -60,7 +63,7 @@ export default function ProductForm({
         stock: initialData.stock || "",
         status: initialData.status
           ? initialData.status.toLowerCase()
-          : "active",
+          : PRODUCT_STATUS.ACTIVE,
         category: initialData.category || "",
         sku: initialData.sku || "",
         storeName: storeName || "",
@@ -75,6 +78,7 @@ export default function ProductForm({
         ...data,
         price: Number(data.price),
         stock: Number(data.stock),
+        status: String(data.status).toLowerCase(),
         storeName,
       };
       if (!transformedData.image) {
@@ -166,8 +170,11 @@ export default function ProductForm({
           placeholder="Select status"
           inputProps={{}}
         >
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
+          {PRODUCT_STATUS_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </CustomFormField>
         <ErrorDisplay errors={[error, addError, updateError]} />
         <div className="flex gap-2 pt-4  bg-background sticky bottom-0 left-0 z-10 mt-4">

@@ -46,6 +46,17 @@ const data = {
       ],
     },
     {
+      title: "Orders",
+      url: "#",
+      icon: ShoppingBagIcon,
+      items: [
+        {
+          title: "Order Management",
+          url: "/dashboard/orders",
+        },
+      ],
+    },
+    {
       title: "AI Analytics",
       url: "#",
       icon: BarChart3,

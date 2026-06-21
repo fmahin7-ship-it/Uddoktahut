@@ -1,14 +1,6 @@
+import ProductDetails from "@/components/shopui/product/ProductDetails";
 
-import Loader from "@/components/common/Loader";
-import ProductDetails from "@/components/shopui/ProductDetails";
-import { Suspense } from "react";
-async function ProductPage({ params }) {
+export default async function ProductPage({ params }) {
   const { productId } = await params;
-  return (
-    <Suspense fallback={<Loader />}>
-      <ProductDetails productId={productId} />
-    </Suspense>
-  );
+  return <ProductDetails productId={productId} />;
 }
-
-export default ProductPage;

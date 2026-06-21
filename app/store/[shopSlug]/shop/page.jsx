@@ -1,20 +1,21 @@
+"use client";
+
 import ProductList from "@/components/shopui/ProductList";
 import Shop from "@/components/shopui/Shop";
-import deliverySystem from "@/public/assets/images/onboarding-img.png";
+import { useShop } from "@/app/context/ShopContext";
 
 export default function Store() {
-    const products = new Array(8).fill(null).map((_, i) => ({
-        id: i,
-        name: `Product ${i + 1}`,
-        price: (i + 1) * 10,
-        image: deliverySystem,
-    }));
-    return (
-        <Shop>
-            <ProductList products={products} />
-        </Shop>
-    )
+  const { products, productsError } = useShop();
+
+  return (
+    <Shop>
+      {productsError ? (
+        <p className="p-6 text-destructive text-center">
+          Could not load products. Please try again later.
+        </p>
+      ) : (
+        <ProductList products={products} />
+      )}
+    </Shop>
+  );
 }
-
-
-

@@ -4,6 +4,12 @@ const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   images: {
     domains: ["kolzsticks.github.io", "images.unsplash.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "**.amazonaws.com" },
+      { protocol: "http", hostname: "localhost" },
+      { protocol: "http", hostname: "127.0.0.1" },
+    ],
   },
 };
 

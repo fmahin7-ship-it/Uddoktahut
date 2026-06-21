@@ -31,7 +31,7 @@ export const FormFieldType = {
 
 const RenderField = ({ field, props }) => {
   const {
-    fieldType,
+    fieldType = FormFieldType.INPUT,
     iconSrc,
     iconAlt,
     placeholder,
@@ -166,12 +166,26 @@ const RenderField = ({ field, props }) => {
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
     default:
-      break;
+      return (
+        <FormControl>
+          <Input
+            placeholder={placeholder}
+            {...field}
+            {...(inputProps || {})}
+            className="shad-input border"
+          />
+        </FormControl>
+      );
   }
 };
 
 export function CustomFormField(props) {
-  const { control, fieldType, name, label } = props;
+  const {
+    control,
+    fieldType = FormFieldType.INPUT,
+    name,
+    label,
+  } = props;
   return (
     <FormField
       control={control}
@@ -183,7 +197,7 @@ export function CustomFormField(props) {
               {label}
             </FormLabel>
           )}
-          <RenderField field={field} props={props} />
+          <RenderField field={field} props={{ ...props, fieldType }} />
           <FormMessage className="text-red-400" />
         </FormItem>
       )}
