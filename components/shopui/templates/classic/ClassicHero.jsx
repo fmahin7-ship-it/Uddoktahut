@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useShop } from "@/app/context/ShopContext";
-import { capitalizeWords } from "@/lib/utils";
+import { formatStoreDisplayName } from "@/lib/utils";
 import { useStoreTheme } from "@/hooks/useStoreTheme";
 import StorePrimaryButton from "@/components/shopui/common/StorePrimaryButton";
 
@@ -12,7 +12,7 @@ export default function ClassicHero({ deliverySystem }) {
   const { shop, products } = useShop();
   const { colors, typography } = useStoreTheme();
   const heroImage = products[0]?.image || deliverySystem;
-  const storeName = capitalizeWords(shop?.store_name || "Our Store");
+  const storeName = formatStoreDisplayName(shop?.store_name || "Our Store");
 
   return (
     <section className="relative px-6 pt-10 pb-16 sm:pt-14 sm:pb-20 max-w-6xl mx-auto">

@@ -1,13 +1,10 @@
-// export const dynamic = "auto";
-
 import { ShopProvider } from "@/app/context/ShopContext";
 import SomethingWentWrong from "@/components/common/SomethingWentWrong";
 import UnauthorizeAccess from "@/components/common/UnauthorizeAccess";
-import { getAuthenticStore } from "@/lib/actions/auth.action";
-import { fetchStoreProducts } from "@/lib/actions/store.action";
+import { getCachedStore, getCachedStoreProducts } from "@/lib/actions/store.action";
+import { formatStoreDisplayName } from "@/lib/utils";
 
-function renderStoreError(storeData, shopSlug) {
-  const { error, type, isActive } = storeData;
+function renderStoreError({ error, type, storeData }, shopSlug) {
   if (error) {
     return type === "unauthorized" ? (
       <UnauthorizeAccess shopSlug={shopSlug} />
@@ -15,25 +12,52 @@ function renderStoreError(storeData, shopSlug) {
       <SomethingWentWrong />
     );
   }
-  if (!isActive) {
+
+  if (!storeData) {
     return <UnauthorizeAccess shopSlug={shopSlug} />;
   }
+
+  if (!storeData.isActive) {
+    return <UnauthorizeAccess shopSlug={shopSlug} />;
+  }
+
   return null;
+}
+
+export async function generateMetadata({ params }) {
+  const { shopSlug } = await params;
+  const { storeData, error } = await getCachedStore({ storeName: shopSlug });
+
+  if (error || !storeData?.store_name) {
+    return {
+      title: "Store",
+      description: "Online store on UddoktaHut",
+    };
+  }
+
+  const displayName = formatStoreDisplayName(storeData.store_name);
+  const description = storeData.store_type
+    ? `${displayName} — ${storeData.store_type}. Shop online on UddoktaHut.`
+    : `Shop online at ${displayName} on UddoktaHut.`;
+
+  return {
+    title: {
+      default: displayName,
+      template: `%s · ${displayName}`,
+    },
+    description,
+  };
 }
 
 export default async function layout({ params, children }) {
   const { shopSlug } = await params;
-  const { storeData } = await getAuthenticStore({ storeName: shopSlug });
-  const errorElement = renderStoreError(storeData, shopSlug);
+  const { storeData, error, type } = await getCachedStore({ storeName: shopSlug });
+  const errorElement = renderStoreError({ error, type, storeData }, shopSlug);
   if (errorElement) return errorElement;
 
-  const productRes = await fetchStoreProducts({
-    storeName: shopSlug,
-    page: 1,
-    pageSize: 20,
-  });
-  const products = productRes.data;
-  const productsError = productRes.error;
+  const { data: products, error: productsError } = await getCachedStoreProducts(
+    { storeName: shopSlug, pageSize: 20 }
+  );
 
   return (
     <div>

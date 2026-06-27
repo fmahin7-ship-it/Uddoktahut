@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { capitalizeWords } from "@/lib/utils";
+import { formatStoreDisplayName } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
 import { useStoreTheme } from "@/hooks/useStoreTheme";
 import CartNavButton from "@/components/shopui/layout/CartNavButton";
@@ -58,7 +58,7 @@ export default function ClassicHeader() {
                 className="text-lg font-bold mt-2 mb-6"
                 style={{ color: colors.accent }}
               >
-                {capitalizeWords(shop?.store_name)}
+                {formatStoreDisplayName(shop?.store_name)}
               </p>
               <nav className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
@@ -94,7 +94,7 @@ export default function ClassicHeader() {
                 fontWeight: typography.headingWeight,
               }}
             >
-              {capitalizeWords(shop?.store_name)}
+              {formatStoreDisplayName(shop?.store_name)}
             </h1>
           </Link>
         </div>

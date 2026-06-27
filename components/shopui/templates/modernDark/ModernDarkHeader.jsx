@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import { capitalizeWords } from "@/lib/utils";
+import { formatStoreDisplayName } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
 import { useTemplateConfig } from "@/hooks/useTemplateConfig";
 import CartNavButton from "@/components/shopui/layout/CartNavButton";
@@ -52,7 +52,7 @@ export default function ModernDarkHeader({ sheet = false }) {
                 fontWeight: typography.headingWeight,
               }}
             >
-              {capitalizeWords(store_name)}
+              {formatStoreDisplayName(store_name)}
             </h1>
           </Link>
         </div>

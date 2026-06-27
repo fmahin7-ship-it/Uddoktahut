@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCurrentYear } from "@/hooks/useCurrentYear";
 import { useShop } from "@/app/context/ShopContext";
-import { capitalizeWords } from "@/lib/utils";
+import { formatStoreDisplayName } from "@/lib/utils";
 import { useTemplateConfig } from "@/hooks/useTemplateConfig";
 
 const FOOTER_LINKS = [
@@ -16,7 +16,7 @@ export default function BoutiqueFooter() {
   const currentYear = useCurrentYear();
   const { shop } = useShop();
   const { colors } = useTemplateConfig();
-  const storeName = capitalizeWords(shop?.store_name || "Store");
+  const storeName = formatStoreDisplayName(shop?.store_name || "Store");
 
   return (
     <footer

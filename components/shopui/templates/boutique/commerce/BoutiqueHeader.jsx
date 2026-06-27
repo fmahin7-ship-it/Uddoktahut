@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { capitalizeWords } from "@/lib/utils";
+import { formatStoreDisplayName } from "@/lib/utils";
 import { useShop } from "@/app/context/ShopContext";
 import { useTemplateConfig } from "@/hooks/useTemplateConfig";
 import CartNavButton from "@/components/shopui/layout/CartNavButton";
@@ -62,7 +62,7 @@ export default function BoutiqueHeader() {
               className="text-2xl sm:text-3xl italic"
               style={{ color: colors.accent, fontWeight: typography.headingWeight }}
             >
-              {capitalizeWords(shop?.store_name)}
+              {formatStoreDisplayName(shop?.store_name)}
             </h1>
           </Link>
         </div>
