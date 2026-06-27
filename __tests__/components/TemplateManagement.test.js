@@ -14,7 +14,7 @@ jest.mock("sonner", () => ({
 }));
 
 // Mock the API call
-jest.mock("../../lib/actions/store.action", () => ({
+jest.mock("../../lib/actions/store-template.action", () => ({
   updateStoreTemplate: jest.fn(),
 }));
 
@@ -48,7 +48,7 @@ jest.mock("../../components/dashboard/settings/InteractiveTemplateGrid", () => {
   };
 });
 
-const { updateStoreTemplate } = require("../../lib/actions/store.action");
+const { updateStoreTemplate } = require("../../lib/actions/store-template.action");
 
 describe("TemplateManagement Component", () => {
   const user = userEvent.setup();

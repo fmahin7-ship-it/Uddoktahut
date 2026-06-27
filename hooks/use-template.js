@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateStoreTemplate } from "@/lib/actions/store.action";
+import { updateStoreTemplate } from "@/lib/actions/store-template.action";
 import { toast } from "sonner";
 
 export const useUpdateTemplate = (onSuccess) => {
