@@ -25,6 +25,16 @@ export const mockUser = {
   storeName: "test-store",
   template_name: "modern",
   isActive: true,
+  planSlug: "trial",
+  planName: "Free Trial",
+  includesAi: false,
+  maxProducts: 20,
+  productCount: 0,
+  productsRemaining: 20,
+  aiTokenLimitMonthly: 0,
+  aiTokensUsed: 0,
+  aiTokensRemaining: 0,
+  subscriptionStatus: "trialing",
   onboarded: true,
 };
 

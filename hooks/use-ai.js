@@ -14,6 +14,9 @@ const parseApiError = async (response) => {
       if (errorData?.message) {
         return errorData.message;
       }
+      if (errorData?.error) {
+        return errorData.message || String(errorData.error);
+      }
     } catch {
       return errorText;
     }
