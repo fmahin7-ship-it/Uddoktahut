@@ -12,19 +12,16 @@ import { Bot } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
+import { loadChatMessages, saveChatMessages } from "@/lib/ai/chatSession";
 
 const ChatInterface = forwardRef((_, ref) => {
-  // Lazy initialization - function only runs on client, not server
-  const [messages, setMessages] = useState(() => [
-    {
-      id: 1,
-      type: "ai",
-      content:
-        "👋 Hi! I'm your AI business analyst. Ask me anything about your products, sales trends, or seasonal insights. For example: 'Which products will shine in winter?' or 'What's my best selling category?'",
-      timestamp: new Date(), // Only runs on client
-    },
-  ]);
+  const [messages, setMessages] = useState(() => loadChatMessages());
   const chatInputRef = useRef(null);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => saveChatMessages(messages), 300);
+    return () => clearTimeout(timeoutId);
+  }, [messages]);
 
   // Expose methods to parent component
   useImperativeHandle(
@@ -88,7 +85,7 @@ const ChatInterface = forwardRef((_, ref) => {
 
       <MessageList messages={messages} formatTime={formatTime} />
 
-      <ChatInput ref={chatInputRef} onAddMessage={handleAddMessage} />
+      <ChatInput ref={chatInputRef} messages={messages} onAddMessage={handleAddMessage} />
     </Card>
   );
 });

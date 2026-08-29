@@ -64,7 +64,7 @@ export function useAIStream() {
   }, []);
 
   const streamQuery = useCallback(
-    async (query, onChunk, onComplete, onError) => {
+    async (query, history = [], onChunk, onComplete, onError) => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
@@ -86,7 +86,10 @@ export function useAIStream() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ question: query }),
+          body: JSON.stringify({
+            question: query,
+            history: Array.isArray(history) ? history : [],
+          }),
           credentials: "include",
           signal: abortControllerRef.current.signal,
         });

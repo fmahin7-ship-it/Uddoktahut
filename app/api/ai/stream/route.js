@@ -6,7 +6,7 @@ export async function POST(request) {
     });
   }
 
-  const { question } = await request.json();
+  const { question, history } = await request.json();
 
   // Proxy the stream directly
   const response = await fetch(
@@ -17,7 +17,10 @@ export async function POST(request) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({
+        question,
+        history: Array.isArray(history) ? history : [],
+      }),
     }
   );
 

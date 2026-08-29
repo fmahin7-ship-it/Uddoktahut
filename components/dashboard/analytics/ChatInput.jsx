@@ -10,11 +10,12 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAIStream } from "@/hooks/use-ai";
+import { buildChatHistory } from "@/lib/ai/chatHistory";
 import { toast } from "sonner";
 
 const ChatInput = forwardRef(
   (
-    { onAddMessage, placeholder = "Ask about your business insights..." },
+    { messages = [], onAddMessage, placeholder = "Ask about your business insights..." },
     ref
   ) => {
     const [inputMessage, setInputMessage] = useState("");
@@ -122,6 +123,9 @@ const ChatInput = forwardRef(
     const handleSendMessage = useCallback(async () => {
       if (!inputMessage.trim() || isStreaming) return;
 
+      // Build history from prior turns (current question sent separately)
+      const history = buildChatHistory(messages);
+
       // Create and add user message
       const userMessage = createUserMessage(inputMessage);
       if (!userMessage) return; // Guard against SSR
@@ -142,6 +146,7 @@ const ChatInput = forwardRef(
       // Start streaming
       streamQuery(
         currentMessage,
+        history,
         (chunk) => handleStreamChunk(aiMessage.id, chunk),
         () => handleStreamComplete(aiMessage.id),
         (error) => handleStreamError(aiMessage.id, error)
@@ -149,6 +154,7 @@ const ChatInput = forwardRef(
     }, [
       inputMessage,
       isStreaming,
+      messages,
       streamQuery,
       createUserMessage,
       createAIMessagePlaceholder,
