@@ -392,6 +392,12 @@ test("invalidates related queries on success", async () => {
 - **Don't duplicate integration tests**: in unit tests
 - **Don't ignore async operations**: Always wait for completion
 
+### **Analytics AI**
+
+- **`useAIStream`**: mock `fetch`; streaming tests need `ReadableStream` or a stubbed `response.body.getReader()`.
+- **Plan gate**: analytics page with `includesAi: false` should redirect or show upgrade state.
+- **`chatHistory` / `chatSession`**: pure functions — unit test without MSW.
+
 ## 🚀 Running Tests
 
 ### **Available Commands**

@@ -11,11 +11,21 @@ This document describes the frontend API integration layer for UddoktaHut. All A
 
 ```
 lib/actions/
-├── auth.action.js          # Authentication endpoints
+├── auth.action.js          # Authentication + subscription/status
 ├── store.action.js         # Store management endpoints
 ├── product.action.js       # Product CRUD operations
 ├── onboarding.action.js    # User onboarding flow
 └── otp.action.js          # OTP verification
+
+app/api/ai/stream/
+└── route.js                # BFF proxy → backend POST /ai/query
+
+lib/ai/
+├── chatHistory.js          # buildChatHistory for copilot
+└── chatSession.js          # sessionStorage chat persistence
+
+hooks/
+└── use-ai.js               # useAIStream hook
 ```
 
 ## 🛡️ Authentication
@@ -35,6 +45,61 @@ fetch('/api/login')
   → document.cookie = 'accessToken=...'
   → fetch('/api/protected', { credentials: 'include' })
 ```
+
+## 💳 Subscription status
+
+**Endpoint:** `GET /subscription/status` (backend)  
+**Called from:** `lib/actions/auth.action.js` on login/session refresh  
+**Stored in:** `UserContext`
+
+Fields used by the dashboard (when present on `user`):
+
+| Field | UI use |
+|-------|--------|
+| `planSlug`, `planName` | Settings, pricing context |
+| `includesAi` | Show/hide Analytics nav and page |
+| `maxProducts`, `productCount`, `productsRemaining` | Product create limit messaging |
+| `aiTokenLimitMonthly`, `aiTokensUsed`, `aiTokensRemaining` | AI usage display (when wired) |
+| `isActive`, `subscriptionStatus` | Trial/expiry banners |
+
+Full schema: [ENTITLEMENTS.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/ENTITLEMENTS.md).
+
+## 🤖 Analytics AI (streaming)
+
+The dashboard does **not** call the backend `/ai` routes directly from the browser. It posts to the Next.js route handler, which forwards the JWT cookie as a Bearer token.
+
+**Endpoint (BFF):** `POST /api/ai/stream`  
+**Backend:** `POST {NEXT_PUBLIC_BACKEND_API}/ai/query`  
+**Hook:** `useAIStream()` in `hooks/use-ai.js`
+
+### Request
+
+```json
+{
+  "question": "How many products do I have?",
+  "history": [
+    { "role": "user", "content": "Show categories" },
+    { "role": "assistant", "content": "..." }
+  ]
+}
+```
+
+- `history` is optional; built by `buildChatHistory()` from the last 8 UI messages.
+- Response body is a **plain text stream** (not JSON). Read with `response.body.getReader()`.
+- Errors return JSON `{ message }` or plain text from the backend (403 for wrong plan, token cap, etc.).
+
+### Example (client)
+
+```javascript
+const response = await fetch("/api/ai/stream", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include",
+  body: JSON.stringify({ question, history }),
+});
+```
+
+See backend [AI_COPILOT.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/AI_COPILOT.md) for tools, intent routing, and env vars.
 
 ## 🏪 Store Management API
 
