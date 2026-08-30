@@ -509,12 +509,23 @@ return <TemplateComponent {...props} />;
 ```
 components/
 ├── dashboard/           # Dashboard-specific features
-│   ├── settings/       # Settings domain
-│   └── product-management/ # Product domain
-├── shopui/             # Store UI features
-│   ├── templates/      # Template implementations
-│   └── layout/         # Store layout components
-└── common/             # Shared across features
+│   ├── analytics/      # AI chat UI (ChatInterface, ChatInput)
+│   ├── settings/
+│   └── product-management/
+├── shopui/
+│   ├── templates/
+│   └── layout/
+└── common/
+
+lib/ai/
+├── chatHistory.js      # last 8 turns → API history shape
+└── chatSession.js      # sessionStorage persistence on refresh
+
+hooks/
+└── use-ai.js           # streaming client for /api/ai/stream
+
+app/api/ai/stream/
+└── route.js            # proxies to backend POST /ai/query
 ```
 
 ### **Co-location Principle**
@@ -543,6 +554,37 @@ components/
 - **Simplicity**: Minimal global state needs
 - **Performance**: Infrequent updates
 - **Type Safety**: Better than prop drilling
+
+## 📊 Analytics AI (dashboard)
+
+Pro/Business owners see **Analytics** in the sidebar when `user.includesAi` is true (from `GET /subscription/status` via `UserContext`).
+
+```mermaid
+sequenceDiagram
+    participant UI as ChatInput
+    participant Hook as useAIStream
+    participant BFF as /api/ai/stream
+    participant BE as POST /ai/query
+
+    UI->>UI: buildChatHistory(messages)
+    UI->>Hook: streamQuery(question, history)
+    Hook->>BFF: POST JSON + cookies
+    BFF->>BE: Bearer token + question + history
+    BE-->>BFF: text/plain stream
+    BFF-->>Hook: proxied stream
+    Hook-->>UI: onChunk / onComplete
+    UI->>UI: saveChatMessages(sessionStorage)
+```
+
+| Piece | Role |
+|-------|------|
+| `ChatInterface.jsx` | Message list; loads/saves `sessionStorage` |
+| `chatHistory.js` | Maps UI messages → `{ role, content }`, max 8 |
+| `chatSession.js` | Key `uddoktahut:analytics-chat`; survives refresh, not browser close |
+| `analytics/page.jsx` | Redirects or blocks if `!includesAi` |
+| `AppSidebar.jsx` | Hides Analytics nav when plan has no AI |
+
+Backend details: [AI_COPILOT.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/AI_COPILOT.md).
 
 ## 🧪 Testing Architecture
 

@@ -25,7 +25,7 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 - **JWT Authentication** - Secure user sessions with HTTP-only cookies
 - **Role-based Access Control** - Protected routes and user permissions (admin, store owner, customer)
 - **Product Management** - Complete CRUD operations with search and filtering per store
-- **Dashboard Analytics** - Store-specific performance metrics and insights
+- **Dashboard Analytics** - Store metrics plus an AI chat on Pro/Business (see backend [AI_COPILOT.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/AI_COPILOT.md))
 - **Real-time Updates** - Optimistic UI with TanStack Query
 
 ### Performance Optimizations
@@ -56,8 +56,16 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 
 - **[Architecture Guide](./docs/ARCHITECTURE.md)** - System design, component architecture, and performance strategies
 - **[API Documentation](./docs/API.md)** - Complete API reference and integration guide
+- **[Analytics AI (backend)](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/AI_COPILOT.md)** - Copilot flow and tools
+- **[Plan entitlements (backend)](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/ENTITLEMENTS.md)** - Product limits and AI gating
 - **[Testing Guide](./docs/TESTING.md)** - Testing strategies, utilities, and coverage goals
 - **[Deployment Guide](./docs/DEPLOYMENT.md)** - Production deployment and hosting options
+
+## Analytics chat (dashboard)
+
+On Pro/Business plans the owner gets a streaming chat under Analytics. The UI sends the last 8 turns as `history` with each question; messages survive a page refresh via `sessionStorage` but are not stored server-side.
+
+Proxy: `app/api/ai/stream/route.js` → backend `POST /ai/query`. Plan gating and token limits come from `GET /subscription/status` on the backend — see [ENTITLEMENTS.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/ENTITLEMENTS.md).
 
 ## 🔧 Installation & Setup
 
