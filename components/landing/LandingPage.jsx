@@ -18,7 +18,7 @@ import {
 
 /**
  * Server composer — hero loads first; below-fold sections are lazy chunks.
- * Copy: constants/landing/content.js
+ * Copy: messages/{bn,en}.json · structure: constants/landing/content.js
  */
 export default function LandingPage() {
   return (

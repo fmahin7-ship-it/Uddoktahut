@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { LANDING_NAV_LINKS } from "@/constants/landing/content";
 import { landing } from "./landing-tokens";
 import { ModeToggle } from "@/components/common/ModeToggle";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "./ui/BrandLogo";
 import { cn } from "@/lib/utils";
 
 export function LandingNavbar() {
+  const t = useTranslations("Landing.nav");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -61,18 +64,19 @@ export function LandingNavbar() {
                 href={link.href}
                 className="rounded-md px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-green-600 dark:hover:text-green-400"
               >
-                {link.label}
+                {t(link.id)}
               </a>
             ))}
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
+            <LanguageSwitcher />
             <ModeToggle />
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">লগইন</Link>
+              <Link href="/login">{t("login")}</Link>
             </Button>
             <Button size="sm" className="bg-green-400 font-semibold text-green-900 hover:bg-[#05f27c]" asChild>
-              <Link href="/signup">ফ্রি শুরু করুন</Link>
+              <Link href="/signup">{t("signup")}</Link>
             </Button>
           </div>
 
@@ -80,7 +84,7 @@ export function LandingNavbar() {
             type="button"
             className="-mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md lg:hidden"
             onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            aria-label={t("menu")}
             aria-expanded={open}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -98,19 +102,22 @@ export function LandingNavbar() {
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-3 text-sm font-medium hover:bg-green-400/10"
               >
-                {link.label}
+                {t(link.id)}
               </a>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
               <div className="flex items-center justify-between px-3">
-                <span className="text-sm text-muted-foreground">থিম</span>
-                <ModeToggle />
+                <LanguageSwitcher />
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">{t("theme")}</span>
+                  <ModeToggle />
+                </div>
               </div>
               <Button variant="outline" size="sm" className="w-full" asChild>
-                <Link href="/login">লগইন</Link>
+                <Link href="/login">{t("login")}</Link>
               </Button>
               <Button size="sm" className="w-full bg-green-400 font-semibold text-green-900" asChild>
-                <Link href="/signup">ফ্রি শুরু করুন</Link>
+                <Link href="/signup">{t("signup")}</Link>
               </Button>
             </div>
           </nav>

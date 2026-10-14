@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function BrandLogo({ className, onDark = false, asLink = true }) {
+  const locale = useLocale();
   const content = (
     <>
       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-green-400 text-green-900 shadow-sm shadow-green-400/25 sm:h-8 sm:w-8">
@@ -23,7 +25,7 @@ export function BrandLogo({ className, onDark = false, asLink = true }) {
 
   if (asLink) {
     return (
-      <Link href="/" className={classes}>
+      <Link href={`/${locale}`} className={classes}>
         {content}
       </Link>
     );

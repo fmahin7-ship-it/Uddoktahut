@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FAQ_ITEMS } from "@/constants/landing/content";
@@ -9,22 +10,20 @@ import { SectionHeader } from "../ui/SectionHeader";
 import { cn } from "@/lib/utils";
 
 export function FAQSection() {
+  const t = useTranslations("Landing.faq");
   const [open, setOpen] = useState(0);
   const reduceMotion = useReducedMotion();
 
   return (
     <section id="faq" className={landing.sectionMuted}>
       <div className={cn(landing.container, "max-w-2xl")}>
-        <SectionHeader
-          title="প্রশ্নোত্তর"
-          subtitle="Live ফিচার, AI টোকেন, ও প্রাইসিং — সব স্পষ্ট।"
-        />
+        <SectionHeader title={t("title")} subtitle={t("subtitle")} />
         <div className="space-y-2">
-          {FAQ_ITEMS.map((item, i) => {
+          {FAQ_ITEMS.map((id, i) => {
             const isOpen = open === i;
             return (
               <div
-                key={item.question}
+                key={id}
                 className={cn(
                   "overflow-hidden rounded-xl border bg-card transition-colors",
                   isOpen ? "border-green-400/40" : "border-border"
@@ -36,7 +35,7 @@ export function FAQSection() {
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   aria-expanded={isOpen}
                 >
-                  <span className="min-w-0 flex-1 text-pretty">{item.question}</span>
+                  <span className="min-w-0 flex-1 text-pretty">{t(`items.${id}.question`)}</span>
                   <ChevronDown
                     className={cn(
                       "h-4 w-4 shrink-0 text-green-500 transition-transform",
@@ -53,7 +52,7 @@ export function FAQSection() {
                       transition={{ duration: 0.2 }}
                     >
                       <p className="border-t border-border px-4 py-3.5 text-sm leading-relaxed text-muted-foreground">
-                        {item.answer}
+                        {t(`items.${id}.answer`)}
                       </p>
                     </m.div>
                   )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Brain, MessageCircle, Sparkles, TrendingUp } from "lucide-react";
 import { AI_PILLARS } from "@/constants/landing/content";
 import { landing } from "../landing-tokens";
@@ -16,13 +17,15 @@ const ICONS = {
 };
 
 export function AIPillarsSection() {
+  const t = useTranslations("Landing.pillars");
+
   return (
     <section id="ai" className={landing.section}>
       <div className={landing.container}>
         <SectionHeader
-          eyebrow="AI-চালিত SaaS"
-          title="AI — শুধু অ্যানালিটিক্স নয়, পুরো ব্যবসা"
-          subtitle="বুঝুন, তৈরি করুন, বিক্রি বাড়ান, সাপোর্ট দিন — চার দিক থেকে AI আপনার পাশে।"
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          subtitle={t("subtitle")}
           gradientTitle
         />
         <div className={cn(landing.grid, "sm:grid-cols-2 lg:grid-cols-4")}>
@@ -35,10 +38,10 @@ export function AIPillarsSection() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <p className="mt-3 text-[11px] font-bold uppercase tracking-wide text-green-600 dark:text-green-400">
-                    {pillar.titleEn}
+                    {t(`items.${pillar.id}.label`)}
                   </p>
-                  <h3 className="mt-1 text-base font-bold">{pillar.title}</h3>
-                  <p className={cn("mt-2", landing.body)}>{pillar.description}</p>
+                  <h3 className="mt-1 text-base font-bold">{t(`items.${pillar.id}.title`)}</h3>
+                  <p className={cn("mt-2", landing.body)}>{t(`items.${pillar.id}.description`)}</p>
                 </SurfaceCard>
               </RevealOnScroll>
             );

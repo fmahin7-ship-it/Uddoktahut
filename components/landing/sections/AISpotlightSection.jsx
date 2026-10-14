@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "../ui/motion";
 import { ProductDemoMockup } from "./ProductDemoMockup";
 import { landing } from "../landing-tokens";
@@ -7,6 +8,8 @@ import { SectionHeader } from "../ui/SectionHeader";
 import { cn } from "@/lib/utils";
 
 export function AISpotlightSection() {
+  const t = useTranslations("Landing.spotlight");
+
   return (
     <section className={cn(landing.sectionDark, "relative overflow-hidden")}>
       {/* Glow stays inside dark section — right side only, no green band at top */}
@@ -20,23 +23,19 @@ export function AISpotlightSection() {
           <SectionHeader
             align="left"
             onDark
-            eyebrow="Live এখনই"
-            title="AI Copilot — আপনার ডেটা, আপনার উত্তর"
-            subtitle="লেবেলে AI নয় — কাজ করা copilot। স্টোর স্কোপড, গার্ডেড, প্রোডাকশন-রেডি।"
+            eyebrow={t("eyebrow")}
+            title={t("title")}
+            subtitle={t("subtitle")}
             gradientTitle
             className="mb-0 max-w-none"
           />
           <ul className="mt-5 space-y-2.5">
-            {[
-              "বাংলা বা ইংরেজিতে জিজ্ঞেস করুন",
-              "শুধু আপনার স্টোরের ডেটা",
-              "ট্রায়ালে সীমিত টোকেন",
-            ].map((t) => (
-              <li key={t} className="flex items-center gap-3 text-sm text-zinc-300">
+            {t.raw("points").map((point) => (
+              <li key={point} className="flex items-center gap-3 text-sm text-zinc-300">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-400 text-xs font-bold text-green-900">
                   ✓
                 </span>
-                {t}
+                {point}
               </li>
             ))}
           </ul>

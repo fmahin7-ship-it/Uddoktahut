@@ -1,7 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
-import { HERO_CONTENT, TRUST_ITEMS } from "@/constants/landing/content";
+import { HERO_LINKS } from "@/constants/landing/content";
 import { landing } from "../landing-tokens";
 import { GradientBackground } from "../ui/GradientBackground";
 import { BrandButton } from "../ui/BrandButton";
@@ -9,6 +10,9 @@ import { ProductDemoMockup } from "./ProductDemoMockup";
 import { cn } from "@/lib/utils";
 
 export function HeroSection() {
+  const t = useTranslations("Landing");
+  const trustItems = t.raw("trust.items");
+
   return (
     <section className="relative overflow-hidden px-4 pb-10 pt-8 sm:px-6 lg:pb-12 lg:pt-10">
       <GradientBackground />
@@ -17,34 +21,35 @@ export function HeroSection() {
         <div className="landing-hero-in">
           <p className={landing.eyebrow}>
             <Sparkles className="h-3.5 w-3.5 text-green-500" />
-            {HERO_CONTENT.badge}
+            {t("hero.badge")}
           </p>
 
           <h1 className="mt-4 text-[1.75rem] font-bold leading-tight tracking-tight text-balance sm:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
-            <span className={landing.gradientText}>AI দিয়ে</span> চালান
-            <br />
-            আপনার অনলাইন ব্যবসা
+            {t.rich("hero.title", {
+              hl: (chunks) => <span className={landing.gradientText}>{chunks}</span>,
+              br: () => <br />,
+            })}
           </h1>
 
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
-            {HERO_CONTENT.subtitle}
+            {t("hero.subtitle")}
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <BrandButton href={HERO_CONTENT.primaryCta.href}>
-              {HERO_CONTENT.primaryCta.label}
+            <BrandButton href={HERO_LINKS.primaryCta}>
+              {t("hero.primaryCta")}
               <ArrowRight className="h-4 w-4" />
             </BrandButton>
-            <BrandButton href={HERO_CONTENT.secondaryCta.href} variant="secondary">
+            <BrandButton href={HERO_LINKS.secondaryCta} variant="secondary">
               <Play className="h-4 w-4 fill-current" />
-              {HERO_CONTENT.secondaryCta.label}
+              {t("hero.secondaryCta")}
             </BrandButton>
           </div>
 
-          <p className="mt-3 text-xs text-muted-foreground">{HERO_CONTENT.finePrint}</p>
+          <p className="mt-3 text-xs text-muted-foreground">{t("hero.finePrint")}</p>
 
           <div className="mt-5 flex flex-wrap gap-2">
-            {TRUST_ITEMS.slice(0, 3).map((item) => (
+            {trustItems.slice(0, 3).map((item) => (
               <span
                 key={item}
                 className="rounded-full border border-green-400/25 bg-green-400/8 px-3 py-1 text-xs font-medium text-foreground/80"
