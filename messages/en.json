@@ -133,12 +133,12 @@
       "eyebrow": "Clear pricing",
       "title": "Token-based AI pricing",
       "subtitle": "Basic = manual, no AI. AI plans = priced by tokens.",
-      "note": "Use the live features on the trial. Paid plans are coming soon — start your 7 days free now.",
+      "note": "Prices in AUD. Use the live features on the trial. Paid plans are coming soon — start your 7 days free now.",
       "popular": "Popular",
       "plans": {
         "trial": {
           "name": "Free trial",
-          "price": "৳0",
+          "price": "A$0",
           "period": "7 days",
           "tagline": "Try the platform",
           "aiLabel": "Limited AI tokens",
@@ -147,7 +147,7 @@
         },
         "basic": {
           "name": "Basic",
-          "price": "৳500",
+          "price": "A$15",
           "period": "/month",
           "tagline": "Manual, no AI",
           "aiLabel": "No AI",
@@ -156,7 +156,7 @@
         },
         "ai-starter": {
           "name": "AI Starter",
-          "price": "৳1,500",
+          "price": "A$29",
           "period": "/month",
           "tagline": "Store + AI",
           "aiLabel": "~5,000 tokens/month",
@@ -165,7 +165,7 @@
         },
         "ai-pro": {
           "name": "AI Pro",
-          "price": "৳2,500",
+          "price": "A$59",
           "period": "/month",
           "tagline": "For bigger stores",
           "aiLabel": "~15,000 tokens/month",
@@ -174,7 +174,7 @@
         },
         "ai-business": {
           "name": "AI Business",
-          "price": "৳4,000",
+          "price": "A$119",
           "period": "/month",
           "tagline": "Maximum AI",
           "aiLabel": "~50,000 tokens/month",
@@ -203,7 +203,7 @@
     },
     "demoChat": {
       "question": "How many products do I have, and how's my stock?",
-      "answer": "52 products with 2,549 units in stock. Average price is ~৳63. Want a list of low-stock items?",
+      "answer": "52 products with 2,549 units in stock. Average price is ~A$18. Want a list of low-stock items?",
       "placeholder": "Ask about your business..."
     },
     "testimonials": {
@@ -224,7 +224,7 @@
         "what": { "question": "What is UddoktaHut?", "answer": "An AI-powered e-commerce SaaS — store, dashboard and AI on one platform." },
         "live-ai": { "question": "Which AI is live right now?", "answer": "The AI Business Copilot — answers from your store data." },
         "trial": { "question": "Is there a free trial?", "answer": "Yes — 7 days, limited AI tokens, no card needed." },
-        "basic-ai": { "question": "Does the ৳500 Basic plan include AI?", "answer": "No — it's a manual store. AI starts from ৳1,500." },
+        "basic-ai": { "question": "Does the A$15 Basic plan include AI?", "answer": "No — it's a manual store. AI starts from A$29." },
         "tokens": { "question": "What are AI tokens?", "answer": "Each question and answer uses tokens. Every plan has a monthly limit." },
         "compare": { "question": "How is it different from Bitcommerz or Zatiq?", "answer": "AI-first, a live copilot, clear token pricing and honest Live/Soon labels." },
         "all-features": { "question": "Is every feature available now?", "answer": "No — check the labels: Live, Beta, Coming soon, Roadmap." }
