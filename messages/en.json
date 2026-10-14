@@ -105,9 +105,7 @@
       "eyebrow": "Pricing",
       "title": "Simple monthly pricing",
       "subtitle": "Start with the store. Add the AI copilot when you need it.",
-      "note": "Prices for {country} in {currency}. Paid plans are coming soon — start your 7-day free trial now.",
-      "switchMarket": "Show prices for {country}",
-      "popular": "Most popular",
+      "note": "Prices for {country} in {currency}. Paid plans are coming soon — start your 7-day free trial now.",      "popular": "Most popular",
       "plans": {
         "trial": {
           "name": "Free trial",
