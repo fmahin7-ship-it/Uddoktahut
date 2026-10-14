@@ -16,7 +16,7 @@ import {
  * Server composer — hero loads first; below-fold sections are lazy chunks.
  * Copy: messages/{bn,en}.json · structure: constants/landing/content.js
  */
-export default function LandingPage() {
+export default function LandingPage({ market }) {
   return (
     <LandingMotionShell>
       <LandingNavbar />
@@ -25,8 +25,8 @@ export default function LandingPage() {
       <AICopilotSection />
       <CommerceSection />
       <HowItWorksSection />
-      <PricingSection />
-      <FAQSection />
+      <PricingSection market={market} />
+      <FAQSection market={market} />
       <CTASection />
       <LandingFooter />
     </LandingMotionShell>

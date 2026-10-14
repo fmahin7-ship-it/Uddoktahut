@@ -1,23 +1,45 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Check, Sparkles, X } from "lucide-react";
 import { PRICING_PLANS } from "@/constants/landing/content";
+import { MARKETS } from "@/lib/market/config";
+import { rememberMarket } from "@/lib/market/browserMarket";
+import { usePlanPrices } from "@/lib/pricing/usePlanPrices";
 import { landing } from "../landing-tokens";
 import { SectionHeader } from "../ui/SectionHeader";
 import { SurfaceCard, RevealOnScroll } from "../ui/motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function PricingSection() {
+export function PricingSection({ market }) {
   const t = useTranslations("Landing.pricing");
+  const tMarket = useTranslations("Common.market");
+  const router = useRouter();
+  const { currency, prices } = usePlanPrices(market);
+  const otherMarket = MARKETS.find((m) => m !== market);
+
+  const switchMarket = () => {
+    rememberMarket(otherMarket);
+    router.refresh();
+  };
 
   return (
     <section id="pricing" className={landing.section}>
       <div className={landing.container}>
         <SectionHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} />
-        <p className="mx-auto -mt-4 mb-8 max-w-xl text-center text-sm text-muted-foreground">{t("note")}</p>
+        <p className="mx-auto -mt-4 mb-8 max-w-xl text-center text-sm text-muted-foreground">
+          {t("note", { country: tMarket(market), currency })}{" "}
+          <button
+            type="button"
+            onClick={switchMarket}
+            className="font-medium text-green-700 underline-offset-2 hover:underline dark:text-green-400"
+          >
+            {t("switchMarket", { country: tMarket(otherMarket) })}
+          </button>
+        </p>
 
         <div className={cn(landing.grid, "sm:grid-cols-2 lg:grid-cols-4")}>
           {PRICING_PLANS.map((plan, i) => {
@@ -36,7 +58,7 @@ export function PricingSection() {
                   <h3 className="text-base font-bold">{t(key("name"))}</h3>
                   <p className="mt-0.5 text-xs text-muted-foreground">{t(key("tagline"))}</p>
                   <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-foreground">{t(key("price"))}</span>
+                    <span className="text-3xl font-bold text-foreground">{prices[plan.id]}</span>
                     <span className="text-xs text-muted-foreground">{t(key("period"))}</span>
                   </div>
                   <div

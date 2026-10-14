@@ -32,6 +32,12 @@ export const allRoles = {
   employee: 2,
 };
 
+/** Store country decides currency, prices and payment gateway (backend stores.country). */
+export const STORE_COUNTRIES = [
+  { code: "BD", name: "Bangladesh" },
+  { code: "AU", name: "Australia" },
+];
+
 export const businessTypes = [
   { key: "clothing", name: "Clothing & Apparel" },
   { key: "shoes", name: "Shoes & Footwear" },
