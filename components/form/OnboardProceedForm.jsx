@@ -6,18 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardProceedFormValidation } from "@/lib/validation/OnboardProceedFormValidation";
 import { useEffect } from "react";
 import { useStepper } from "@/app/context/StepperContext";
-import { getUserId } from "@/lib/actions/getHeadersData.action";
+import { getSignupCountry, getUserId } from "@/lib/actions/getHeadersData.action";
 import { toast } from "sonner";
 import { OnboardProceed } from "@/lib/actions/onboardProceed.action";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { CustomFormField, FormFieldType } from "../CustomFormField";
 import { SelectItem } from "../ui/select";
-import { businessTypes } from "@/constants/rootConstant";
+import { STORE_COUNTRIES, businessTypes } from "@/constants/rootConstant";
 import { useTopLoader } from "nextjs-toploader";
 import { previewStoreUrl } from "@/lib/utils/storeUrl";
-import { getBrowserMarket } from "@/lib/market/browserMarket";
-import { STORE_COUNTRIES } from "@/constants/rootConstant";
 
 const OnboardProceedForm = ({ role }) => {
     const router = useRouter();
@@ -42,8 +40,8 @@ const OnboardProceedForm = ({ role }) => {
 
     useEffect(() => {
         async function fetchUserId() {
-            const id = await getUserId();
-            form.reset({ userId: Number(id), roles: Number(role), country: getBrowserMarket() })
+            const [id, country] = await Promise.all([getUserId(), getSignupCountry()]);
+            form.reset({ userId: Number(id), roles: Number(role), country })
         }
         fetchUserId();
     }, [form]);
@@ -102,20 +100,16 @@ const OnboardProceedForm = ({ role }) => {
                         ))}
                     </CustomFormField>
                     <CustomFormField
-                        fieldType={FormFieldType.SELECT}
+                        fieldType={FormFieldType.SKELETON}
                         control={form.control}
                         name="country"
                         label="Country"
-                        placeholder="Select your country"
-                    >
-                        {STORE_COUNTRIES.map((country) => (
-                            <SelectItem key={country.code} value={country.code}>
-                                <div className="flex cursor-pointer items-center gap-2">
-                                    <p>{country.name}</p>
-                                </div>
-                            </SelectItem>
-                        ))}
-                    </CustomFormField>
+                        renderSkeleton={(field) => (
+                            <div className="flex h-11 items-center rounded-md border bg-muted px-3 text-sm text-muted-foreground">
+                                {STORE_COUNTRIES.find((c) => c.code === field.value)?.name ?? "Detecting…"}
+                            </div>
+                        )}
+                    />
                 </section>
 
                 <CustomFormField
@@ -138,6 +132,9 @@ const OnboardProceedForm = ({ role }) => {
                     label="Business Address"
                     placeholder="Enter your business address"
                 />
+                <p className="text-sm text-muted-foreground -mt-2">
+                    Country is set from your current location and decides your plan&apos;s currency.
+                </p>
             </form>
         </Form>
     )
