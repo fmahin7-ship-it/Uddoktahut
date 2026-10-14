@@ -1,8 +1,21 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { MARKETS } from "@/lib/market/config";
 import LandingPage from "./LandingPage";
 import "./landing.css";
 
 const OG_LOCALE = { bn: "bn_BD", en: "en_US" };
+
+/**
+ * One static page per market (/en/au, /en/bd, ...). Middleware rewrites /en and /bn
+ * to the visitor's market, so the address bar and canonical URL stay /en and /bn.
+ */
+export function generateLandingMarketParams() {
+  return MARKETS.map((market) => ({ market: market.toLowerCase() }));
+}
+
+export function marketFromParam(param) {
+  return param.toUpperCase();
+}
 
 export async function buildLandingMetadata(locale) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
@@ -28,12 +41,12 @@ export async function buildLandingMetadata(locale) {
   };
 }
 
-export default function LandingRoute({ locale }) {
+export default function LandingRoute({ locale, market }) {
   setRequestLocale(locale);
 
   return (
     <main className="overflow-x-clip bg-background text-foreground">
-      <LandingPage />
+      <LandingPage market={market} />
     </main>
   );
 }

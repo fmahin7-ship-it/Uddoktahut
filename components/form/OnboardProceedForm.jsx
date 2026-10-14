@@ -16,6 +16,8 @@ import { SelectItem } from "../ui/select";
 import { businessTypes } from "@/constants/rootConstant";
 import { useTopLoader } from "nextjs-toploader";
 import { previewStoreUrl } from "@/lib/utils/storeUrl";
+import { getBrowserMarket } from "@/lib/market/browserMarket";
+import { STORE_COUNTRIES } from "@/constants/rootConstant";
 
 const OnboardProceedForm = ({ role }) => {
     const router = useRouter();
@@ -30,7 +32,8 @@ const OnboardProceedForm = ({ role }) => {
             roles: null,
             storeName: '',
             storeType: '',
-            storeAddress: ''
+            storeAddress: '',
+            country: ''
         }
     });
 
@@ -40,7 +43,7 @@ const OnboardProceedForm = ({ role }) => {
     useEffect(() => {
         async function fetchUserId() {
             const id = await getUserId();
-            form.reset({ userId: Number(id), roles: Number(role) })
+            form.reset({ userId: Number(id), roles: Number(role), country: getBrowserMarket() })
         }
         fetchUserId();
     }, [form]);
@@ -94,6 +97,21 @@ const OnboardProceedForm = ({ role }) => {
                             <SelectItem key={business.name + i} value={business.key}>
                                 <div className="flex cursor-pointer items-center gap-2">
                                     <p>{business.name}</p>
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </CustomFormField>
+                    <CustomFormField
+                        fieldType={FormFieldType.SELECT}
+                        control={form.control}
+                        name="country"
+                        label="Country"
+                        placeholder="Select your country"
+                    >
+                        {STORE_COUNTRIES.map((country) => (
+                            <SelectItem key={country.code} value={country.code}>
+                                <div className="flex cursor-pointer items-center gap-2">
+                                    <p>{country.name}</p>
                                 </div>
                             </SelectItem>
                         ))}

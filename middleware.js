@@ -3,6 +3,9 @@ import { CONFIG } from "./lib/config";
 import { allRoles, protectedRoutes } from "./constants/rootConstant";
 import { jwtVerify } from "jose";
 import { detectLocaleFromRequest } from "./lib/i18n/detectLocale";
+import { detectMarketFromRequest } from "./lib/market/detectMarket";
+import { MARKET_COOKIE, MARKET_COOKIE_MAX_AGE } from "./lib/market/config";
+import { isLocale } from "./i18n/config";
 
 export async function middleware(req) {
   const host = req.headers.get("host") || "";
@@ -13,6 +16,11 @@ export async function middleware(req) {
 
   if (req.nextUrl.pathname === "/" && !isStoreHost(host)) {
     return redirectToLocaleHome(req);
+  }
+
+  const landingLocale = req.nextUrl.pathname.slice(1);
+  if (isLocale(landingLocale) && !isStoreHost(host)) {
+    return rewriteToMarketLanding(req, landingLocale);
   }
 
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -81,6 +89,23 @@ function redirectToLocaleHome(req) {
   const response = NextResponse.redirect(url, 307);
   response.headers.set("Cache-Control", "private, no-store");
   response.headers.set("Vary", "Cookie, Accept-Language");
+  return response;
+}
+
+// Serves the pre-built page for the visitor's price market while the URL stays /en or /bn,
+// so the right currency is in the first HTML (no client-side price swap).
+function rewriteToMarketLanding(req, locale) {
+  const market = detectMarketFromRequest(req, locale);
+  const url = req.nextUrl.clone();
+  url.pathname = `/${locale}/${market.toLowerCase()}`;
+  const response = NextResponse.rewrite(url);
+  if (req.cookies.get(MARKET_COOKIE)?.value !== market) {
+    response.cookies.set(MARKET_COOKIE, market, {
+      path: "/",
+      maxAge: MARKET_COOKIE_MAX_AGE,
+      sameSite: "lax",
+    });
+  }
   return response;
 }
 

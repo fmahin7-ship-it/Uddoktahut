@@ -13,6 +13,10 @@
     "status": {
       "live": "Live",
       "beta": "Beta"
+    },
+    "market": {
+      "BD": "Bangladesh",
+      "AU": "Australia"
     }
   },
   "Landing": {
@@ -101,12 +105,12 @@
       "eyebrow": "Pricing",
       "title": "Simple monthly pricing",
       "subtitle": "Start with the store. Add the AI copilot when you need it.",
-      "note": "Prices in AUD. Paid plans are coming soon — start your 7-day free trial now.",
+      "note": "Prices for {country} in {currency}. Paid plans are coming soon — start your 7-day free trial now.",
+      "switchMarket": "Show prices for {country}",
       "popular": "Most popular",
       "plans": {
         "trial": {
           "name": "Free trial",
-          "price": "A$0",
           "period": "7 days",
           "tagline": "Try the store",
           "aiLabel": "No AI on the trial",
@@ -115,7 +119,6 @@
         },
         "basic": {
           "name": "Basic",
-          "price": "A$15",
           "period": "/month",
           "tagline": "Store without AI",
           "aiLabel": "No AI",
@@ -124,7 +127,6 @@
         },
         "pro": {
           "name": "Pro",
-          "price": "A$39",
           "period": "/month",
           "tagline": "Store + AI",
           "aiLabel": "AI Copilot included",
@@ -133,7 +135,6 @@
         },
         "business": {
           "name": "Business",
-          "price": "A$99",
           "period": "/month",
           "tagline": "For bigger stores",
           "aiLabel": "5× AI usage",
@@ -149,9 +150,9 @@
         "what": { "question": "What is UddoktaHut?", "answer": "An AI-powered e-commerce SaaS — store, dashboard and AI on one platform." },
         "ai": { "question": "What can the AI copilot do?", "answer": "It answers questions about your products, stock and prices using your own store data, in Bangla or English. It remembers the conversation for follow-ups and declines questions that aren't about your business." },
         "trial": { "question": "Is there a free trial?", "answer": "Yes — 7 days, no card needed. The trial covers the online store; the AI copilot is included from the Pro plan." },
-        "basic-ai": { "question": "Does the A$15 Basic plan include AI?", "answer": "No — Basic is the online store without AI. The AI copilot comes with Pro (A$39/month)." },
+        "basic-ai": { "question": "Does the {basicPrice} Basic plan include AI?", "answer": "No — Basic is the online store without AI. The AI copilot comes with Pro ({proPrice}/month)." },
         "ai-usage": { "question": "Is there a limit on AI usage?", "answer": "Each AI plan includes a monthly AI allowance, and Business gets five times Pro's. If you reach it, the copilot pauses until next month — your store keeps working." },
-        "compare": { "question": "How is it different from Shopify?", "answer": "UddoktaHut is built around an AI copilot that answers questions from your store data, with simple pricing from A$15/month." }
+        "compare": { "question": "How is it different from Shopify?", "answer": "UddoktaHut is built around an AI copilot that answers questions from your store data, with simple pricing from {basicPrice}/month." }
       }
     },
     "cta": {
