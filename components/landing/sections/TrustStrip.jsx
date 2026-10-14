@@ -1,15 +1,18 @@
-import { TRUST_ITEMS, PARTNER_LABELS } from "@/constants/landing/content";
+import { useTranslations } from "next-intl";
+import { PARTNER_LABELS } from "@/constants/landing/content";
 import { landing } from "../landing-tokens";
 import { Marquee } from "../ui/Marquee";
 
 export function TrustStrip() {
+  const t = useTranslations("Landing.trust");
+
   return (
     <section className="border-y border-green-400/15 bg-muted/40 py-3.5">
       <div className={landing.container}>
-        <Marquee items={TRUST_ITEMS} className="mb-3" />
+        <Marquee items={t.raw("items")} className="mb-3" />
         <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-            ইন্টিগ্রেশন
+            {t("integrations")}
           </span>
           {PARTNER_LABELS.map((label) => (
             <span

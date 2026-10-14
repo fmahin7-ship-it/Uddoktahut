@@ -1,3 +1,7 @@
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.js");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Explicitly set the workspace root to silence the lockfile warning
@@ -13,4 +17,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

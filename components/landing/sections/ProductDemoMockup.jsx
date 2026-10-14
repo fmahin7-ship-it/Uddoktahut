@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DEMO_CHAT } from "@/constants/landing/content";
+import { useTranslations } from "next-intl";
 import { Bot, Send, Sparkles } from "lucide-react";
 import { StatusBadge } from "../ui/StatusBadge";
 import { cn } from "@/lib/utils";
 
 export function ProductDemoMockup({ animated = false, onDark = false }) {
+  const t = useTranslations("Landing.demoChat");
   const [step, setStep] = useState(animated ? 0 : 3);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
         {step >= 1 && (
           <div className="flex justify-end">
             <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-green-400 px-3.5 py-2.5 text-sm font-medium text-green-900">
-              {DEMO_CHAT.question}
+              {t("question")}
             </div>
           </div>
         )}
@@ -103,7 +104,7 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
                   : "border-green-400/20 bg-muted/50"
               )}
             >
-              {DEMO_CHAT.answer}
+              {t("answer")}
             </div>
           </div>
         )}
@@ -115,7 +116,7 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
           )}
         >
           <span className={cn("flex-1 text-sm", onDark ? "text-zinc-500" : "text-muted-foreground")}>
-            আপনার ব্যবসা সম্পর্কে জিজ্ঞেস করুন...
+            {t("placeholder")}
           </span>
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-400/15">
             <Send className="h-4 w-4 text-green-400" />

@@ -1,6 +1,6 @@
 import { getCachedAuthenticUser } from "@/lib/actions/auth.action";
 import { headers } from "next/headers";
-import { UserProvider } from "../context/UserContext";
+import { UserProvider } from "@/app/context/UserContext";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { NavUser } from "@/components/dashboard/NavUser";

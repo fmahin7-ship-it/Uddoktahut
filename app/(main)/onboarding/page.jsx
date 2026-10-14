@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
-import { StepperProvider } from "../context/StepperContext";
+import { StepperProvider } from "@/app/context/StepperContext";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { NavUser } from "@/components/dashboard/NavUser";
 import { headers } from "next/headers";
-import { UserProvider } from "../context/UserContext";
+import { UserProvider } from "@/app/context/UserContext";
 import { getAuthenticUser } from "@/lib/actions/auth.action";
 import { redirect } from "next/navigation";
 

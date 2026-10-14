@@ -1,0 +1,255 @@
+{
+  "Metadata": {
+    "title": "UddoktaHut — AI-চালিত ই-কমার্স SaaS",
+    "description": "বাংলাদেশি উদ্যোক্তাদের জন্য AI-চালিত ই-কমার্স SaaS। অনলাইন স্টোর, AI copilot, টোকেন-ভিত্তিক প্রাইসিং। ৭ দিন ফ্রি ট্রায়াল।",
+    "ogDescription": "দোকান খুলুন, AI দিয়ে ব্যবসা বুঝুন। Live AI copilot + স্পষ্ট রোডম্যাপ।"
+  },
+  "Common": {
+    "language": {
+      "label": "ভাষা",
+      "bn": "বাংলা",
+      "en": "English"
+    },
+    "status": {
+      "live": "Live",
+      "beta": "Beta",
+      "soon": "Coming soon",
+      "roadmap": "Roadmap"
+    }
+  },
+  "Landing": {
+    "nav": {
+      "ai": "AI",
+      "features": "ফিচার",
+      "pricing": "মূল্য",
+      "roadmap": "রোডম্যাপ",
+      "faq": "FAQ",
+      "login": "লগইন",
+      "signup": "ফ্রি শুরু করুন",
+      "theme": "থিম",
+      "menu": "Menu"
+    },
+    "hero": {
+      "badge": "AI-চালিত ই-কমার্স SaaS",
+      "title": "<hl>AI দিয়ে</hl> চালান<br></br>আপনার অনলাইন ব্যবসা",
+      "subtitle": "দোকান খুলুন, প্রোডাক্ট ম্যানেজ করুন, বুঝুন, তৈরি করুন, বিক্রি বাড়ান — AI শুধু অ্যানালিটিক্স নয়, পুরো ব্যবসার সহকারী।",
+      "primaryCta": "৭ দিন ফ্রি শুরু করুন",
+      "secondaryCta": "AI দেখুন",
+      "finePrint": "ক্রেডিট কার্ড লাগে না · ৭ দিন ফ্রি ট্রায়ালে সীমিত AI টোকেন"
+    },
+    "trust": {
+      "items": [
+        "৭ দিন ফ্রি ট্রায়াল",
+        "ক্রেডিট কার্ড লাগে না",
+        "বাংলা ও ইংরেজি",
+        "বাংলাদেশের উদ্যোক্তাদের জন্য"
+      ],
+      "integrations": "ইন্টিগ্রেশন"
+    },
+    "pillars": {
+      "eyebrow": "AI-চালিত SaaS",
+      "title": "AI — শুধু অ্যানালিটিক্স নয়, পুরো ব্যবসা",
+      "subtitle": "বুঝুন, তৈরি করুন, বিক্রি বাড়ান, সাপোর্ট দিন — চার দিক থেকে AI আপনার পাশে।",
+      "items": {
+        "understand": {
+          "label": "Understand",
+          "title": "বুঝুন",
+          "description": "স্টোর ডেটা থেকে প্রশ্নের উত্তর — স্টক, প্রোডাক্ট, সারাংশ।"
+        },
+        "create": {
+          "label": "Create",
+          "title": "তৈরি করুন",
+          "description": "প্রোডাক্ট SEO, স্টোর সেটআপ, ক্যাটালগ ইম্পোর্ট।"
+        },
+        "sell": {
+          "label": "Sell",
+          "title": "বিক্রি বাড়ান",
+          "description": "ফোরকাস্ট, রেকমেন্ডেশন, স্মার্ট প্রাইসিং।"
+        },
+        "support": {
+          "label": "Support",
+          "title": "সাপোর্ট",
+          "description": "ক্রেতাদের জন্য AI চ্যাটবট — ২৪/৭।"
+        }
+      }
+    },
+    "spotlight": {
+      "eyebrow": "Live এখনই",
+      "title": "AI Copilot — আপনার ডেটা, আপনার উত্তর",
+      "subtitle": "লেবেলে AI নয় — কাজ করা copilot। স্টোর স্কোপড, গার্ডেড, প্রোডাকশন-রেডি।",
+      "points": [
+        "বাংলা বা ইংরেজিতে জিজ্ঞেস করুন",
+        "শুধু আপনার স্টোরের ডেটা",
+        "ট্রায়ালে সীমিত টোকেন"
+      ]
+    },
+    "capabilities": {
+      "title": "সম্পূর্ণ AI রোডম্যাপ",
+      "subtitle": "প্রতিটি ফিচারে স্পষ্ট স্ট্যাটাস — Live, Coming soon, বা Roadmap।",
+      "items": {
+        "copilot": { "title": "AI Business Copilot", "description": "চ্যাটে জিজ্ঞেস করুন — প্রোডাক্ট, স্টক, দাম।" },
+        "store-scoped": { "title": "স্টোর-স্কোপড উত্তর", "description": "শুধু আপনার দোকানের ডেটা।" },
+        "off-topic-guard": { "title": "অফ-টপিক গার্ড", "description": "ব্যবসা ছাড়া প্রশ্নে উত্তর দেয় না।" },
+        "chat-memory": { "title": "চ্যাট মেমোরি", "description": "ফলো-আপ কথোপকথন মনে রাখে।" },
+        "sales-forecast": { "title": "সেলস ফোরকাস্ট", "description": "ডিমান্ড পূর্বাভাস।" },
+        "product-seo": { "title": "AI প্রোডাক্ট SEO", "description": "টাইটেল, বর্ণনা, ট্যাগ।" },
+        "store-generator": { "title": "AI স্টোর জেনারেটর", "description": "বর্ণনা দিন — দোকান তৈরি।" },
+        "voice-to-product": { "title": "ভয়েস → প্রোডাক্ট", "description": "বলুন — ফর্ম পূরণ।" },
+        "facebook-import": { "title": "ফেসবুক ইম্পোর্ট", "description": "সোশ্যাল থেকে প্রোডাক্ট।" },
+        "pdf-import": { "title": "PDF ইম্পোর্ট", "description": "ক্যাটালগ আপলোড।" },
+        "recommendations": { "title": "রেকমেন্ডেশন", "description": "সঠিক প্রোডাক্ট দেখান।" },
+        "ai-pricing": { "title": "AI প্রাইসিং", "description": "দাম সাজেশন।" },
+        "ai-retargeting": { "title": "AI রিটার্গেটিং", "description": "স্মার্ট ক্যাম্পেইন।" },
+        "customer-chatbot": { "title": "ক্রেতা চ্যাটবট", "description": "২৪/৭ সাপোর্ট।" },
+        "order-faq": { "title": "অর্ডার FAQ", "description": "স্ট্যাটাস অটো উত্তর।" }
+      }
+    },
+    "commerce": {
+      "eyebrow": "ই-কমার্স ফাউন্ডেশন",
+      "title": "স্টোর ও কমার্স — AI-এর ভিত্তি",
+      "subtitle": "AI ছাড়াও সম্পূর্ণ স্টোর ম্যানেজমেন্ট। বেসিক প্ল্যানে ম্যানুয়ালি, AI প্ল্যানে স্মার্ট অটোমেশন।",
+      "items": {
+        "online-store": { "title": "অনলাইন স্টোর", "description": "yourstore.uddoktahut.com" },
+        "products-inventory": { "title": "প্রোডাক্ট ও ইনভেন্টরি", "description": "দাম, স্টক, SKU।" },
+        "free-trial": { "title": "৭ দিন ফ্রি ট্রায়াল", "description": "কার্ড ছাড়াই শুরু।" },
+        "store-themes": { "title": "স্টোর থিম", "description": "টেমপ্লেট কাস্টমাইজ।" },
+        "checkout": { "title": "চেকআউট", "description": "স্টোরফ্রন্ট অর্ডার।" },
+        "order-management": { "title": "অর্ডার ম্যানেজমেন্ট", "description": "এক ড্যাশবোর্ডে।" },
+        "bd-payments": { "title": "bKash / SSL", "description": "BD পেমেন্ট।" },
+        "delivery": { "title": "Pathao / RedX", "description": "ডেলিভারি ইন্টিগ্রেশন।" }
+      }
+    },
+    "howItWorks": {
+      "title": "কিভাবে কাজ করে?",
+      "subtitle": "৪টি সহজ ধাপ — কোনো কোডিং লাগে না।",
+      "steps": {
+        "signup": { "number": "০১", "title": "অ্যাকাউন্ট খুলুন", "description": "৭ দিন ফ্রি — কার্ড লাগে না।" },
+        "setup": { "number": "০২", "title": "স্টোর সেটআপ", "description": "নাম দিন — URL তৈরি।" },
+        "products": { "number": "০৩", "title": "প্রোডাক্ট যোগ", "description": "ম্যানুয়ালি বা শীঘ্রই AI।" },
+        "sell": { "number": "০৪", "title": "AI দিয়ে বিক্রি", "description": "জিজ্ঞেস করুন — লিংক শেয়ার করুন।" }
+      }
+    },
+    "pricing": {
+      "eyebrow": "স্পষ্ট মূল্য",
+      "title": "টোকেন-ভিত্তিক AI প্রাইসিং",
+      "subtitle": "বেসিক = AI ছাড়া ম্যানুয়াল। AI প্ল্যান = টোকেন অনুযায়ী।",
+      "note": "ট্রায়ালে Live ফিচার ব্যবহার করুন। পেইড প্ল্যান শীঘ্রই — এখন ৭ দিন ফ্রি নিন।",
+      "popular": "জনপ্রিয়",
+      "plans": {
+        "trial": {
+          "name": "ফ্রি ট্রায়াল",
+          "price": "৳০",
+          "period": "৭ দিন",
+          "tagline": "প্ল্যাটফর্ম টেস্ট",
+          "aiLabel": "সীমিত AI টোকেন",
+          "cta": "ফ্রি শুরু করুন",
+          "features": ["৭ দিন অ্যাক্সেস", "স্টোর + প্রোডাক্ট", "সীমিত AI টোকেন", "প্ল্যান বেছে নিন"]
+        },
+        "basic": {
+          "name": "বেসিক",
+          "price": "৳৫০০",
+          "period": "/মাস",
+          "tagline": "AI ছাড়া ম্যানুয়াল",
+          "aiLabel": "কোনো AI নেই",
+          "cta": "ট্রায়াল শুরু",
+          "features": ["স্টোর + প্রোডাক্ট", "থিম কাস্টমাইজ", "ম্যানুয়াল ম্যানেজ", "AI নেই"]
+        },
+        "ai-starter": {
+          "name": "AI স্টার্টার",
+          "price": "৳১,৫০০",
+          "period": "/মাস",
+          "tagline": "স্টোর + AI",
+          "aiLabel": "~৫,০০০ টোকেন/মাস",
+          "cta": "ট্রায়াল শুরু",
+          "features": ["বেসিক সব", "AI Copilot", "স্টোর ডেটা উত্তর", "টোকেন লিমিট"]
+        },
+        "ai-pro": {
+          "name": "AI প্রো",
+          "price": "৳২,৫০০",
+          "period": "/মাস",
+          "tagline": "বড় দোকান",
+          "aiLabel": "~১৫,০০০ টোকেন/মাস",
+          "cta": "ট্রায়াল শুরু",
+          "features": ["স্টার্টার সব", "৩× টোকেন", "অগ্রাধিকার সাপোর্ট", "নতুন AI আগে"]
+        },
+        "ai-business": {
+          "name": "AI বিজনেস",
+          "price": "৳৪,০০০",
+          "period": "/মাস",
+          "tagline": "সর্বোচ্চ AI",
+          "aiLabel": "~৫০,০০০ টোকেন/মাস",
+          "cta": "ট্রায়াল শুরু",
+          "features": ["প্রো সব", "সর্বোচ্চ টোকেন", "টিম (শীঘ্রই)", "কাস্টম AI"]
+        }
+      }
+    },
+    "roadmap": {
+      "title": "রোডম্যাপ",
+      "subtitle": "আমরা ধাপে ধাপে গড়ে তুলছি — সব কিছু স্পষ্ট লেবেলে।",
+      "phases": {
+        "live": {
+          "name": "এখন Live",
+          "items": ["AI Copilot", "চ্যাট মেমোরি", "মাল্টি-টেন্যান্ট স্টোর", "প্রোডাক্ট", "স্টোরফ্রন্ট", "AI সিকিউরিটি"]
+        },
+        "soon": {
+          "name": "শীঘ্রই",
+          "items": ["AI SEO", "অর্ডার", "bKash/SSL", "Pathao/RedX", "FB ইম্পোর্ট"]
+        },
+        "roadmap": {
+          "name": "রোডম্যাপ ২০২৬",
+          "items": ["AI স্টোর জেনারেটর", "ফোরকাস্ট", "রেকমেন্ডেশন", "চ্যাটবট", "ভয়েস→প্রোডাক্ট"]
+        }
+      }
+    },
+    "demoChat": {
+      "question": "আমার কতগুলো প্রোডাক্ট আছে এবং স্টক কেমন?",
+      "answer": "৫২টি প্রোডাক্ট, মোট স্টক ২,৫৪৯। গড় দাম ~৳৬৩। কম স্টকের তালিকা চাইলে জানান।",
+      "placeholder": "আপনার ব্যবসা সম্পর্কে জিজ্ঞেস করুন..."
+    },
+    "testimonials": {
+      "title": "ব্যবহারকারীদের মতামত",
+      "previous": "Previous",
+      "next": "Next",
+      "items": {
+        "rabeya": { "name": "রাবেয়া ইসলাম", "role": "Owner, Mrittika", "quote": "দোকান ও AI copilot এক জায়গায় — ব্যবসা বুঝতে সহজ।" },
+        "sohel": { "name": "সোহেল রানা", "role": "Deshi Look", "quote": "AI-কে জিজ্ঞেস করলে স্টকের উত্তর পাই।" },
+        "tanvir": { "name": "তানভীর হোসেন", "role": "Smart Shop", "quote": "ফেসবুক থেকে প্রফেশনাল SaaS-এ যেতে পারফেক্ট।" },
+        "sumaiya": { "name": "সুমাইয়া জাহান", "role": "Box & Bloom", "quote": "টোকেন প্ল্যানে নিজের মতো AI বেছে নেওয়া যায়।" }
+      }
+    },
+    "faq": {
+      "title": "প্রশ্নোত্তর",
+      "subtitle": "Live ফিচার, AI টোকেন, ও প্রাইসিং — সব স্পষ্ট।",
+      "items": {
+        "what": { "question": "UddoktaHut কী?", "answer": "AI-চালিত ই-কমার্স SaaS — স্টোর, ড্যাশবোর্ড, AI এক প্ল্যাটফর্মে।" },
+        "live-ai": { "question": "এখন কোন AI Live?", "answer": "AI Business Copilot — স্টোর ডেটা থেকে উত্তর।" },
+        "trial": { "question": "ফ্রি ট্রায়াল?", "answer": "৭ দিন, সীমিত AI টোকেন, কার্ড লাগে না।" },
+        "basic-ai": { "question": "৳৫০০ বেসিকে AI?", "answer": "না — ম্যানুয়াল স্টোর। AI ৳১,৫০০ থেকে।" },
+        "tokens": { "question": "AI টোকেন কী?", "answer": "প্রশ্ন-উত্তরে টোকেন খরচ। প্ল্যান অনুযায়ী মাসিক লিমিট।" },
+        "compare": { "question": "Bitcommerz/Zatiq থেকে পার্থক্য?", "answer": "AI-কেন্দ্রিক, লাইভ copilot, স্পষ্ট টোকেন প্রাইসিং, Live/Soon লেবেল।" },
+        "all-features": { "question": "সব ফিচার এখনই?", "answer": "না — লেবেল দেখুন: Live, Beta, Coming soon, Roadmap।" }
+      }
+    },
+    "cta": {
+      "badge": "৭ দিন ফ্রি ট্রায়াল",
+      "title": "আজই শুরু করুন — <hl>AI দিয়ে</hl> ব্যবসা এগিয়ে নিন",
+      "subtitle": "৭ দিন ফ্রি · সীমিত AI টোকেন · কার্ড লাগে না",
+      "perks": ["৭ দিন ফ্রি", "সীমিত AI টোকেন", "কার্ড লাগে না"],
+      "button": "ফ্রি ট্রায়াল শুরু করুন"
+    },
+    "footer": {
+      "tagline": "AI-চালিত ই-কমার্স SaaS — বাংলাদেশের উদ্যোক্তাদের জন্য।",
+      "columns": {
+        "product": "প্রোডাক্ট",
+        "company": "কোম্পানি",
+        "legal": "লিগ্যাল"
+      },
+      "links": {
+        "privacy": "প্রাইভেসি",
+        "terms": "টার্মস",
+        "contact": "যোগাযোগ"
+      },
+      "copyright": "© {year} UddoktaHut. সর্বস্বত্ব সংরক্ষিত।"
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { CONFIG } from "./lib/config";
 import { allRoles, protectedRoutes } from "./constants/rootConstant";
 import { jwtVerify } from "jose";
+import { detectLocaleFromRequest } from "./lib/i18n/detectLocale";
 
 export async function middleware(req) {
   const host = req.headers.get("host") || "";
@@ -9,6 +10,10 @@ export async function middleware(req) {
   if (!host) return NextResponse.next();
   if (req.nextUrl.pathname.startsWith("/_next/")) return NextResponse.next();
   if (req.nextUrl.pathname.startsWith("/api/")) return NextResponse.next();
+
+  if (req.nextUrl.pathname === "/" && !isStoreHost(host)) {
+    return redirectToLocaleHome(req);
+  }
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     req.nextUrl.pathname.startsWith(route)
@@ -61,6 +66,22 @@ export async function middleware(req) {
   return CONFIG.isProd
     ? productionMiddleware(host, req)
     : developmentMiddleware(host, req);
+}
+
+function isStoreHost(host) {
+  const hostname = host.split(":")[0];
+  const baseDomain = CONFIG.isProd ? "uddoktahut.com" : "uddoktahut.local";
+  return hostname.endsWith(`.${baseDomain}`) && hostname !== `www.${baseDomain}`;
+}
+
+// 307, not 308: the target depends on cookie/language/country, so it must never be cached as permanent.
+function redirectToLocaleHome(req) {
+  const url = req.nextUrl.clone();
+  url.pathname = `/${detectLocaleFromRequest(req)}`;
+  const response = NextResponse.redirect(url, 307);
+  response.headers.set("Cache-Control", "private, no-store");
+  response.headers.set("Vary", "Cookie, Accept-Language");
+  return response;
 }
 
 function productionMiddleware(host, req) {

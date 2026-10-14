@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 const STYLES = {
@@ -7,12 +8,12 @@ const STYLES = {
   roadmap: "bg-violet-100 text-violet-800 border-violet-200 dark:bg-violet-950/50 dark:text-violet-300",
 };
 
-const LABELS = { live: "Live", beta: "Beta", soon: "Coming soon", roadmap: "Roadmap" };
-
 export function StatusBadge({ status, className }) {
+  const t = useTranslations("Common.status");
+
   return (
     <span className={cn("inline-flex rounded-full border px-2.5 py-0.5 text-xs font-semibold", STYLES[status], className)}>
-      {LABELS[status]}
+      {t(status)}
     </span>
   );
 }
