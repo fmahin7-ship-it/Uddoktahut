@@ -16,32 +16,27 @@ export function PricingSection() {
   return (
     <section id="pricing" className={landing.section}>
       <div className={landing.container}>
-        <SectionHeader
-          eyebrow={t("eyebrow")}
-          title={t("title")}
-          subtitle={t("subtitle")}
-          gradientTitle
-        />
-        <p className="mx-auto -mt-6 mb-8 max-w-xl text-center text-sm text-muted-foreground">
-          {t("note")}
-        </p>
+        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} />
+        <p className="mx-auto -mt-4 mb-8 max-w-xl text-center text-sm text-muted-foreground">{t("note")}</p>
 
-        {/* flex-wrap + justify-center → 5 cards become 3+2 centered, no orphan gap */}
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className={cn(landing.grid, "sm:grid-cols-2 lg:grid-cols-4")}>
           {PRICING_PLANS.map((plan, i) => {
             const key = (field) => `plans.${plan.id}.${field}`;
             return (
-              <RevealOnScroll key={plan.id} delay={i * 0.05} className={landing.pricingItem}>
-                <SurfaceCard highlight={plan.popular} className={cn("relative flex h-full flex-col", plan.popular && "pt-4")}>
+              <RevealOnScroll key={plan.id} delay={i * 0.05}>
+                <SurfaceCard
+                  highlight={plan.popular}
+                  className={cn("relative flex h-full flex-col", plan.popular && "pt-4")}
+                >
                   {plan.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-green-400 px-3 py-0.5 text-[11px] font-bold text-green-900">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-green-400 px-3 py-0.5 text-[11px] font-bold text-green-900">
                       {t("popular")}
                     </span>
                   )}
                   <h3 className="text-base font-bold">{t(key("name"))}</h3>
                   <p className="mt-0.5 text-xs text-muted-foreground">{t(key("tagline"))}</p>
                   <div className="mt-4 flex items-baseline gap-1">
-                    <span className={cn("text-3xl font-bold", landing.gradientText)}>{t(key("price"))}</span>
+                    <span className="text-3xl font-bold text-foreground">{t(key("price"))}</span>
                     <span className="text-xs text-muted-foreground">{t(key("period"))}</span>
                   </div>
                   <div

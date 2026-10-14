@@ -1,8 +1,24 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FOOTER_COLUMNS } from "@/constants/landing/content";
+import { COMPANY } from "@/constants/company";
 import { landing } from "../landing-tokens";
 import { BrandLogo } from "../ui/BrandLogo";
 import { cn } from "@/lib/utils";
+
+const linkClass = "transition-colors hover:text-green-400";
+
+function FooterLink({ href, children }) {
+  return href.startsWith("/") ? (
+    <Link href={href} className={linkClass}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} className={linkClass}>
+      {children}
+    </a>
+  );
+}
 
 export function LandingFooter() {
   const t = useTranslations("Landing");
@@ -23,19 +39,26 @@ export function LandingFooter() {
             </h4>
             <ul className="space-y-2 text-sm">
               {col.links.map((link) => (
-                <li key={`${col.id}-${link.labelKey}`}>
-                  <a href={link.href} className="transition-colors hover:text-green-400">
-                    {t(link.labelKey)}
-                  </a>
+                <li key={link.labelKey}>
+                  <FooterLink href={link.href}>{t(link.labelKey)}</FooterLink>
                 </li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <p className={cn(landing.container, "mt-8 border-t border-dark-500 pt-5 text-center text-sm")}>
-        {t("footer.copyright", { year })}
-      </p>
+      <div
+        className={cn(
+          landing.container,
+          "mt-8 flex flex-col items-center gap-1 border-t border-dark-500 pt-5 text-center text-sm sm:flex-row sm:justify-between"
+        )}
+      >
+        <p>{t("footer.copyright", { year })}</p>
+        <p className="text-xs">
+          {COMPANY.abn && <span>{t("footer.abn", { abn: COMPANY.abn })} · </span>}
+          {COMPANY.location}
+        </p>
+      </div>
     </footer>
   );
 }

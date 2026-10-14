@@ -6,7 +6,8 @@ import { Bot, Send, Sparkles } from "lucide-react";
 import { StatusBadge } from "../ui/StatusBadge";
 import { cn } from "@/lib/utils";
 
-export function ProductDemoMockup({ animated = false, onDark = false }) {
+/** conversation: key under Landing.demoChat ("hero" | "spotlight"). */
+export function ProductDemoMockup({ animated = false, onDark = false, conversation = "hero" }) {
   const t = useTranslations("Landing.demoChat");
   const [step, setStep] = useState(animated ? 0 : 3);
 
@@ -63,7 +64,7 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
         {step >= 1 && (
           <div className="flex justify-end">
             <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-green-400 px-3.5 py-2.5 text-sm font-medium text-green-900">
-              {t("question")}
+              {t(`${conversation}.question`)}
             </div>
           </div>
         )}
@@ -104,7 +105,7 @@ export function ProductDemoMockup({ animated = false, onDark = false }) {
                   : "border-green-400/20 bg-muted/50"
               )}
             >
-              {t("answer")}
+              {t(`${conversation}.answer`)}
             </div>
           </div>
         )}

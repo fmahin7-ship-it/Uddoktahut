@@ -3,14 +3,10 @@ import { LandingNavbar } from "./LandingNavbar";
 import { HeroSection } from "./sections/HeroSection";
 import { TrustStrip } from "./sections/TrustStrip";
 import {
-  AIPillarsSection,
-  AISpotlightSection,
-  AICapabilitiesSection,
+  AICopilotSection,
   CommerceSection,
   HowItWorksSection,
   PricingSection,
-  RoadmapSection,
-  TestimonialsSection,
   FAQSection,
   CTASection,
   LandingFooter,
@@ -26,14 +22,10 @@ export default function LandingPage() {
       <LandingNavbar />
       <HeroSection />
       <TrustStrip />
-      <AIPillarsSection />
-      <AISpotlightSection />
-      <AICapabilitiesSection />
+      <AICopilotSection />
       <CommerceSection />
       <HowItWorksSection />
       <PricingSection />
-      <RoadmapSection />
-      <TestimonialsSection />
       <FAQSection />
       <CTASection />
       <LandingFooter />
