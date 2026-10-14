@@ -4,7 +4,6 @@ import { allRoles, protectedRoutes } from "./constants/rootConstant";
 import { jwtVerify } from "jose";
 import { detectLocaleFromRequest } from "./lib/i18n/detectLocale";
 import { detectMarketFromRequest } from "./lib/market/detectMarket";
-import { MARKET_COOKIE, MARKET_COOKIE_MAX_AGE } from "./lib/market/config";
 import { isLocale } from "./i18n/config";
 
 export async function middleware(req) {
@@ -94,19 +93,25 @@ function redirectToLocaleHome(req) {
 
 // Serves the pre-built page for the visitor's price market while the URL stays /en or /bn,
 // so the right currency is in the first HTML (no client-side price swap).
-function rewriteToMarketLanding(req, locale) {
-  const market = detectMarketFromRequest(req, locale);
+async function rewriteToMarketLanding(req, locale) {
+  const storeCountry = await readStoreCountry(req);
+  const market = detectMarketFromRequest(req, { locale, storeCountry });
   const url = req.nextUrl.clone();
   url.pathname = `/${locale}/${market.toLowerCase()}`;
-  const response = NextResponse.rewrite(url);
-  if (req.cookies.get(MARKET_COOKIE)?.value !== market) {
-    response.cookies.set(MARKET_COOKIE, market, {
-      path: "/",
-      maxAge: MARKET_COOKIE_MAX_AGE,
-      sameSite: "lax",
-    });
+  return NextResponse.rewrite(url);
+}
+
+/** Store country from a signed-in seller's access token; null for visitors or invalid tokens. */
+async function readStoreCountry(req) {
+  const accessToken = req.cookies.get("accessToken")?.value;
+  if (!accessToken) return null;
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(accessToken, secret);
+    return payload.country ?? null;
+  } catch {
+    return null;
   }
-  return response;
 }
 
 function productionMiddleware(host, req) {

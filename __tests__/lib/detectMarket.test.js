@@ -15,21 +15,22 @@ describe("marketFromCountry", () => {
 });
 
 describe("detectMarket", () => {
-  it("prefers an explicit cookie over country and language", () => {
-    expect(detectMarket({ cookieMarket: "BD", country: "AU", locale: "en" })).toBe("BD");
-    expect(detectMarket({ cookieMarket: "AU", country: "BD", locale: "bn" })).toBe("AU");
+  it("uses a signed-in seller's store country wherever they are", () => {
+    expect(detectMarket({ storeCountry: "BD", country: "AU", locale: "en" })).toBe("BD");
+    expect(detectMarket({ storeCountry: "AU", country: "BD", locale: "bn" })).toBe("AU");
   });
 
-  it("ignores an unknown cookie value", () => {
-    expect(detectMarket({ cookieMarket: "US", country: "BD", locale: "en" })).toBe("BD");
+  it("ignores an invalid store country", () => {
+    expect(detectMarket({ storeCountry: "US", country: "BD", locale: "en" })).toBe("BD");
   });
 
-  it("uses the visitor's country, not the page language", () => {
+  it("uses the visitor's IP country, not the page language", () => {
     expect(detectMarket({ country: "AU", locale: "bn" })).toBe("AU");
     expect(detectMarket({ country: "BD", locale: "en" })).toBe("BD");
+    expect(detectMarket({ country: "US", locale: "bn" })).toBe("AU");
   });
 
-  it("falls back to the page language when the country is unknown", () => {
+  it("falls back to the page language when location is unknown", () => {
     expect(detectMarket({ locale: "bn" })).toBe("BD");
     expect(detectMarket({ locale: "en" })).toBe("AU");
     expect(detectMarket({})).toBe("AU");
