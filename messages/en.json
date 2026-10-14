@@ -1,8 +1,8 @@
 {
   "Metadata": {
     "title": "UddoktaHut — AI-powered e-commerce SaaS",
-    "description": "AI-powered e-commerce SaaS for small businesses. Online store, AI copilot, token-based pricing. 7-day free trial.",
-    "ogDescription": "Open your store and understand your business with AI. A live AI copilot and a clear roadmap."
+    "description": "AI-powered e-commerce SaaS for small businesses. An online store plus an AI copilot that answers questions from your store data. 7-day free trial.",
+    "ogDescription": "Open your store and ask an AI copilot about your products, stock and prices."
   },
   "Common": {
     "language": {
@@ -12,9 +12,7 @@
     },
     "status": {
       "live": "Live",
-      "beta": "Beta",
-      "soon": "Coming soon",
-      "roadmap": "Roadmap"
+      "beta": "Beta"
     }
   },
   "Landing": {
@@ -22,7 +20,6 @@
       "ai": "AI",
       "features": "Features",
       "pricing": "Pricing",
-      "roadmap": "Roadmap",
       "faq": "FAQ",
       "login": "Log in",
       "signup": "Start free",
@@ -32,91 +29,62 @@
     "hero": {
       "badge": "AI-powered e-commerce SaaS",
       "title": "Run your online business<br></br><hl>with AI</hl>",
-      "subtitle": "Open a store, manage products, understand your numbers, create listings and grow sales. The AI isn't just analytics — it helps across the whole business.",
+      "subtitle": "Open your online store, manage products and stock, and ask an AI copilot about your business in plain language.",
       "primaryCta": "Start your 7-day free trial",
       "secondaryCta": "See the AI",
-      "finePrint": "No credit card needed · Limited AI tokens during the 7-day trial"
+      "finePrint": "No credit card needed · Set up in minutes"
     },
     "trust": {
       "items": [
         "7-day free trial",
         "No credit card needed",
-        "Bangla and English",
-        "Built for Bangladeshi entrepreneurs"
-      ],
-      "integrations": "Integrations"
+        "Ask in Bangla or English",
+        "Answers only from your store's data"
+      ]
     },
-    "pillars": {
-      "eyebrow": "AI-powered SaaS",
-      "title": "AI for the whole business, not just analytics",
-      "subtitle": "Understand, create, sell and support — AI helps on all four fronts.",
-      "items": {
-        "understand": {
-          "label": "Understand",
-          "title": "Know your numbers",
-          "description": "Answers from your store data — stock, products, summaries."
+    "ai": {
+      "eyebrow": "AI Copilot",
+      "title": "Ask your store anything",
+      "subtitle": "Get instant answers from your own products, stock and prices — no spreadsheets, no reports to build.",
+      "features": {
+        "copilot": {
+          "title": "Plain-language answers",
+          "description": "Ask how many products you have, what's low on stock or what things cost."
         },
-        "create": {
-          "label": "Create",
-          "title": "Build faster",
-          "description": "Product SEO, store setup, catalogue import."
+        "private": {
+          "title": "Only your store's data",
+          "description": "Answers come from your store alone, and off-topic questions are politely declined."
         },
-        "sell": {
-          "label": "Sell",
-          "title": "Grow sales",
-          "description": "Forecasts, recommendations, smart pricing."
+        "memory": {
+          "title": "Remembers the conversation",
+          "description": "Ask follow-up questions without repeating yourself."
         },
-        "support": {
-          "label": "Support",
-          "title": "Help customers",
-          "description": "An AI chatbot for your customers, 24/7."
+        "bilingual": {
+          "title": "Bangla or English",
+          "description": "Ask in whichever language you're comfortable with."
         }
       }
     },
-    "spotlight": {
-      "eyebrow": "Live now",
-      "title": "AI Copilot — your data, your answers",
-      "subtitle": "Not AI as a label — a copilot that actually works. Scoped to your store, guarded, production-ready.",
-      "points": [
-        "Ask in Bangla or English",
-        "Only your store's data",
-        "Limited tokens on the trial"
-      ]
-    },
-    "capabilities": {
-      "title": "The full AI roadmap",
-      "subtitle": "Every feature has a clear status — Live, Coming soon or Roadmap.",
-      "items": {
-        "copilot": { "title": "AI Business Copilot", "description": "Ask in chat — products, stock, prices." },
-        "store-scoped": { "title": "Store-scoped answers", "description": "Only your store's data." },
-        "off-topic-guard": { "title": "Off-topic guard", "description": "Won't answer questions unrelated to your business." },
-        "chat-memory": { "title": "Chat memory", "description": "Remembers the conversation for follow-up questions." },
-        "sales-forecast": { "title": "Sales forecast", "description": "Demand prediction." },
-        "product-seo": { "title": "AI product SEO", "description": "Titles, descriptions, tags." },
-        "store-generator": { "title": "AI store generator", "description": "Describe it — get a store." },
-        "voice-to-product": { "title": "Voice → product", "description": "Speak — the form fills itself." },
-        "facebook-import": { "title": "Facebook import", "description": "Bring products over from social." },
-        "pdf-import": { "title": "PDF import", "description": "Upload a catalogue." },
-        "recommendations": { "title": "Recommendations", "description": "Show the right products." },
-        "ai-pricing": { "title": "AI pricing", "description": "Price suggestions." },
-        "ai-retargeting": { "title": "AI retargeting", "description": "Smarter campaigns." },
-        "customer-chatbot": { "title": "Customer chatbot", "description": "24/7 support." },
-        "order-faq": { "title": "Order FAQ", "description": "Automatic order status replies." }
-      }
+    "demoChat": {
+      "hero": {
+        "question": "How many products do I have, and how's my stock?",
+        "answer": "52 products with 2,549 units in stock. Average price is ~A$18. Want a list of low-stock items?"
+      },
+      "spotlight": {
+        "question": "Which products are running low?",
+        "answer": "3 products are under 5 units: Cotton Saree (2), Ceramic Mug (3) and Leather Wallet (4). Want their prices too?"
+      },
+      "placeholder": "Ask about your business..."
     },
     "commerce": {
-      "eyebrow": "E-commerce foundation",
-      "title": "Store and commerce — the base for the AI",
-      "subtitle": "Full store management even without AI. Manual on the Basic plan, smart automation on AI plans.",
+      "eyebrow": "Store features",
+      "title": "Everything you need to sell online",
+      "subtitle": "Your own store, products and checkout — ready on day one, with or without AI.",
       "items": {
-        "online-store": { "title": "Online store", "description": "yourstore.uddoktahut.com" },
-        "products-inventory": { "title": "Products & inventory", "description": "Prices, stock, SKUs." },
-        "free-trial": { "title": "7-day free trial", "description": "Start without a card." },
-        "store-themes": { "title": "Store themes", "description": "Customisable templates." },
-        "checkout": { "title": "Checkout", "description": "Storefront orders." },
-        "order-management": { "title": "Order management", "description": "All in one dashboard." },
-        "bd-payments": { "title": "bKash / SSL", "description": "Bangladesh payments." },
-        "delivery": { "title": "Pathao / RedX", "description": "Delivery integration." }
+        "online-store": { "title": "Your online store", "description": "Your own address at yourstore.uddoktahut.com." },
+        "products-inventory": { "title": "Products & inventory", "description": "Prices, stock and SKUs in one place." },
+        "store-themes": { "title": "Store themes", "description": "Pick a template and make it yours." },
+        "checkout": { "title": "Checkout", "description": "Customers order straight from your storefront." }
       }
     },
     "howItWorks": {
@@ -125,116 +93,71 @@
       "steps": {
         "signup": { "number": "01", "title": "Create an account", "description": "7 days free — no card needed." },
         "setup": { "number": "02", "title": "Set up your store", "description": "Pick a name — get your URL." },
-        "products": { "number": "03", "title": "Add products", "description": "Manually for now, with AI soon." },
-        "sell": { "number": "04", "title": "Sell with AI", "description": "Ask questions — share your link." }
+        "products": { "number": "03", "title": "Add products", "description": "Add prices, stock and photos." },
+        "sell": { "number": "04", "title": "Start selling", "description": "Share your store link — and ask the AI how things are going." }
       }
     },
     "pricing": {
-      "eyebrow": "Clear pricing",
-      "title": "Token-based AI pricing",
-      "subtitle": "Basic = manual, no AI. AI plans = priced by tokens.",
-      "note": "Prices in AUD. Use the live features on the trial. Paid plans are coming soon — start your 7 days free now.",
-      "popular": "Popular",
+      "eyebrow": "Pricing",
+      "title": "Simple monthly pricing",
+      "subtitle": "Start with the store. Add the AI copilot when you need it.",
+      "note": "Prices in AUD. Paid plans are coming soon — start your 7-day free trial now.",
+      "popular": "Most popular",
       "plans": {
         "trial": {
           "name": "Free trial",
           "price": "A$0",
           "period": "7 days",
-          "tagline": "Try the platform",
-          "aiLabel": "Limited AI tokens",
+          "tagline": "Try the store",
+          "aiLabel": "No AI on the trial",
           "cta": "Start free",
-          "features": ["7 days of access", "Store + products", "Limited AI tokens", "Pick a plan after"]
+          "features": ["7 days of access", "Up to 20 products", "Your online store", "No card needed"]
         },
         "basic": {
           "name": "Basic",
           "price": "A$15",
           "period": "/month",
-          "tagline": "Manual, no AI",
+          "tagline": "Store without AI",
           "aiLabel": "No AI",
           "cta": "Start trial",
-          "features": ["Store + products", "Theme customisation", "Manual management", "No AI"]
+          "features": ["Up to 300 products", "Your online store", "Theme customisation", "Inventory management"]
         },
-        "ai-starter": {
-          "name": "AI Starter",
-          "price": "A$29",
+        "pro": {
+          "name": "Pro",
+          "price": "A$39",
           "period": "/month",
           "tagline": "Store + AI",
-          "aiLabel": "~5,000 tokens/month",
+          "aiLabel": "AI Copilot included",
           "cta": "Start trial",
-          "features": ["Everything in Basic", "AI Copilot", "Answers from store data", "Token limit"]
+          "features": ["Everything in Basic", "Up to 700 products", "AI Copilot", "Ask in Bangla or English"]
         },
-        "ai-pro": {
-          "name": "AI Pro",
-          "price": "A$59",
+        "business": {
+          "name": "Business",
+          "price": "A$99",
           "period": "/month",
           "tagline": "For bigger stores",
-          "aiLabel": "~15,000 tokens/month",
+          "aiLabel": "5× AI usage",
           "cta": "Start trial",
-          "features": ["Everything in Starter", "3× the tokens", "Priority support", "Early access to new AI"]
-        },
-        "ai-business": {
-          "name": "AI Business",
-          "price": "A$119",
-          "period": "/month",
-          "tagline": "Maximum AI",
-          "aiLabel": "~50,000 tokens/month",
-          "cta": "Start trial",
-          "features": ["Everything in Pro", "Highest token limit", "Team (coming soon)", "Custom AI"]
+          "features": ["Everything in Pro", "Up to 2,000 products", "5× Pro's AI usage", "Priority support"]
         }
-      }
-    },
-    "roadmap": {
-      "title": "Roadmap",
-      "subtitle": "We're building step by step — everything clearly labelled.",
-      "phases": {
-        "live": {
-          "name": "Live now",
-          "items": ["AI Copilot", "Chat memory", "Multi-tenant stores", "Products", "Storefront", "AI security"]
-        },
-        "soon": {
-          "name": "Coming soon",
-          "items": ["AI SEO", "Orders", "bKash/SSL", "Pathao/RedX", "FB import"]
-        },
-        "roadmap": {
-          "name": "Roadmap 2026",
-          "items": ["AI store generator", "Forecasting", "Recommendations", "Chatbot", "Voice→product"]
-        }
-      }
-    },
-    "demoChat": {
-      "question": "How many products do I have, and how's my stock?",
-      "answer": "52 products with 2,549 units in stock. Average price is ~A$18. Want a list of low-stock items?",
-      "placeholder": "Ask about your business..."
-    },
-    "testimonials": {
-      "title": "What users say",
-      "previous": "Previous",
-      "next": "Next",
-      "items": {
-        "rabeya": { "name": "Rabeya Islam", "role": "Owner, Mrittika", "quote": "My store and the AI copilot in one place — it makes the business easier to understand." },
-        "sohel": { "name": "Sohel Rana", "role": "Deshi Look", "quote": "I ask the AI and get my stock numbers straight away." },
-        "tanvir": { "name": "Tanvir Hossain", "role": "Smart Shop", "quote": "Perfect for moving from a Facebook page to a proper SaaS." },
-        "sumaiya": { "name": "Sumaiya Jahan", "role": "Box & Bloom", "quote": "Token plans let me choose how much AI I actually need." }
       }
     },
     "faq": {
       "title": "FAQ",
-      "subtitle": "Live features, AI tokens and pricing — all spelled out.",
+      "subtitle": "Everything you need to know before you start.",
       "items": {
         "what": { "question": "What is UddoktaHut?", "answer": "An AI-powered e-commerce SaaS — store, dashboard and AI on one platform." },
-        "live-ai": { "question": "Which AI is live right now?", "answer": "The AI Business Copilot — answers from your store data." },
-        "trial": { "question": "Is there a free trial?", "answer": "Yes — 7 days, limited AI tokens, no card needed." },
-        "basic-ai": { "question": "Does the A$15 Basic plan include AI?", "answer": "No — it's a manual store. AI starts from A$29." },
-        "tokens": { "question": "What are AI tokens?", "answer": "Each question and answer uses tokens. Every plan has a monthly limit." },
-        "compare": { "question": "How is it different from Bitcommerz or Zatiq?", "answer": "AI-first, a live copilot, clear token pricing and honest Live/Soon labels." },
-        "all-features": { "question": "Is every feature available now?", "answer": "No — check the labels: Live, Beta, Coming soon, Roadmap." }
+        "ai": { "question": "What can the AI copilot do?", "answer": "It answers questions about your products, stock and prices using your own store data, in Bangla or English. It remembers the conversation for follow-ups and declines questions that aren't about your business." },
+        "trial": { "question": "Is there a free trial?", "answer": "Yes — 7 days, no card needed. The trial covers the online store; the AI copilot is included from the Pro plan." },
+        "basic-ai": { "question": "Does the A$15 Basic plan include AI?", "answer": "No — Basic is the online store without AI. The AI copilot comes with Pro (A$39/month)." },
+        "ai-usage": { "question": "Is there a limit on AI usage?", "answer": "Each AI plan includes a monthly AI allowance, and Business gets five times Pro's. If you reach it, the copilot pauses until next month — your store keeps working." },
+        "compare": { "question": "How is it different from Shopify?", "answer": "UddoktaHut is built around an AI copilot that answers questions from your store data, with simple pricing from A$15/month." }
       }
     },
     "cta": {
       "badge": "7-day free trial",
       "title": "Start today — grow your business <hl>with AI</hl>",
-      "subtitle": "7 days free · Limited AI tokens · No card needed",
-      "perks": ["7 days free", "Limited AI tokens", "No card needed"],
+      "subtitle": "No credit card needed · Set up in minutes",
       "button": "Start your free trial"
     },
     "footer": {
@@ -247,9 +170,11 @@
       "links": {
         "privacy": "Privacy",
         "terms": "Terms",
+        "refunds": "Refunds",
         "contact": "Contact"
       },
-      "copyright": "© {year} UddoktaHut. All rights reserved."
+      "copyright": "© {year} UddoktaHut. All rights reserved.",
+      "abn": "ABN {abn}"
     }
   }
 }

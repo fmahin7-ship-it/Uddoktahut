@@ -8,7 +8,6 @@ export function SectionHeader({
   subtitle,
   align = "center",
   className,
-  gradientTitle,
   onDark,
 }) {
   return (
@@ -25,12 +24,7 @@ export function SectionHeader({
       {eyebrow && (
         <p className={onDark ? landing.eyebrowOnDark : landing.eyebrow}>{eyebrow}</p>
       )}
-      <h2
-        className={cn(
-          landing.title,
-          gradientTitle ? landing.gradientText : onDark ? "text-zinc-50" : "text-foreground"
-        )}
-      >
+      <h2 className={cn(landing.title, onDark ? "text-zinc-50" : "text-foreground")}>
         {title}
       </h2>
       {subtitle && (

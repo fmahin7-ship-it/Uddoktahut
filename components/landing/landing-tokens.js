@@ -32,6 +32,4 @@ export const landing = {
   iconBox:
     "flex h-10 w-10 items-center justify-center rounded-lg bg-green-400 text-green-900 shadow-sm shadow-green-400/25",
   divider: "mx-auto mt-4 h-0.5 w-12 rounded-full bg-green-400",
-  pricingItem:
-    "w-full flex-none sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)]",
 };
