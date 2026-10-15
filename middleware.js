@@ -95,7 +95,7 @@ function redirectToLocaleHome(req) {
 // so the right currency is in the first HTML (no client-side price swap).
 async function rewriteToMarketLanding(req, locale) {
   const storeCountry = await readStoreCountry(req);
-  const market = detectMarketFromRequest(req, { locale, storeCountry });
+  const market = detectMarketFromRequest(req, { storeCountry });
   const url = req.nextUrl.clone();
   url.pathname = `/${locale}/${market.toLowerCase()}`;
   return NextResponse.rewrite(url);
