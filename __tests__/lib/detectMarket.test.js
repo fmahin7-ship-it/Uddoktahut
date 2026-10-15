@@ -1,4 +1,4 @@
-import { detectMarket } from "@/lib/market/detectMarket";
+import { detectMarket, requestCountry } from "@/lib/market/detectMarket";
 import { marketFromCountry } from "@/lib/market/config";
 
 describe("marketFromCountry", () => {
@@ -16,23 +16,46 @@ describe("marketFromCountry", () => {
 
 describe("detectMarket", () => {
   it("uses a signed-in seller's store country wherever they are", () => {
-    expect(detectMarket({ storeCountry: "BD", country: "AU", locale: "en" })).toBe("BD");
-    expect(detectMarket({ storeCountry: "AU", country: "BD", locale: "bn" })).toBe("AU");
+    expect(detectMarket({ storeCountry: "BD", country: "AU" })).toBe("BD");
+    expect(detectMarket({ storeCountry: "AU", country: "BD" })).toBe("AU");
   });
 
   it("ignores an invalid store country", () => {
-    expect(detectMarket({ storeCountry: "US", country: "BD", locale: "en" })).toBe("BD");
+    expect(detectMarket({ storeCountry: "US", country: "BD" })).toBe("BD");
   });
 
-  it("uses the visitor's IP country, not the page language", () => {
-    expect(detectMarket({ country: "AU", locale: "bn" })).toBe("AU");
-    expect(detectMarket({ country: "BD", locale: "en" })).toBe("BD");
-    expect(detectMarket({ country: "US", locale: "bn" })).toBe("AU");
+  it("uses the visitor's IP country", () => {
+    expect(detectMarket({ country: "AU" })).toBe("AU");
+    expect(detectMarket({ country: "BD" })).toBe("BD");
+    expect(detectMarket({ country: "US" })).toBe("AU");
   });
 
-  it("falls back to the page language when location is unknown", () => {
-    expect(detectMarket({ locale: "bn" })).toBe("BD");
-    expect(detectMarket({ locale: "en" })).toBe("AU");
+  it("uses AU when location is unknown, whatever the page language", () => {
     expect(detectMarket({})).toBe("AU");
+    expect(detectMarket({ country: null })).toBe("AU");
+  });
+});
+
+describe("requestCountry", () => {
+  const originalEnv = process.env;
+  const headersWith = (entries) => new Map(Object.entries(entries));
+
+  afterEach(() => {
+    process.env = originalEnv;
+  });
+
+  it("prefers the Vercel IP header", () => {
+    process.env = { ...originalEnv, DEV_IP_COUNTRY: "AU" };
+    expect(requestCountry(headersWith({ "x-vercel-ip-country": "BD" }))).toBe("BD");
+  });
+
+  it("uses DEV_IP_COUNTRY outside production when the header is missing", () => {
+    process.env = { ...originalEnv, NODE_ENV: "development", DEV_IP_COUNTRY: "BD" };
+    expect(requestCountry(headersWith({}))).toBe("BD");
+  });
+
+  it("ignores DEV_IP_COUNTRY in production", () => {
+    process.env = { ...originalEnv, NODE_ENV: "production", DEV_IP_COUNTRY: "BD" };
+    expect(requestCountry(headersWith({}))).toBeNull();
   });
 });
