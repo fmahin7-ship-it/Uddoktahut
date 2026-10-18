@@ -7,6 +7,7 @@ import {
   ShoppingBagIcon,
   SquareTerminal,
   BarChart3,
+  CreditCard,
 } from "lucide-react";
 import { useUser } from "@/app/context/UserContext";
 import { NavMain } from "@/components/dashboard/NavMain";
@@ -43,6 +44,12 @@ const BASE_NAV = [
     url: "#",
     icon: Settings2,
     items: [{ title: "Store Appearance", url: "/dashboard/settings" }],
+  },
+  {
+    title: "Billing",
+    url: "#",
+    icon: CreditCard,
+    items: [{ title: "Plan and billing", url: "/dashboard/billing" }],
   },
 ];
 

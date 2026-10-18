@@ -15,6 +15,8 @@ export default async function AnalyticsPage() {
           icon="billing"
           title="Subscription inactive"
           description="Renew your plan to access AI Business Analytics."
+          ctaHref="/dashboard/billing"
+          ctaLabel="Renew subscription"
         />
       </div>
     );
@@ -26,6 +28,7 @@ export default async function AnalyticsPage() {
         <UpgradePrompt
           title="AI requires Pro or Business"
           description="Your current plan does not include AI Business Analytics. Upgrade to Pro or Business to ask questions about your store data."
+          ctaHref="/dashboard/billing"
           ctaLabel="Upgrade to Pro"
         />
       </div>

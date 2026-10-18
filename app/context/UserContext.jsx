@@ -24,6 +24,9 @@ const initialState = {
   aiTokensUsed: 0,
   aiTokensRemaining: 0,
   subscriptionStatus: "trialing",
+  country: "AU",
+  endDate: null,
+  cancelAtPeriodEnd: false,
 };
 
 const UserContext = createContext();
