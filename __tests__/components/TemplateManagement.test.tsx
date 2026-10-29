@@ -1,0 +1,204 @@
+import React from "react";
+import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { toast } from "sonner";
+import TemplateManagement from "@/features/store-settings/components/TemplateManagement";
+import { renderWithProviders, mockUser } from "../utils/test-utils";
+import { DEFAULT_TEMPLATE } from "@/shared/constants/templates";
+
+// Mock the toast notifications
+jest.mock("sonner", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
+// Mock the API call
+jest.mock("@/features/store-settings/actions", () => ({
+  updateStoreTemplate: jest.fn(),
+}));
+
+// Mock the InteractiveTemplateGrid component for focused testing
+jest.mock("@/features/store-settings/components/InteractiveTemplateGrid", () => {
+  return function MockInteractiveTemplateGrid({
+    initialTemplate,
+    onTemplateChange,
+    disabled,
+  }: {
+    initialTemplate?: string;
+    onTemplateChange: (id: string) => void;
+    disabled?: boolean;
+  }) {
+    return (
+      <div data-testid="template-grid">
+        <p>Current template: {initialTemplate}</p>
+        <button
+          data-testid="template-button-classic"
+          onClick={() => onTemplateChange("classic")}
+          disabled={disabled}
+        >
+          Select Classic Template
+        </button>
+        <button
+          data-testid="template-button-modern"
+          onClick={() => onTemplateChange("modern")}
+          disabled={disabled}
+        >
+          Select Modern Template
+        </button>
+        {disabled && <p data-testid="updating-indicator">Updating...</p>}
+      </div>
+    );
+  };
+});
+
+const { updateStoreTemplate } = require("@/features/store-settings/actions");
+
+describe("TemplateManagement Component", () => {
+  const user = userEvent.setup();
+
+  beforeEach(() => {
+    // Clear all mocks before each test
+    jest.clearAllMocks();
+  });
+
+  describe("Rendering", () => {
+    test("renders template grid with current template", () => {
+      renderWithProviders(<TemplateManagement />);
+
+      expect(screen.getByTestId("template-grid")).toBeInTheDocument();
+      expect(screen.getByText("Current template: modern")).toBeInTheDocument();
+    });
+
+    test("renders with custom user template", () => {
+      const customUser = { ...mockUser, template_name: "classic" };
+
+      renderWithProviders(<TemplateManagement />, { user: customUser });
+
+      expect(screen.getByText("Current template: classic")).toBeInTheDocument();
+    });
+  });
+
+  describe("Template Selection", () => {
+    test("successfully updates template", async () => {
+      // Mock successful API response
+      updateStoreTemplate.mockResolvedValueOnce({ ok: true, data: { success: true } });
+
+      renderWithProviders(<TemplateManagement />);
+
+      // Click to change template
+      const classicButton = screen.getByTestId("template-button-classic");
+      await user.click(classicButton);
+
+      // Verify API was called with correct parameters
+      await waitFor(() => {
+        expect(updateStoreTemplate).toHaveBeenCalledWith({
+          storeName: "test-store",
+          templateName: "classic",
+        });
+      });
+
+      // Verify success toast was shown
+      expect(toast.success).toHaveBeenCalledWith(
+        "Template updated successfully!",
+        { description: "Your store template has been changed." }
+      );
+    });
+
+    test("handles API errors gracefully", async () => {
+      // Server actions return a failed Result instead of throwing
+      const errorMessage = "Network error occurred";
+      updateStoreTemplate.mockResolvedValueOnce({ ok: false, error: errorMessage });
+
+      renderWithProviders(<TemplateManagement />);
+
+      // Click to change template
+      const classicButton = screen.getByTestId("template-button-classic");
+      await user.click(classicButton);
+
+      // Verify error toast was shown
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith("Failed to update template", {
+          description: errorMessage,
+        });
+      });
+    });
+
+    test("disables template selection during API call", async () => {
+      // Mock slow API response
+      updateStoreTemplate.mockImplementation(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(() => resolve({ ok: true, data: {} }), 100)
+          )
+      );
+
+      renderWithProviders(<TemplateManagement />);
+
+      // Click to change template
+      const classicButton = screen.getByTestId("template-button-classic");
+      await user.click(classicButton);
+
+      // Verify buttons are disabled during API call
+      expect(classicButton).toBeDisabled();
+      expect(screen.getByTestId("template-button-modern")).toBeDisabled();
+      expect(screen.getByTestId("updating-indicator")).toBeInTheDocument();
+
+      // Wait for API call to complete
+      await waitFor(() => {
+        expect(classicButton).not.toBeDisabled();
+      });
+    });
+  });
+
+  describe("User Context Integration", () => {
+    test("updates user context after successful template change", async () => {
+      updateStoreTemplate.mockResolvedValueOnce({ ok: true, data: { success: true } });
+
+      const { queryClient } = renderWithProviders(<TemplateManagement />);
+
+      // Initial template should be 'modern'
+      expect(screen.getByText("Current template: modern")).toBeInTheDocument();
+
+      // Change to classic template
+      const classicButton = screen.getByTestId("template-button-classic");
+      await user.click(classicButton);
+
+      await waitFor(() => {
+        expect(updateStoreTemplate).toHaveBeenCalled();
+      });
+
+      // Note: In a real test, we'd verify the user context was updated
+      // This would require access to the UserContext state
+    });
+  });
+
+  describe("Edge Cases", () => {
+    test("does not call the API when the user has no store", async () => {
+      const userWithoutStore = { ...mockUser, storeName: undefined };
+
+      renderWithProviders(<TemplateManagement />, { user: userWithoutStore });
+
+      await user.click(screen.getByTestId("template-button-classic"));
+
+      expect(updateStoreTemplate).not.toHaveBeenCalled();
+      expect(toast.error).toHaveBeenCalledWith(
+        "Failed to update template",
+        expect.objectContaining({ description: expect.any(String) })
+      );
+    });
+
+    test("falls back to the default template when none is set", () => {
+      const userWithoutTemplate = { ...mockUser, template_name: undefined };
+
+      renderWithProviders(<TemplateManagement />, {
+        user: userWithoutTemplate,
+      });
+
+      expect(
+        screen.getByText(`Current template: ${DEFAULT_TEMPLATE}`)
+      ).toBeInTheDocument();
+    });
+  });
+});

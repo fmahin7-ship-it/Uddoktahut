@@ -1,6 +1,6 @@
 # UddoktaHut Frontend
 
-A modern, responsive e-commerce frontend built with Next.js 15 and React 19. This **multi-tenant SaaS platform** allows multiple entrepreneurs to run their own isolated online stores on a shared infrastructure, each with customizable templates, independent product catalogs, and tenant-specific user management.
+A modern, responsive e-commerce frontend built with Next.js 16, React 19 and TypeScript. This **multi-tenant SaaS platform** allows multiple entrepreneurs to run their own isolated online stores on a shared infrastructure, each with customizable templates, independent product catalogs, and tenant-specific user management.
 
 > **🔗 Full-Stack Project**: This frontend integrates with [UddoktaHut Backend](https://github.com/fmahin7-ship-it/UddoktaHut-Backend) - a robust Node.js/Express API with PostgreSQL database, JWT authentication, and multi-tenant architecture.
 
@@ -39,17 +39,17 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 
 | Repository                                                                    | Technology Stack                  | Description                                       |
 | ----------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------- |
-| **[UddoktaHut Frontend](https://github.com/fmahin7-ship-it/UddoktaHut)**        | Next.js 15, React 19, TailwindCSS | Modern responsive frontend with dynamic templates |
+| **[UddoktaHut Frontend](https://github.com/fmahin7-ship-it/UddoktaHut)**        | Next.js 16, React 19, TypeScript, TailwindCSS | Modern responsive frontend with dynamic templates |
 | **[UddoktaHut Backend](https://github.com/fmahin7-ship-it/UddoktaHut-Backend)** | Node.js, Express, PostgreSQL      | Multi-tenant API with subscription management     |
 
 ## 🛠️ Technology Stack
 
-- **Framework**: Next.js 15 with App Router
-- **Frontend**: React 19, JavaScript (ES6+)
+- **Framework**: Next.js 16 with App Router (Turbopack)
+- **Frontend**: React 19, TypeScript (strict)
 - **Styling**: Tailwind CSS, Radix UI components
 - **State Management**: React Context + TanStack Query v5
 - **Forms**: React Hook Form + Zod validation
-- **Testing**: Jest + React Testing Library + MSW
+- **Testing**: Jest + React Testing Library
 - **Performance**: Dynamic imports, lazy loading, SSR
 
 ## 📋 Documentation
@@ -65,7 +65,7 @@ A modern, responsive e-commerce frontend built with Next.js 15 and React 19. Thi
 
 On Pro/Business plans the owner gets a streaming chat under Analytics. The UI sends the last 8 turns as `history` with each question; messages survive a page refresh via `sessionStorage` but are not stored server-side.
 
-Proxy: `app/api/ai/stream/route.js` → backend `POST /ai/query`. Plan gating and token limits come from `GET /subscription/status` on the backend — see [ENTITLEMENTS.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/ENTITLEMENTS.md).
+Proxy: `app/api/ai/stream/route.ts` → backend `POST /ai/query`. Plan gating and token limits come from `GET /subscription/status` on the backend — see [ENTITLEMENTS.md](https://github.com/fmahin7-ship-it/UddoktaHut-Backend/blob/main/docs/ENTITLEMENTS.md).
 
 ## 🔧 Installation & Setup
 
@@ -114,25 +114,18 @@ Visit `http://localhost:3000` to see your application.
 
 ## 📁 Project Structure
 
+Feature modules, like the backend. Full details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md).
+
 ```
 uddoktahut/
-├── app/                    # Next.js App Router pages
-│   ├── (auth)/            # Authentication pages
-│   ├── dashboard/         # Protected dashboard
-│   ├── onboarding/        # User onboarding flow
-│   └── store/[shopSlug]/  # Dynamic store pages
-├── components/             # React components
-│   ├── common/            # Shared components
-│   ├── dashboard/         # Dashboard features
-│   ├── form/              # Form components
-│   ├── landing/           # Landing page
-│   ├── shopui/            # Store templates
-│   └── ui/                # Base UI components
-├── lib/                    # Utilities and configurations
-│   ├── actions/           # API actions
-│   └── validation/        # Zod schemas
-├── docs/                   # Documentation
-└── __tests__/             # Test files
+├── app/            # Routes only (App Router): (main)/…, bn/, en/, api/
+├── proxy.ts        # Auth, store subdomains, locale + price market (runs on every request)
+├── features/       # auth, onboarding, products, orders, billing, analytics,
+│                   # store-settings, storefront, landing, dashboard, legal
+├── shared/         # api client + types, providers, ui (shadcn), components, lib
+├── i18n/ messages/ # next-intl config, bn/en copy
+├── docs/
+└── __tests__/
 ```
 
 ## 🧪 Testing & Quality
@@ -157,7 +150,6 @@ npm run test:coverage # Generate coverage reports
 - ESLint for code standards
 - Jest for unit/integration testing
 - React Testing Library for component testing
-- MSW for API mocking
 
 ## 📈 Performance Features
 
@@ -173,7 +165,8 @@ npm run test:coverage # Generate coverage reports
 npm run dev          # Start development server
 npm run build        # Production build
 npm run start        # Start production server
-npm run lint         # Code linting
+npm run lint         # ESLint
+npm run typecheck    # TypeScript (strict)
 
 # Testing
 npm test             # Run tests

@@ -12,23 +12,41 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
+    // "server-only" throws outside a React Server build; tests import server code directly.
+    "^server-only$": "<rootDir>/__mocks__/server-only.js",
   },
   collectCoverageFrom: [
-    "components/**/*.{js,jsx}",
-    "hooks/**/*.{js,jsx}",
-    "lib/**/*.{js,jsx}",
-    "app/**/*.{js,jsx}",
+    "components/**/*.{js,jsx,ts,tsx}",
+    "features/**/*.{js,jsx,ts,tsx}",
+    "shared/**/*.{js,jsx,ts,tsx}",
+    "hooks/**/*.{js,jsx,ts,tsx}",
+    "lib/**/*.{js,jsx,ts,tsx}",
+    "app/**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
     "!**/.next/**",
     "!**/coverage/**",
   ],
   testMatch: [
-    "<rootDir>/__tests__/**/*.{js,jsx}",
-    "<rootDir>/**/*.{test,spec}.{js,jsx}",
+    "<rootDir>/__tests__/**/*.{js,jsx,ts,tsx}",
+    "<rootDir>/**/*.{test,spec}.{js,jsx,ts,tsx}",
   ],
-  testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
+  testPathIgnorePatterns: [
+    "<rootDir>/.next/",
+    "<rootDir>/node_modules/",
+    // Shared render helpers, not a test file.
+    "<rootDir>/__tests__/utils/",
+  ],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig);
+// next/jest sets its own transformIgnorePatterns; extend it so ESM-only
+// packages (jose, used by proxy.js) are transformed too.
+module.exports = async () => {
+  const config = await createJestConfig(customJestConfig)();
+  config.transformIgnorePatterns = [
+    "/node_modules/(?!(jose)/)",
+    ...config.transformIgnorePatterns.filter((p) => !p.includes("node_modules")),
+  ];
+  return config;
+};
