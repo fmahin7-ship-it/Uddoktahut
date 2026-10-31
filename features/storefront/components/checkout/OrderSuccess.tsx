@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 import StoreShell from "@/features/storefront/components/layout/StoreShell";
 import StoreCard from "@/features/storefront/components/common/StoreCard";
 import StorePrimaryButton from "@/features/storefront/components/common/StorePrimaryButton";
@@ -15,6 +16,7 @@ export default function OrderSuccess() {
   const total = searchParams.get("total");
   const phone = searchParams.get("phone");
   const { colors } = useStoreTheme();
+  const currency = useStoreCurrency();
 
   return (
     <StoreShell backHref="/shop" backLabel="Back to shop">
@@ -46,7 +48,7 @@ export default function OrderSuccess() {
             <div className="flex justify-between text-sm gap-4">
               <span style={{ color: colors.textSecondary }}>Total (COD)</span>
               <span className="font-bold" style={{ color: colors.accent }}>
-                {formatPrice(total)}
+                {formatPrice(total, currency)}
               </span>
             </div>
           )}

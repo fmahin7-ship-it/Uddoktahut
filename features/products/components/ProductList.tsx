@@ -10,8 +10,9 @@ import dynamic from "next/dynamic";
 import { FORM_MODES, MODAL_TYPES } from "@/shared/constants/formModes";
 import TableSkeleton from "@/shared/components/TableSkeleton";
 import { createProductColumns } from "@/features/products/columns";
-import { useState } from "react";
 import { useUser } from "@/shared/providers/user-provider";
+import { currencyFromCountry, currencySymbol } from "@/shared/market/config";
+import { useState } from "react";
 
 const PAGE_SIZE = 5;
 
@@ -70,6 +71,7 @@ const ConfirmationModal = dynamic(
 export function ProductList() {
   const { user } = useUser();
   const shopSlug = user?.storeName;
+  const priceSymbol = currencySymbol(currencyFromCountry(user?.country));
   const { modal, openModal, closeModal } = useModal();
   const [search, setSearch] = useState("");
   const [pageIndex, setPageIndex] = useState(0);
@@ -107,6 +109,7 @@ export function ProductList() {
   const columns = createProductColumns({
     onEdit: handleEdit,
     onDelete: handleDelete,
+    currencySymbol: priceSymbol,
   });
 
   const selectedProduct = modal.data as Product | null;

@@ -10,12 +10,14 @@ import { useShop } from "@/shared/providers/shop-provider";
 import { useCart } from "@/features/storefront/hooks/use-cart";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 import { Button } from "@/shared/ui/button";
 
 export default function ModernDarkProductCard({ product }: ProductCardProps) {
   const { shop } = useShop();
   const { addItem } = useCart(shop?.store_name);
   const { colors, typography, cardStyle } = useStoreTheme();
+  const currency = useStoreCurrency();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,7 +86,7 @@ export default function ModernDarkProductCard({ product }: ProductCardProps) {
               className="absolute top-4 right-4 px-3 py-1 font-bold text-sm"
               style={{ backgroundColor: colors.accent, color: colors.background }}
             >
-              {formatPrice(product.price)}
+              {formatPrice(product.price, currency)}
             </div>
           </div>
 

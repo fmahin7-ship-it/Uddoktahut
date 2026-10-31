@@ -26,9 +26,11 @@ const PRODUCT_STATUS_MAP = {
 export const createProductColumns = ({
   onEdit,
   onDelete,
+  currencySymbol = "৳",
 }: {
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
+  currencySymbol?: string;
 }) => [
   // Product Image
   createImageColumn<Product>({
@@ -60,7 +62,7 @@ export const createProductColumns = ({
   createCurrencyColumn<Product>({
     accessorKey: "price",
     header: "Price",
-    currency: "$",
+    currency: currencySymbol,
     decimals: 2,
   }),
 

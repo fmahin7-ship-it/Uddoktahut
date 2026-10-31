@@ -9,12 +9,14 @@ import { useShop } from "@/shared/providers/shop-provider";
 import { useCart } from "@/features/storefront/hooks/use-cart";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 import BoutiquePrimaryButton from "@/features/storefront/components/templates/boutique/commerce/BoutiquePrimaryButton";
 
 export default function BoutiqueProductCard({ product }: ProductCardProps) {
   const { shop } = useShop();
   const { addItem } = useCart(shop?.store_name);
   const { colors, cardClass, cardStyle } = useStoreTheme();
+  const currency = useStoreCurrency();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -62,7 +64,7 @@ export default function BoutiqueProductCard({ product }: ProductCardProps) {
             {product.name}
           </h2>
           <p className="text-lg font-medium" style={{ color: colors.accent }}>
-            {formatPrice(product.price)}
+            {formatPrice(product.price, currency)}
           </p>
         </div>
       </Link>

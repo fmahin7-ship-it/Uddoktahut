@@ -6,6 +6,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 
 export default function CartLineItem({ line, onUpdateQuantity, onRemove }: {
   line: CartLine;
@@ -13,6 +14,7 @@ export default function CartLineItem({ line, onUpdateQuantity, onRemove }: {
   onRemove: (productId: number) => void;
 }) {
   const { colors } = useStoreTheme();
+  const currency = useStoreCurrency();
 
   return (
     <div
@@ -47,7 +49,7 @@ export default function CartLineItem({ line, onUpdateQuantity, onRemove }: {
           {line.name}
         </h3>
         <p className="text-sm mt-1" style={{ color: colors.textSecondary }}>
-          {formatPrice(line.unitPrice)} each
+          {formatPrice(line.unitPrice, currency)} each
         </p>
         {line.stock < line.quantity && (
           <p className="text-xs text-destructive mt-1">
@@ -90,7 +92,7 @@ export default function CartLineItem({ line, onUpdateQuantity, onRemove }: {
 
           <div className="flex items-center gap-3">
             <span className="font-semibold text-sm" style={{ color: colors.accent }}>
-              {formatPrice(line.lineTotal)}
+              {formatPrice(line.lineTotal, currency)}
             </span>
             <Button
               type="button"

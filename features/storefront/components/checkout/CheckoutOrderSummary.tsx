@@ -1,11 +1,22 @@
 "use client";
 
-import type { CartItem, CartLine } from "@/features/storefront/cart/types";
+import type { CartLine } from "@/features/storefront/cart/types";
+import type { CurrencyCode } from "@/shared/api/types";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
 import StoreCard from "@/features/storefront/components/common/StoreCard";
 
-export default function CheckoutOrderSummary({ lines, subtotal, lineCount }: { lines: CartLine[]; subtotal: number; lineCount: number }) {
+export default function CheckoutOrderSummary({
+  lines,
+  subtotal,
+  lineCount,
+  currency,
+}: {
+  lines: CartLine[];
+  subtotal: number;
+  lineCount: number;
+  currency: CurrencyCode;
+}) {
   const { colors } = useStoreTheme();
 
   return (
@@ -24,7 +35,7 @@ export default function CheckoutOrderSummary({ lines, subtotal, lineCount }: { l
               {line.name} × {line.quantity}
             </span>
             <span className="shrink-0 font-medium">
-              {formatPrice(line.lineTotal)}
+              {formatPrice(line.lineTotal, currency)}
             </span>
           </li>
         ))}
@@ -34,7 +45,9 @@ export default function CheckoutOrderSummary({ lines, subtotal, lineCount }: { l
         style={{ borderColor: colors.border, color: colors.text }}
       >
         <span>Total ({lineCount} items)</span>
-        <span style={{ color: colors.accent }}>{formatPrice(subtotal)}</span>
+        <span style={{ color: colors.accent }}>
+          {formatPrice(subtotal, currency)}
+        </span>
       </div>
       <p className="text-xs" style={{ color: colors.textSecondary }}>
         Payment: Cash on delivery. We will confirm by phone.

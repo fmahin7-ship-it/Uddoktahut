@@ -27,8 +27,10 @@ const OrderStatusCell = ({ status }: { status: string }) => {
 
 export const createOrderColumns = ({
   onView,
+  currency = "BDT",
 }: {
   onView: (order: Order) => void;
+  currency?: "BDT" | "AUD";
 }): ColumnDef<Order>[] => [
   createTextColumn<Order>({
     accessorKey: "order_number",
@@ -46,7 +48,7 @@ export const createOrderColumns = ({
   {
     accessorKey: "total",
     header: "Total",
-    cell: ({ row }) => formatPrice(row.original.total),
+    cell: ({ row }) => formatPrice(row.original.total, currency),
   },
   {
     accessorKey: "status",

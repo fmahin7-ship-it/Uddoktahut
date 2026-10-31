@@ -10,12 +10,14 @@ import { useShop } from "@/shared/providers/shop-provider";
 import { useCart } from "@/features/storefront/hooks/use-cart";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 import ClassicPrimaryButton from "@/features/storefront/components/templates/classic/commerce/ClassicPrimaryButton";
 
 export default function ClassicProductCard({ product, compact = false }: ProductCardProps) {
   const { shop } = useShop();
   const { addItem } = useCart(shop?.store_name);
   const { colors, cardClass, cardStyle } = useStoreTheme();
+  const currency = useStoreCurrency();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -68,7 +70,7 @@ export default function ClassicProductCard({ product, compact = false }: Product
             {product.name}
           </h2>
           <p className={`font-bold ${compact ? "text-base" : "text-lg"}`} style={{ color: colors.text }}>
-            {formatPrice(product.price)}
+            {formatPrice(product.price, currency)}
           </p>
         </div>
       </Link>

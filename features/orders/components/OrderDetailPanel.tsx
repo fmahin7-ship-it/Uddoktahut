@@ -28,8 +28,12 @@ import {
   PAYMENT_STATUSES,
 } from "@/features/orders/constants";
 import Loader from "@/shared/components/Loader";
+import { useUser } from "@/shared/providers/user-provider";
+import { currencyFromCountry } from "@/shared/market/config";
 
 export default function OrderDetailPanel({ orderId }: { orderId: number | string }) {
+  const { user } = useUser();
+  const currency = currencyFromCountry(user?.country);
   const { data: order, isLoading, isError } = useOrder(orderId);
   const updateStatus = useUpdateOrderStatus();
   const createReturn = useCreateOrderReturn();
@@ -132,18 +136,20 @@ export default function OrderDetailPanel({ orderId }: { orderId: number | string
           <div className="pt-2 space-y-1 text-sm">
             <p>
               Order total:{" "}
-              <span className="font-semibold">{formatPrice(order.total)}</span>
+              <span className="font-semibold">
+                {formatPrice(order.total, currency)}
+              </span>
             </p>
             {totalRefunded > 0 && (
               <p className="text-muted-foreground">
                 Refunded:{" "}
                 <span className="font-medium text-foreground">
-                  {formatPrice(totalRefunded)}
+                  {formatPrice(totalRefunded, currency)}
                 </span>
               </p>
             )}
             <p className="text-base font-semibold pt-1">
-              Net amount (COD): {formatPrice(netTotal)}
+              Net amount (COD): {formatPrice(netTotal, currency)}
             </p>
           </div>
         </div>
@@ -160,7 +166,9 @@ export default function OrderDetailPanel({ orderId }: { orderId: number | string
               <span>
                 {item.product_name} × {item.quantity}
               </span>
-              <span className="font-medium">{formatPrice(item.line_total)}</span>
+              <span className="font-medium">
+                {formatPrice(item.line_total, currency)}
+              </span>
             </li>
           ))}
         </ul>
@@ -192,7 +200,7 @@ export default function OrderDetailPanel({ orderId }: { orderId: number | string
                     )}
                     {ret.refund_amount != null && (
                       <p className="mt-1">
-                        Refund: {formatPrice(ret.refund_amount)} (
+                        Refund: {formatPrice(ret.refund_amount, currency)} (
                         {ret.refund_status})
                       </p>
                     )}

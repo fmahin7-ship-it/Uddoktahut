@@ -25,13 +25,14 @@ const saree: Product = {
   store_id: 1,
 };
 
-const renderCheckout = () =>
+const renderCheckout = (country: "BD" | "AU" = "BD") =>
   render(
     <ShopProvider
       initialData={{
         store_name: "rahim",
         template_name: "classic",
         isActive: true,
+        country,
         products: [saree],
       }}
     >
@@ -39,11 +40,14 @@ const renderCheckout = () =>
     </ShopProvider>
   );
 
-const fillAndSubmit = async () => {
+const fillBdAndSubmit = async () => {
   const user = userEvent.setup();
   await user.type(await screen.findByPlaceholderText("Your name"), "Karim");
   await user.type(screen.getByPlaceholderText("01XXXXXXXXX"), "01712345678");
-  await user.type(screen.getByPlaceholderText("Area, city, details"), "House 5, Dhanmondi, Dhaka");
+  await user.type(
+    screen.getByPlaceholderText("Area, city, details"),
+    "House 5, Dhanmondi, Dhaka"
+  );
   await user.click(screen.getByRole("button", { name: /place order/i }));
 };
 
@@ -62,13 +66,12 @@ test("shows the backend's error to the customer when the order fails", async () 
     status: 409,
   });
 
-  renderCheckout();
-  await fillAndSubmit();
+  renderCheckout("BD");
+  await fillBdAndSubmit();
 
   expect(
     await screen.findByText('"Cotton Saree" has only 1 left in stock.')
   ).toBeInTheDocument();
-  // The cart is kept so the customer can fix it.
   expect(localStorage.getItem("uddoktahut_cart_rahim")).not.toBeNull();
 });
 
@@ -78,8 +81,8 @@ test("sends the cart as a COD order and clears it on success", async () => {
     data: { order_number: "ORD-1-ABC", total: 2500 },
   });
 
-  renderCheckout();
-  await fillAndSubmit();
+  renderCheckout("BD");
+  await fillBdAndSubmit();
 
   await waitFor(() => expect(placeStoreOrder).toHaveBeenCalledTimes(1));
   expect(placeStoreOrder).toHaveBeenCalledWith({
@@ -94,17 +97,65 @@ test("sends the cart as a COD order and clears it on success", async () => {
       },
     }),
   });
-  await waitFor(() => expect(localStorage.getItem("uddoktahut_cart_rahim")).toBeNull());
+  await waitFor(() =>
+    expect(localStorage.getItem("uddoktahut_cart_rahim")).toBeNull()
+  );
 });
 
-test("does not submit an invalid phone number", async () => {
-  renderCheckout();
+test("does not submit an invalid Bangladesh phone number", async () => {
+  renderCheckout("BD");
   const user = userEvent.setup();
   await user.type(await screen.findByPlaceholderText("Your name"), "Karim");
   await user.type(screen.getByPlaceholderText("01XXXXXXXXX"), "12345");
   await user.type(screen.getByPlaceholderText("Area, city, details"), "House 5, Dhaka");
   await user.click(screen.getByRole("button", { name: /place order/i }));
 
-  expect(await screen.findByText(/valid 11-digit Bangladesh phone/i)).toBeInTheDocument();
+  expect(
+    await screen.findByText(/valid 11-digit Bangladesh phone/i)
+  ).toBeInTheDocument();
+  expect(placeStoreOrder).not.toHaveBeenCalled();
+});
+
+test("accepts an Australian mobile on an AU store", async () => {
+  placeStoreOrder.mockResolvedValue({
+    ok: true,
+    data: { order_number: "ORD-AU-1", total: 49.5 },
+  });
+
+  renderCheckout("AU");
+  const user = userEvent.setup();
+  await user.type(await screen.findByPlaceholderText("Your name"), "Alex");
+  await user.type(screen.getByPlaceholderText("04XXXXXXXX"), "0412345678");
+  await user.type(
+    screen.getByPlaceholderText("Area, city, details"),
+    "12 Collins St, Melbourne"
+  );
+  await user.click(screen.getByRole("button", { name: /place order/i }));
+
+  await waitFor(() => expect(placeStoreOrder).toHaveBeenCalledTimes(1));
+  expect(placeStoreOrder).toHaveBeenCalledWith({
+    storeName: "rahim",
+    payload: expect.objectContaining({
+      customer: expect.objectContaining({
+        phone: "0412345678",
+      }),
+    }),
+  });
+});
+
+test("rejects a BD phone on an AU store", async () => {
+  renderCheckout("AU");
+  const user = userEvent.setup();
+  await user.type(await screen.findByPlaceholderText("Your name"), "Alex");
+  await user.type(screen.getByPlaceholderText("04XXXXXXXX"), "01712345678");
+  await user.type(
+    screen.getByPlaceholderText("Area, city, details"),
+    "12 Collins St, Melbourne"
+  );
+  await user.click(screen.getByRole("button", { name: /place order/i }));
+
+  expect(
+    await screen.findByText(/Australian mobile number/i)
+  ).toBeInTheDocument();
   expect(placeStoreOrder).not.toHaveBeenCalled();
 });

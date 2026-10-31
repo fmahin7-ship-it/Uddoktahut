@@ -9,6 +9,8 @@ import { createOrderColumns } from "@/features/orders/columns";
 import TableSkeleton from "@/shared/components/TableSkeleton";
 import { Button } from "@/shared/ui/button";
 import { ORDER_STATUSES } from "@/features/orders/constants";
+import { useUser } from "@/shared/providers/user-provider";
+import { currencyFromCountry } from "@/shared/market/config";
 
 const DataTable = dynamic(
   () =>
@@ -41,6 +43,8 @@ const skeletonColumns = [
 
 export default function OrderList() {
   const router = useRouter();
+  const { user } = useUser();
+  const currency = currencyFromCountry(user?.country);
   const [status, setStatus] = useState("");
   const [pageIndex, setPageIndex] = useState(0);
   const pageSize = 10;
@@ -53,6 +57,7 @@ export default function OrderList() {
 
   const columns = createOrderColumns({
     onView: (order) => router.push(`/dashboard/orders/${order.id}`),
+    currency,
   });
 
   const orders = data?.data || [];

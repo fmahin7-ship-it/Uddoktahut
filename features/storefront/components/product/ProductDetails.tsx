@@ -11,6 +11,7 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { formatPrice } from "@/shared/lib/formatPrice";
 import { useStoreTheme } from "@/features/storefront/hooks/useStoreTheme";
+import { useStoreCurrency } from "@/features/storefront/hooks/useStoreCurrency";
 import StoreShell from "@/features/storefront/components/layout/StoreShell";
 import StoreCard from "@/features/storefront/components/common/StoreCard";
 import StorePrimaryButton from "@/features/storefront/components/common/StorePrimaryButton";
@@ -19,6 +20,7 @@ export default function ProductDetails({ productId }: { productId: string | numb
   const router = useRouter();
   const { shop, products } = useShop();
   const shopSlug = shop?.store_name;
+  const currency = useStoreCurrency();
   const { addItem } = useCart(shopSlug);
   const [quantity, setQuantity] = useState(1);
   const { colors, maxWidth } = useStoreTheme();
@@ -99,7 +101,7 @@ export default function ProductDetails({ productId }: { productId: string | numb
               {product.name}
             </h1>
             <p className="text-3xl font-bold" style={{ color: colors.accent }}>
-              {formatPrice(product.price)}
+              {formatPrice(product.price, currency)}
             </p>
             <p className="text-sm" style={{ color: colors.textSecondary }}>
               {product.stock > 0
