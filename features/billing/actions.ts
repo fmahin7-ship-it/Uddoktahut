@@ -36,6 +36,39 @@ export async function startCheckout(
   return { url: result.data?.url };
 }
 
+/** Ask the backend to confirm a paid Checkout session with Stripe. */
+export async function confirmCheckout(
+  sessionId: string
+): Promise<{ ok?: boolean; alreadyActive?: boolean; error?: string }> {
+  const result = await apiRequest<{ ok: boolean; alreadyActive: boolean }>(
+    "/subscription/checkout/confirm",
+    {
+      method: "POST",
+      auth: true,
+      body: { sessionId },
+      cache: "no-store",
+      fallbackError: "Could not confirm payment.",
+    }
+  );
+  if (!result.ok) return { error: result.error };
+  return result.data ?? { ok: true };
+}
+
+/** Open Stripe Customer Portal (cancel, card, invoices). */
+export async function openBillingPortal(): Promise<{
+  url?: string;
+  error?: string;
+}> {
+  const result = await apiRequest<{ url: string }>("/subscription/billing-portal", {
+    method: "POST",
+    auth: true,
+    cache: "no-store",
+    fallbackError: "Could not open billing portal.",
+  });
+  if (!result.ok) return { error: result.error };
+  return { url: result.data?.url };
+}
+
 /** Reloads the signed-in seller's plan. Does not change it. */
 export async function reloadSubscription(): Promise<
   SubscriptionStatusResponse & { error?: string }

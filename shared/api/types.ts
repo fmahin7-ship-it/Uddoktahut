@@ -69,6 +69,8 @@ export interface SessionUser {
   subscriptionStatus?: SubscriptionStatus;
   endDate?: string | null;
   cancelAtPeriodEnd?: boolean;
+  /** "stripe" when the store paid by card — Manage billing stays available after expiry. */
+  billingProvider?: string | null;
 }
 
 export interface SubscriptionStatusResponse {
