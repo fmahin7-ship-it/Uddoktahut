@@ -69,6 +69,50 @@ export async function openBillingPortal(): Promise<{
   return { url: result.data?.url };
 }
 
+/** Switch Pro ↔ Business on the existing Stripe subscription. */
+export async function changeSubscriptionPlan(
+  plan: Extract<PlanSlug, "pro" | "business">
+): Promise<{
+  ok?: boolean;
+  mode?: "upgraded" | "scheduled";
+  planSlug?: string;
+  changeAt?: string | null;
+  error?: string;
+}> {
+  const result = await apiRequest<{
+    ok: boolean;
+    mode: "upgraded" | "scheduled";
+    planSlug: string;
+    changeAt: string | null;
+  }>("/subscription/change-plan", {
+    method: "POST",
+    auth: true,
+    body: { plan },
+    cache: "no-store",
+    fallbackError: "Could not change plan.",
+  });
+  if (!result.ok) return { error: result.error };
+  return result.data ?? { ok: true };
+}
+
+/** Cancel a scheduled downgrade ("Keep Business"). */
+export async function cancelScheduledPlanChange(): Promise<{
+  ok?: boolean;
+  error?: string;
+}> {
+  const result = await apiRequest<{ ok: boolean }>(
+    "/subscription/change-plan/cancel",
+    {
+      method: "POST",
+      auth: true,
+      cache: "no-store",
+      fallbackError: "Could not cancel the scheduled change.",
+    }
+  );
+  if (!result.ok) return { error: result.error };
+  return result.data ?? { ok: true };
+}
+
 /** Reloads the signed-in seller's plan. Does not change it. */
 export async function reloadSubscription(): Promise<
   SubscriptionStatusResponse & { error?: string }

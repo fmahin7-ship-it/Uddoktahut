@@ -71,6 +71,9 @@ export interface SessionUser {
   cancelAtPeriodEnd?: boolean;
   /** "stripe" when the store paid by card — Manage billing stays available after expiry. */
   billingProvider?: string | null;
+  /** Scheduled plan change (e.g. Business → Pro at period end). */
+  pendingPlanSlug?: PlanSlug | null;
+  pendingPlanChangeAt?: string | null;
 }
 
 export interface SubscriptionStatusResponse {

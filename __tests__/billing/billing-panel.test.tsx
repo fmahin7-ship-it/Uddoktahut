@@ -9,6 +9,8 @@ jest.mock("@/features/billing/actions", () => ({
   confirmCheckout: jest.fn(),
   openBillingPortal: jest.fn(),
   reloadSubscription: jest.fn(),
+  changeSubscriptionPlan: jest.fn(),
+  cancelScheduledPlanChange: jest.fn(),
 }));
 
 const mockSearchParam = jest.fn<string | null, [string]>(() => null);
@@ -21,11 +23,15 @@ const {
   confirmCheckout,
   openBillingPortal,
   reloadSubscription,
+  changeSubscriptionPlan,
+  cancelScheduledPlanChange,
 } = jest.requireMock("@/features/billing/actions") as {
   startCheckout: jest.Mock;
   confirmCheckout: jest.Mock;
   openBillingPortal: jest.Mock;
   reloadSubscription: jest.Mock;
+  changeSubscriptionPlan: jest.Mock;
+  cancelScheduledPlanChange: jest.Mock;
 };
 
 const trialSeller = (country: "AU" | "BD"): SessionUser => ({
@@ -51,6 +57,12 @@ const proSeller = (): SessionUser => ({
   endDate: "2026-12-01T00:00:00.000Z",
 });
 
+const businessSeller = (): SessionUser => ({
+  ...proSeller(),
+  planSlug: "business",
+  planName: "Business",
+});
+
 const renderPanel = (user: SessionUser) =>
   render(
     <UserProvider initialData={user}>
@@ -65,13 +77,22 @@ beforeEach(() => {
   openBillingPortal.mockResolvedValue({
     url: "https://billing.stripe.com/p/session/test",
   });
+  changeSubscriptionPlan.mockResolvedValue({
+    ok: true,
+    mode: "upgraded",
+    planSlug: "business",
+  });
+  cancelScheduledPlanChange.mockResolvedValue({ ok: true });
 });
 
-test("an Australian store on trial can upgrade to Pro at the AUD price", () => {
+test("an Australian store on trial can upgrade to Pro or Business", () => {
   renderPanel(trialSeller("AU"));
   expect(screen.getByText(/Free trial until 5 November 2026/)).toBeInTheDocument();
   expect(
     screen.getByRole("button", { name: "Upgrade to Pro · A$39 / month" })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: "Get Business · A$99 / month" })
   ).toBeInTheDocument();
 });
 
@@ -120,6 +141,31 @@ test("returning from success confirms the Stripe session then reloads the plan",
   );
   await waitFor(() => expect(reloadSubscription).toHaveBeenCalled());
   expect(await screen.findByText(/You are on Pro/)).toBeInTheDocument();
+});
+
+test("a Stripe Pro seller can upgrade to Business without checkout", async () => {
+  reloadSubscription.mockResolvedValue({
+    user: { ...proSeller(), planSlug: "business", planName: "Business" },
+  });
+  renderPanel(proSeller());
+  await userEvent
+    .setup()
+    .click(screen.getByRole("button", { name: /upgrade to business/i }));
+  expect(changeSubscriptionPlan).toHaveBeenCalledWith("business");
+  expect(startCheckout).not.toHaveBeenCalled();
+});
+
+test("scheduled downgrade shows Keep Business", async () => {
+  renderPanel({
+    ...businessSeller(),
+    pendingPlanSlug: "pro",
+    pendingPlanChangeAt: "2026-12-01T00:00:00.000Z",
+  });
+  expect(
+    screen.getByText(/Your plan will change to Pro on 1 December 2026/)
+  ).toBeInTheDocument();
+  await userEvent.setup().click(screen.getByRole("button", { name: /keep business/i }));
+  expect(cancelScheduledPlanChange).toHaveBeenCalled();
 });
 
 test("a Stripe Pro seller can open Manage billing", async () => {
