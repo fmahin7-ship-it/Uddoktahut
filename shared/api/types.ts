@@ -13,6 +13,8 @@
 export type MarketCode = "BD" | "AU";
 export type CurrencyCode = "BDT" | "AUD";
 export type PlanSlug = "trial" | "basic" | "pro" | "business";
+/** Plans that can be bought/changed via Stripe for AU. */
+export type AuCardPlanSlug = Extract<PlanSlug, "basic" | "pro" | "business">;
 
 // ------------------------------------------------------------------ plans ---
 
@@ -69,6 +71,11 @@ export interface SessionUser {
   subscriptionStatus?: SubscriptionStatus;
   endDate?: string | null;
   cancelAtPeriodEnd?: boolean;
+  /** "stripe" when the store paid by card — Manage billing stays available after expiry. */
+  billingProvider?: string | null;
+  /** Scheduled plan change (e.g. Pro → Basic at period end). */
+  pendingPlanSlug?: PlanSlug | null;
+  pendingPlanChangeAt?: string | null;
 }
 
 export interface SubscriptionStatusResponse {
@@ -191,6 +198,13 @@ export interface UpdateReturnPayload {
 
 export interface CheckoutSessionResponse {
   url: string;
+}
+
+export interface ChangePlanResponse {
+  ok: boolean;
+  mode: "upgraded" | "scheduled";
+  planSlug: string;
+  changeAt: string | null;
 }
 
 // ------------------------------------------------------------ generic body ---
