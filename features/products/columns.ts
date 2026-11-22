@@ -30,33 +30,28 @@ export const createProductColumns = ({
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
 }) => [
-  // Product Image
   createImageColumn<Product>({
     accessorKey: "image",
     altKey: "name",
     header: "Image",
   }),
 
-  // Product Name
   createTextColumn<Product>({
     accessorKey: "name",
     header: "Name",
     className: "font-medium",
   }),
 
-  // Category
   createTextColumn<Product>({
     accessorKey: "category",
     header: "Category",
   }),
 
-  // SKU
   createTextColumn<Product>({
     accessorKey: "sku",
     header: "SKU",
   }),
 
-  // Price
   createCurrencyColumn<Product>({
     accessorKey: "price",
     header: "Price",
@@ -64,20 +59,26 @@ export const createProductColumns = ({
     decimals: 2,
   }),
 
-  // Stock
   createTextColumn<Product>({
     accessorKey: "stock",
     header: "Stock",
   }),
 
-  // Status
+  // Seller choice — for sale or paused.
   createStatusColumn<Product>({
     accessorKey: "status",
     header: "Status",
     statusMap: PRODUCT_STATUS_MAP,
   }),
 
-  // Actions
+  // Plan catalog cap — independent of seller status.
+  createTextColumn<Product>({
+    accessorKey: "hidden_by_plan",
+    header: "Plan",
+    className: "text-xs font-medium text-amber-700 dark:text-amber-400",
+    formatter: (value) => (value ? "Hidden (upgrade to show)" : "—"),
+  }),
+
   createActionsColumn<Product>({
     header: "Actions",
     actions: [

@@ -16,6 +16,9 @@ export default function ProductManagementSection({ children }: { children?: Reac
 
   const productCount = user?.productCount ?? 0;
   const maxProducts = user?.maxProducts ?? 0;
+  const productsActive = user?.productsActive ?? 0;
+  const productsInactive = user?.productsInactive ?? 0;
+  const productsHiddenByPlan = user?.productsHiddenByPlan ?? 0;
   const atProductLimit = maxProducts > 0 && productCount >= maxProducts;
 
   return (
@@ -27,10 +30,18 @@ export default function ProductManagementSection({ children }: { children?: Reac
         <div className="flex-1 flex flex-col gap-2">
           {childArray[0]}
           {maxProducts > 0 && (
-            <p className="text-sm text-muted-foreground">
-              Products: {productCount} / {maxProducts}
-              {user?.planName ? ` · ${user.planName} plan` : ""}
-            </p>
+            <div className="space-y-1 text-sm text-muted-foreground">
+              <p>
+                Products: {productCount} / {maxProducts}
+                {user?.planName ? ` · ${user.planName} plan` : ""}
+              </p>
+              <p>
+                {productsActive} active · {productsInactive} inactive
+                {productsHiddenByPlan > 0
+                  ? ` · ${productsHiddenByPlan} hidden by plan (upgrade to show)`
+                  : ""}
+              </p>
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-2 w-full md:w-auto min-w-[160px] items-stretch md:items-end">

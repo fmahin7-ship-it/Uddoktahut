@@ -63,7 +63,12 @@ export interface SessionUser {
   planName?: string;
   includesAi?: boolean;
   maxProducts?: number;
+  /** All catalog rows (active + inactive); used for the plan cap. */
   productCount?: number;
+  productsActive?: number;
+  productsInactive?: number;
+  /** Over plan cap — separate from seller active/inactive. */
+  productsHiddenByPlan?: number;
   productsRemaining?: number;
   aiTokenLimitMonthly?: number;
   aiTokensUsed?: number;
@@ -96,6 +101,8 @@ export interface Product {
   price: string;
   stock: number;
   status: ProductStatus;
+  /** Plan catalog hide — independent of seller `status`. */
+  hidden_by_plan?: boolean;
   category: string;
   sku: string;
   store_id: number;
